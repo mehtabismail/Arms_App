@@ -1,0 +1,246 @@
+Sample Format
+Version 1.0.0 - App Release Date 2019-06-04
+Below Note added by {Developer Name} 2019-05-07
+- Enhancement description 1
+- Enhancment description 2
+
+App Release To -> Public Release / Test Environment
+
+--
+
+Version 1.1.0 - App Release Date To Test Environment 2019-07-17
+Below Note added by Brandon 2019-07-22
+- Enhance Promotion display member discount percent or discount price or fixed price based priority.
+- Enhance Drawer pass NRIC to member profile.
+- Logout function.
+- Ads banner
+	√ show URL and local based on network
+		- if network available, use URL, download banner to local.
+		- if network not available, use local path
+	√ download ads banner
+		- if network available, download banner to local folder.
+		- if network not available, skip download ads banner to local.
+	√ click banner link to web browser
+		- if link available, link to web browser
+		- if link not available, show alert msg “no related link”
+	√ if ads banner props datasource is empty, hide the ads banner in screen.
+  √ Create a function to update ads pictures from server.
+  √ Create ads slideshow props to link the path for img instead of set a the url in container page.
+  √ Set interval for slideshow auto run in slideshow module.
+- Change logo based URL link.
+	- if network available, use URL, download logo to local.
+	- if network not available, use local path.
+- Fixed first time install app, drawer info empty.
+- Fixed Promotion product picture picture cannot show.
+- Fixed E-Brochure image need to readable and clear.
+- Enhance Alert msg show when empty link click for ads banner.
+- Delete the voucher hardcore test code.
+- Fixed Voucher's status is cancelled, voucher layout did not turn dark.
+- Fexed Voucher's status is used, voucher layout did not turn dark.
+- Add selling price in db column.
+- Add selling price insert and update in db query
+- Add selling price in interface.
+- Fixed interface for promotion item to readable.
+- Member history data layout run design.
+- Member history offline get data from db.
+- Added auto download logo to local path.
+- Add SMO video for demo purpose at 2019/07/22 (requested by Tommy).
+
+--
+
+Version 1.2.0 - App Release Date To Test Environment 2019-08-28 | Public Released 2019-09-06
+Below Note added by Brandon 2019-08-28
+Enhancement
+√ request password verification API for change password and email
+√ Upload profile picture.
+	- iOS done
+	- Android done
+√ Forget password function
+	- Enter NRIC & Email
+	- Send those data to server via API
+√ Change password
+	- Old Password
+	- New Password & Confirmed New Password
+	- Send those data to server via API
+√ Design user profile information screen 
+√ App can be use without login
+	- Lock some module for without login, only login user able to use it.
+√ Register page, email or nric and password
+√ Existing customer need to go a screen to redeem their membership login password
+	- if user have email in backend, go to a screen redeem password, get password in their email. Checking, if user already have password at backend, this function are not allow to use.
+	- if user don’t have email, get password at information counter.
+√ Rename E-Brochure to notice board
+√ Fix to iPhone screen only. 
+√ Promotion product item add product details screen
+	√ screen layout 
+	√ Link data to the screen
+√ Promotion product after discount net price need to show
+√ Backed set colour themes, app based on backend change colour
+√ Notice board show video or photo based on backend. Cater every size of images.
+√ Voucher add voucher details screen
+	√ screen layout
+	√ Link data to the screen
+√ Outlet Location screen
+	- Completed layout design. Pending for API. Disabled access to module for this version.
+Bugs
+√ Android and iOS cannot receive push notification for user first time login to app.
+Below Note added by Brandon 2019-08-29
+√ Cannot spam confirm button in update profile information.
+√ Show error message for user why update failed in update profile information.
+√ Send only if user update the data to API.
+Below Note added by Brandon 2019-09-03
+√ When login from Point History Screen, the screen still display Login/Register button after successful login.
+√ Take out NRIC from forgot password
+√ Register screen and forgot password screen company logo need to same with login page.
+√ Login, Register and Forget Password background colour need to same.
+√ Text input and text need to use secondary colour
+√ All button use primary and text on button use secondary
+√ Notice board image redirect to url
+√ Change password screen, old pwd change to secure text format.
+√ Fixed new pwd and the confirm new pwd do not match, no error prompted and password proceed to change.
+√ Fixed notice board show duplicated data.
+√ Change password screen content text need to use primary background
+√ Change password screen button to have body colour instead of only word have colour.
+√ Fine tune member profile information interface design 
+√ Phone No accepts alphabet without error prompted.
+√ DOB accepts future data without error prompted.
+√ After user A set a new profile photo, user A logout. When user B login can see user A profile photo. Killing app can solve the issue.
+√ Promotion is not sorted in date order in the list.
+√ Promotion sku repeats in the list
+√ Promotion product details does not show the price for non member discount price.
+√ Suggest to grab out (and label “voucher has expired” the expired voucher (just like used voucher) so that when user press on expired voucher, it won’t open for redeem.
+√ Promotion and voucher title color need to change to primary colour instead of use black.
+√ Add redeem status in T&C screen
+√ Run a update when screen from T&C to voucher screen
+Below Note added by Brandon 2019-09-05
+√ Check email format before submit to registration.
+/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+√ Phone number detected invalid symbol, disallowed to update info.
+√ Registration - no validation on pwd and confirm pwd do not match.
+√ Voucher - suggest to put expired, used and cancelled vouchers at bottom of the active one.
+√ Set DOB min 12 years old.
+√ Change password, confirmation password not able to see, blocked by keyboard.
+√ Login screen username and password text input cannot able use paste function in android.
+√ Fixed bugs of login from Member Points History Screen and go back to Dashboard Screen, data did not update. And member history data will duplicated.
+
+--
+
+Version 2.0.0 - App Release Date To Test Environment
+Below Note added by Brandon 2019-09-11
+Enhancement
+√ Upgraded React Native version to 0.60.5.
+√ Change push notification iOS from react-native to push-notification-ios.
+√ Change react-native-qrcode to react-native-qrcode-svg, due to react-native-qrcode not supported rn0.60.
+√ Added react-native-svg for cater react-native-qrcode-svg features.
+√ Added React-ART to pod file.
+√ Edited AppDelegete.m for push notification iOS, to cater latest version of code.
+Below Note added by Brandon 2019-09-27
+Fixed Bugs
+√ Fixed notice board keep rendering fetching data when backend did not set any notice board data.
+√ User logout need to remove push notification token at system backend via API.
+√ Ads banner backend change image, mobile app cannot receive it.
+√ Fixed bug for notice board get data from API
+√ Profile image duplicated in document folder
+Enhancements
+√ Member Points History
+	√ Add opening balance points.
+	√ Show only last 30 points history records.
+√ User profile image upload to server via API
+√ User profile image retrieve from server and save in app document folder based on user id
+√ Promotion product details 
+	√ Add scroll animation.
+		1) When user scroll down for details, the details part will be change to large, and image will become small.
+		2) When user scroll up, details part and image will go back to original size.
+	√ Add click on image become image viewer
+	√ Fixed layout show until end of bottom of screen.
+	√ Hide bottom tab bar when screen leave main module home page
+√ Promotion product screen remove bottom margin from ads banner.
+√ Added npm library react-native-reanimated, react-native-vector-icons, react-native-gesture-handler
+New Feature
+√ Add coupon feature
+	√ Voucher interface design
+	√ Link data with API and database
+	√ Redeem verification
+		1) member limit count and total used_count
+Below Note added by Brandon 2019-10-03
+√ Add App Config for MFFA Customer
+√ Add iOS App Icon for MFFA Customer
+√ Changed Coupon T&C Class Name from CouponView to CouponTNCView
+√ Fix coupon number at 1 line in coupon listing screen
+√ Add use limit balance and use limit in T&C screen
+√ Coupon sort in date order (latest on top)
+√ Fix the barcode show in white container in T&C screen
+√ Updated iOS build number
+√ Updated version version update note
+√ Enhanced Promotion screen, Voucher screen, Coupon screen and Notice board screen when refresh the data, screen will scroll to top.
+√ Add CustConfig page and move all the customer config settings to this page.
+√ Add AppThemeColors page for setup all available color themes. App theme will applied based CustConfig Setup. 
+
+
+--
+
+
+Version 2.0.1
+Below Note added by Brandon 2019-10-14
+- Added new customer config into cust_config.js
+Below notes added by Brandon 2019-11-01
+Bugs
+- Dashboard
+	√ Fixed login update will hit Maximum update error when user login.
+	√ Fix dashboard screen barcode info direct show customer info instead of show default data then only connect api get latest data.
+	√ Fixed tapping point history icon, app quit unexpectedly.
+- Promotion
+	√ Fixed bug for TypeError: Cannot read property ‘scrollTo’ of null.
+- Ads Banner 
+	√ Fixed bug for TypeError: Cannot read property ‘scrollTo’ of null.
+	√ Fixed total images count added extra an image.
+- Notice board
+	√ Fixed bug, when mobile device database existed data records, and then Backend deactivated all notice board data, and then mobile device notice board data didn’t update to latest change.
+	√ Fixed video cannot enter full screen mode for android.
+- Push Notification
+	√ Fix push notification token not able to send token to server when user first installed.
+	√ Always receive duplicates notification message in android.
+- Coupon
+	√ Fixed coupon t&c screen, invalid props supplied to Label.
+- Personal Information
+	√ Fixed tapped on Edit Personal Information, app quit unexpectedly.
+√ Remove RNDeviceInfo UIWebView.
+
+
+Enhancements
+- Promotion
+	√ Add special for you feature
+	√ Enhance message interface when promotion data is empty.
+- Voucher 
+	√ Enhance message interface when voucher data is empty.
+	√ Enhance voucher design, voucher colour will based on app theme
+	√ Add voucher photo in voucher details screen
+- Coupon 
+	√ Enhance message interface when coupon data is empty.
+	√ Enhance coupon design, coupon colour will based on app theme
+	√ Add coupon photo in coupon details screen
+	√ Hide centre part of full coupon code for all related screen
+	√ Enhance coupon display to sorting based on earliest expire date. 
+- Push notification
+	√ Enhance when user click on push notification, link user to the allocated / related screen.
+- Registration
+	√ Show password requirement format in screen.
+	√ Enhance alert message for password and confirm password not match
+	√ Enhance alert message for email already used
+	√ Highlight red colour text input border colour when email format and password format in not valid.
+- Forgot Password
+	√ Add remark message in screen to remind user check spam mail.
+	√ Add validation for card no and email before submit to API.
+- Ads Banner 
+	√ Enhance alert message for no related link
+	√ Auto refresh when backend change ads banner
+	√ Removed unused codes.
+- Notice board
+	√ Enhance message interface when notice board data is empty.
+- ServerCommunicator
+	√ Enhance header X_MEM_NRIC & X_MEM_TOKEN to cater promotion special for you feature.
+
+New Feature
+- Package Module (2nd Prior)
+	√ Rating Sales Agent
+	√ View package details and redeem item from package.

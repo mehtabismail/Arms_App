@@ -1,0 +1,74 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import groovy.json.JsonSlurper
+
+buildscript {
+    // ext {
+        // buildToolsVersion = "28.0.3"
+        // minSdkVersion = 16
+        // compileSdkVersion = 28
+        // targetSdkVersion = 28
+        // supportLibVersion = "28.0.0"
+    // }
+    /**
+    + Project-wide Gradle configuration properties
+    */
+    ext {
+        buildToolsVersion = "29.0.2"
+        // minSdkVersion = 16
+        minSdkVersion = 19
+        compileSdkVersion = 29
+        targetSdkVersion = 29
+        supportLibVersion = "28.0.0"
+        googlePlayServicesVersion = "11.8.0" // or set latest version
+        androidMapsUtilsVersion = "0.5+"
+    }
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:3.4.1")
+        classpath("com.google.gms:google-services:4.2.0")
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.google.com" }
+        google()
+        jcenter()
+    }
+}
+
+subprojects {
+    ext {
+        def npmVersion = getNpmVersionArray()
+        versionMajor = npmVersion[0]
+        versionMinor = npmVersion[1]
+        versionPatch = npmVersion[2]
+    }
+}
+
+def getNpmVersion() {
+    def inputFile = new File("../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"]
+}
+
+def getNpmVersionArray() { // major [0], minor [1], patch [2]
+    def (major, minor, patch) = getNpmVersion().tokenize('.')
+    return [Integer.parseInt(major), Integer.parseInt(minor), Integer.parseInt(patch)] as int[]
+}

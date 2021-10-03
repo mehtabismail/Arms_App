@@ -1,0 +1,48 @@
+{
+  "alert_error": "错误",
+  "alert_cancel_text": "取消",
+  "alert_confirm_text": "确定",
+  "alert_ok_text": "确定",
+  "alert_banner_empty_weblink": "横幅没有任何Web链接。",
+
+  "fetch_data_no_record_found": "没有找到数据",
+  "date_picker_place_holder": "选择日期",
+
+  "screen_title_server_config": "服务器配置",
+  "server_config_init_db_table_error_title": "启动程序数据库失败",
+  "server_config_init_screen_error_title": "启动荧幕设定失败",
+  "server_config_pair_device_success_title": "配对设备成功",
+  "server_config_pair_device_error_title": "配对设备失败",
+  "server_config_url_acesstoken_empty": "请输入网址和访问令牌。",
+  "server_config_pair_device_success_msg": "设备已配对。",
+  "server_config_validate_device_error_title": "验证设备失败",
+  "server_config_validate_device_success_title": "验证设备成功",
+  "server_config_network_error_title": "网络错误",
+  "server_config_network_error_msg": "未检测到网络。",
+  "server_config_btn_text_pair": "配对",
+  "server_config_btn_text_pairing": "配对中...",
+  "server_config_server_url_place_holder": "在此输入网址",
+  "server_config_access_token_place_holder": "在此输入令牌",
+  "server_config_loading_indicator": "配对中...",
+
+  "member_modal_update_member_data_success_msg": "成员数据已更新。",
+  "member_modal_insert_member_data_error_msg": "保存成员数据失败。",
+  "member_modal_update_member_session_token_success_msg": "成员会期令牌已更新。",
+  "member_modal_insert_member_session_token_error_msg": "保存会员会期令牌失败。",
+  "member_modal_update_pn_token_success_msg": "推送通知令牌已更新。",
+  "member_modal_insert_pn_token_error_msg": "保存推送通知令牌失败。",
+  "member_modal_insert_member_point_history_error_msg": "插入会员积分记录失败。",
+
+  "promo_modal_insert_promo_list_items_error_msg": "插入促销列表项数据失败。",
+  "promo_modal_insert_promo_list_error_msg": "插入促销列表数据失败。",
+
+  "network_error_title": "网络错误",
+  "network_error_msg": "未检测到网络。",
+
+  "voucher_modal_insert_voucher_data_error_msg": "插入优惠券数据失败。",
+
+
+  "package_modal_insert_package_data_error_msg": "插入配套数据失败。",
+  "package_modal_insert_package_items_data_error_msg": "插入配套项目数据失败。",
+  "package_modal_insert_package_redeem_history_data_error_msg": "插入配套兑换历史数据失败。"
+}

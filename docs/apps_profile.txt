@@ -1,0 +1,97 @@
+1) ARMS Membership - Dev
+- ID (android): com.armsmembership
+- ID (ios): org.reactjs.native.example.armsMembership
+- Display Name: armsMembership
+- Firebase Sender ID: 461117249956
+- API URL: http://maximus.ddns.my:2001
+- Access Token: maximus2019
+- Theme: Default Theme
+
+2) ARMS Membership - Luke
+- ID (android): com.armsmembership.luke
+- ID (ios): com.armsMembership.luke2019
+- Display Name: ARMS Membership Luke
+- Firebase Sender ID: 461117249956
+- API URL: https://luke.arms.com.my
+- Access Token: luke2019
+- Theme: Default Theme
+
+3) ARMS Mobile Membership
+- ID (android): com.armsmembership.mbmember
+- ID (ios): com.armsMembership.mbmember
+- Display Name: ARMS Mobile Membership
+- Firebase Sender ID: 461117249956
+- API URL: https://mbmember.arms.com.my
+- Access Token: mbm2019
+- Company Name: ARMS SOFTWARE INTERNATIONAL S/B
+- Theme: Default Theme
+
+4) 5Ringgit Mobile Membership App
+- ID (android): com.armsmembership.fiveringgit
+- ID (ios): com.armsMembership.fiveringgit
+- Display Name: 5Ringgit Mobile Membership
+- Firebase Sender ID: 799208789625
+- API URL: https://5ringgit.arms-go.com
+- Access Token: 2019fasons5
+- Company Name: Fasons Five Sdn Bhd
+- Theme: Default Theme
+
+5) MFFA (MY FISHING FENZY ACADEMY)
+- ID (android): com.armsmembership.mffa
+- ID (ios): com.armsMembership.mffa
+- Display Name: MFFA
+- Firebase Sender ID: 434340184262
+- API URL: https://mffa.arms-go.com
+- Access Token: mffa2019jh
+- Company Name: MY FISHING FENZY ACADEMY
+- Theme: Theme 4
+
+6) Fifty Percent Group Sdn Bhd
+- ID (android): com.armsmembership.fiftypercent
+- ID (ios): com.armsMembership.fiftypercent
+- Display Name: 50percent Hair Salon
+- Firebase Sender ID: 523387962996
+- API URL: https://50percentsalon.arms-go.com
+- Access Token: fif50ssalo
+- Company Name: Fifty Percent Group Sdn Bhd
+- Theme: Theme 1
+
+7) Centro Maxx Sdn Bhd
+- ID (android): com.armsmembership.centromaxx
+- ID (ios): com.armsMembership.centromaxx
+- Display Name: Centro Maxx
+- Firebase Sender ID: 800960161277
+- API URL: https://centromaxx.arms-go.com
+- Access Token: cent2019mx
+- Company Name: Centro Maxx Sdn Bhd
+- Theme: Theme 4
+
+8) PKT Wholesale Warehouse Sdn Bhd
+- ID (android): com.armsmembership.pktwholesale
+- ID (ios): com.armsMembership.pktwholesale2019
+- Display Name: PKT
+- Firebase Sender ID: 163091751952
+- API URL: https://12shoppkt.arms.com.my
+- Access Token: 1911pkthq9
+- Company Name: PKT Wholesale Warehouse Sdn Bhd
+- Theme: Theme 6
+
+9) SYARIKAT MUDA OSMAN SDN BHD
+- ID (android): com.armsmembership.smo122020
+- ID (ios): com.armsMembership.smo122020
+- Display Name: KLIK SMO
+- Firebase Sender ID: 89038034656
+- API URL: https://smohq.arms.com.my
+- Access Token: 2020smo.12
+- Company Name: SYARIKAT MUDA OSMAN SDN BHD
+- Theme: Default Theme
+
+10) ARMS Demo Mobile Membership
+- ID (android): com.armsmembership.dm2021eoam
+- ID (ios): com.armsMembership.dm2021eoam
+- Display Name: ARMS Demo Mobile Membership
+- Firebase Sender ID: 461117249956
+- API URL: https://demo.arms.com.my
+- Access Token: dm2021eoam
+- Company Name: ARMS SOFTWARE INTERNATIONAL S/B
+- Theme: Default Theme

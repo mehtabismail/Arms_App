@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "461117249956",
+    "firebase_url": "https://arms-membership-app.firebaseio.com",
+    "project_id": "arms-membership-app",
+    "storage_bucket": "arms-membership-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461117249956:android:7435f0bed40fc5bc",
+        "android_client_info": {
+          "package_name": "com.armsmembership"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATS3ry0bAlvXb22TSa0h0kli630ttlYTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461117249956-a92rass2fvg7cbd5eomg019ftpjr8u2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.armsMembership"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461117249956:android:4a1dc839008f2814c24931",
+        "android_client_info": {
+          "package_name": "com.armsmembership.dm2021eoam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATS3ry0bAlvXb22TSa0h0kli630ttlYTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461117249956-a92rass2fvg7cbd5eomg019ftpjr8u2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.armsMembership"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461117249956:android:3fcafb710014714d",
+        "android_client_info": {
+          "package_name": "com.armsmembership.luke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATS3ry0bAlvXb22TSa0h0kli630ttlYTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461117249956-a92rass2fvg7cbd5eomg019ftpjr8u2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.armsMembership"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461117249956:android:a7f136034cb98b02",
+        "android_client_info": {
+          "package_name": "com.armsmembership.mbmember"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATS3ry0bAlvXb22TSa0h0kli630ttlYTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461117249956-o6cuicgt4quvknm6movifjapkfsv7o8k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461117249956-a92rass2fvg7cbd5eomg019ftpjr8u2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.armsMembership"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
