@@ -69,6 +69,7 @@ function ShippingMethod(props) {
       <View
         style={{
           flexDirection: 'row',
+          justifyContent:"space-between",
           marginBottom: Metrics.smallMargin
         }}
       >
@@ -146,7 +147,7 @@ function ShippingMethodButton(props) {
         text={`${text}${disabledText}`}
         style={{
           color: color,
-          fontSize: Fonts.size.h6,
+          fontSize: Fonts.size.large,
           fontWeight: fontWeight
         }}
       />

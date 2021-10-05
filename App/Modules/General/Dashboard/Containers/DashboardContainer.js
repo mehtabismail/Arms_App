@@ -33,6 +33,7 @@ import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import SystemSetting from 'react-native-system-setting'
 
+
 const ads_banner_path = AppConfig.ads_banner_dashboard_scn_path;
 const ads_screen_id = AppConfig.ads_dashboard_screen_id;
 

@@ -559,38 +559,46 @@ export default class EComCheckoutView extends React.Component {
         ?
         <View />
         :
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: "column", height: "100%" }}>
+          <View style={{ justifyContent: "flex-start", height: "85%" }} >
+            <Animated.ScrollView
+              contentContainerStyle={[this.state.scrollViewBtmMargin]}
+            >
 
-          <Animated.ScrollView
-            contentContainerStyle={[this.state.scrollViewBtmMargin]}
-          >
-            {/* Cart List */}
-            <View>
-              <FlatList
-                data={this.state.cart_list}
-                renderItem={this.handleRenderCartListItemContainer}
-                extraData={this.state.flatListRentalTrigger}
-                keyExtractor={(item, index) => `${index}`}
-                scrollEnabled={false}
-              />
-            </View>
+              {/* Cart List */}
+              <View>
+                <FlatList
+                  data={this.state.cart_list}
+                  renderItem={this.handleRenderCartListItemContainer}
+                  extraData={this.state.flatListRentalTrigger}
+                  keyExtractor={(item, index) => `${index}`}
+                  scrollEnabled={false}
+                />
+              </View>
+              <View style={{ marginTop: 8 }}>
+                {/* Delivery Address */}
+                {this.handleRenderDeliveryAddressContainer()}
+              </View>
+              {/* Shipping Method */}
+              {this.handleRenderShippingMethodContainer()}
 
-            {/* Delivery Address */}
-            {this.handleRenderDeliveryAddressContainer()}
+              {/* Shipping Note */}
+              {this.handleRenderShippingNoteContainer()}
 
-            {/* Shipping Method */}
-            {this.handleRenderShippingMethodContainer()}
+              {/* Payment Option */}
+              {this.handleRenderPaymentOptionContainer()}
 
-            {/* Shipping Note */}
-            {this.handleRenderShippingNoteContainer()}
+              {/* Payment Summary */}
+              {this.handleRenderPaymentSummaryContainer()}
 
-            {/* Payment Option */}
-            {this.handleRenderPaymentOptionContainer()}
 
-          </Animated.ScrollView>
+            </Animated.ScrollView>
+          </View>
+          <View style={{ justifyContent: "center", height: "15%", }}>
 
-          {/* Checkout Button */}
-          {this.handleRenderCheckoutButtonContainer()}
+            {/* Checkout Button */}
+            {this.handleRenderCheckoutButtonContainer()}
+          </View>
         </View>
     )
   }
@@ -600,100 +608,110 @@ export default class EComCheckoutView extends React.Component {
       // this.state.shipping_details_status
       // ?
       <View style={{
+        alignSelf: "center",
         backgroundColor: Colors.body,
+        width: "95%",
         paddingHorizontal: Metrics.smallPadding,
         paddingVertical: Metrics.basePadding,
         marginVertical: Metrics.smallMargin,
-        borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line
+        // borderTopWidth: 1, borderBottomWidth: 1, 
+        borderWidth: 1, borderRadius: 5,
+        borderColor: Colors.border_line
       }}>
+        <View style={{ marginLeft: 10 }}>
+          <View >
 
-        {/* Delivery Address Label */}
-        <Label
-          text={`Delivery Address`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            fontWeight: 'bold',
-
-          }}
-        />
-
-        {/* Customer Name */}
-        {this.handleRenderDeliveryAddressAttrContainer("Name", this.state.name, "name")}
-
-        {/* Customer Phone Number */}
-        {this.handleRenderDeliveryAddressAttrContainer("Phone Number", this.state.phone, "phone")}
-
-        {/* Customer Email */}
-        {this.handleRenderDeliveryAddressAttrContainer("Email", this.state.email, "email")}
-
-        {/* Customer Delivery Address */}
-        {this.handleRenderDeliveryAddressAttrContainer("Address", this.state.address, "address")}
-
-        {/* Customer Delivery Address Postcode */}
-        {this.handleRenderDeliveryAddressAttrContainer("Postcode", this.state.postcode, "postcode")}
-
-        {/* Customer Delivery Address City */}
-        {this.handleRenderDeliveryAddressAttrContainer("City", this.state.city, "city")}
-
-        {/* Customer Delivery Address State */}
-        <View style={{ marginBottom: Metrics.basePadding - 2 }}>
-          <Label
-            text={`State`}
-            style={{
-              color: Colors.primary,
-              fontSize: Fonts.size.large,
-            }}
-          />
-          <TouchableOpacity
-            onPress={() => { this.handleSelectState() }}
-            style={[styles.deliveryAddressTextInput,
-            this.state.state ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
-            ]}
-          >
+            {/* Delivery Address Label */}
             <Label
-              text={`${this.state.state}`}
+              text={`Delivery Address`}
               style={{
-                color: '#000000',
-                fontSize: Fonts.size.regular,
+                color: Colors.primary,
+                fontSize: Fonts.size.h6,
+                fontWeight: 'bold',
+
               }}
             />
-          </TouchableOpacity>
-          {
-            !this.state.state
-              ?
+          </View>
+          <View style={{ marginTop: 15, marginRight: 3 }}>
+
+            {/* Customer Name */}
+            {this.handleRenderDeliveryAddressAttrContainer("Name", this.state.name, "name")}
+
+            {/* Customer Phone Number */}
+            {this.handleRenderDeliveryAddressAttrContainer("Phone Number", this.state.phone, "phone")}
+
+            {/* Customer Email */}
+            {this.handleRenderDeliveryAddressAttrContainer("Email", this.state.email, "email")}
+
+            {/* Customer Delivery Address */}
+            {this.handleRenderDeliveryAddressAttrContainer("Address", this.state.address, "address")}
+
+            {/* Customer Delivery Address Postcode */}
+            {this.handleRenderDeliveryAddressAttrContainer("Postcode", this.state.postcode, "postcode")}
+
+            {/* Customer Delivery Address City */}
+            {this.handleRenderDeliveryAddressAttrContainer("City", this.state.city, "city")}
+
+            {/* Customer Delivery Address State */}
+            <View style={{ marginBottom: Metrics.basePadding - 2 }}>
               <Label
-                text={`Please select state.`}
+                text={`State`}
                 style={{
-                  color: Colors.text_negative,
-                  fontSize: Fonts.size.small,
+                  color: Colors.primary,
+                  fontSize: Fonts.size.large,
                 }}
               />
-              :
-              <View />
-          }
+              <TouchableOpacity
+                onPress={() => { this.handleSelectState() }}
+                style={[styles.deliveryAddressTextInput,
+                this.state.state ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
+                ]}
+              >
+                <Label
+                  text={`${this.state.state}`}
+                  style={{
+                    color: '#000000',
+                    fontSize: Fonts.size.regular,
+                  }}
+                />
+              </TouchableOpacity>
+              {
+                !this.state.state
+                  ?
+                  <Label
+                    text={`Please select state.`}
+                    style={{
+                      color: Colors.text_negative,
+                      fontSize: Fonts.size.small,
+                    }}
+                  />
+                  :
+                  <View />
+              }
+            </View>
+
+
+            {/* Customer Delivery Address Country */}
+            <Label
+              text={`Country`}
+              style={{
+                color: Colors.primary,
+                fontSize: Fonts.size.large,
+              }}
+            />
+            <TextInput
+              editable={false}
+              placeholder={`Country`}
+              value={`${this.state.country}`}
+              onChangeText={(value) => {
+                this.setState({
+                  country: value
+                });
+              }}
+              style={[styles.deliveryAddressTextInput]}
+            />
+          </View>
         </View>
-
-
-        {/* Customer Delivery Address Country */}
-        <Label
-          text={`Country`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.large,
-          }}
-        />
-        <TextInput
-          editable={false}
-          placeholder={`Country`}
-          value={`${this.state.country}`}
-          onChangeText={(value) => {
-            this.setState({
-              country: value
-            });
-          }}
-          style={[styles.deliveryAddressTextInput]}
-        />
       </View>
       // :
       // <View style={{
@@ -784,9 +802,15 @@ export default class EComCheckoutView extends React.Component {
         activeOpacity={0.9}
         style={{
           backgroundColor: Colors.body,
-          borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
+          width: "95%",
+          alignSelf: "center",
+          // borderTopWidth: 1, borderBottomWidth: 1,
+          borderWidth: 1,
+          borderRadius: 5,
+          borderColor: Colors.border_line,
           flex: 1, flexDirection: 'row',
-          marginVertical: Metrics.smallMargin,
+          // marginVertical: Metrics.smallMargin,
+          marginTop: 3,
         }}
       >
         {/* Left - Product Image */}
@@ -796,23 +820,27 @@ export default class EComCheckoutView extends React.Component {
         <View style={{
           flex: 1,
           paddingHorizontal: Metrics.smallPadding,
-          paddingVertical: Metrics.basePadding,
+          // paddingVertical: Metrics.basePadding,
         }}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
 
-          {/* Prod Desc */}
-          {this.handleRenderCartItemProdDescContainer(item, index)}
+            {/* Prod Desc */}
+            {this.handleRenderCartItemProdDescContainer(item, index)}
 
-          {/* Prod Variation */}
-          {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
+            <View >
+              {/* Prod Variation */}
+              {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
 
-          {/* Prod Price */}
-          {this.handleRenderCartItemProdPriceContainer(item, index)}
+              {/* Prod Price */}
+              {this.handleRenderCartItemProdPriceContainer(item, index)}
 
-          {/* Prod Quantity */}
-          {this.handleRenderCartItemProdQuantityContainer(item, index)}
+              {/* Prod Quantity */}
+              {this.handleRenderCartItemProdQuantityContainer(item, index)}
 
-          {/* Item Total Amount */}
-          {this.handleRenderCartItemProdTotalAmountContainer(item, index)}
+              {/* Item Total Amount */}
+              {this.handleRenderCartItemProdTotalAmountContainer(item, index)}
+            </View>
+          </View>
         </View>
 
       </TouchableOpacity>
@@ -821,7 +849,7 @@ export default class EComCheckoutView extends React.Component {
 
   handleRenderCartItemImageContainer(item, index) {
     return (
-      <View style={{ paddingVertical: Metrics.basePadding, paddingLeft: Metrics.smallPadding }}>
+      <View style={{ width: "30%", justifyContent: "center", alignItems: "center", paddingVertical: Metrics.basePadding, paddingLeft: Metrics.smallPadding }}>
         <Image
           source={item.images}
           style={{
@@ -840,6 +868,7 @@ export default class EComCheckoutView extends React.Component {
         text={`${item.product_name}`}
         style={{
           fontSize: Fonts.size.regular,
+          fontWeight: "bold",
           color: Colors.primary,
         }}
         numberOfLines={1}
@@ -866,9 +895,9 @@ export default class EComCheckoutView extends React.Component {
         text={`${this.state.currency_symbol} ${item.prod_price}`}
         style={{
           fontSize: Fonts.size.regular,
-          fontWeight: 'bold',
+          // fontWeight: 'bold',
           color: Colors.primary,
-          paddingVertical: Metrics.smallPadding
+          // paddingVertical: Metrics.smallPadding
         }}
       />
     )
@@ -880,9 +909,9 @@ export default class EComCheckoutView extends React.Component {
         text={`Quantity: ${item.qty}`}
         style={{
           fontSize: Fonts.size.regular,
-          fontWeight: 'bold',
+          // fontWeight: 'bold',
           color: Colors.primary,
-          paddingVertical: Metrics.smallPadding
+          // paddingVertical: Metrics.smallPadding
         }}
       />
     )
@@ -895,9 +924,9 @@ export default class EComCheckoutView extends React.Component {
         text={`Total Amount: ${this.state.currency_symbol} ${total_amount.toFixed(2)}`}
         style={{
           fontSize: Fonts.size.regular,
-          fontWeight: 'bold',
+          // fontWeight: 'bold',
           color: Colors.primary,
-          paddingVertical: Metrics.smallPadding
+          // paddingVertical: Metrics.smallPadding
         }}
       />
     )
@@ -910,29 +939,139 @@ export default class EComCheckoutView extends React.Component {
         paddingHorizontal: Metrics.smallPadding,
         paddingVertical: Metrics.basePadding,
         marginVertical: Metrics.smallMargin,
-        borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-      }}>
-        <Label
-          text={`Payment Option`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            fontWeight: 'bold'
-          }}
-        />
+        // borderTopWidth: 1, borderBottomWidth: 1, 
+        width: "95%", alignSelf: "center",
+        borderRadius: 5, borderWidth: 1,
+        borderColor: Colors.border_line,
 
-        <Label
-          text={`iPay88`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-          }}
-        />
+      }}>
+        <View style={{ width: "95%", alignSelf: "center", justifyContent: 'space-between', flexDirection: "row" }}>
+          <Label
+            text={`Payment Option`}
+            style={{
+              color: Colors.primary,
+              fontSize: Fonts.size.h6,
+              fontWeight: 'bold'
+            }}
+          />
+
+          <Label
+            text={`iPay88`}
+            style={{
+              color: Colors.primary,
+              fontSize: Fonts.size.h6,
+            }}
+          />
+        </View>
       </View>
     )
   }
+
+  handleRenderPaymentSummaryContainer() {
+    return (
+      <View style={{
+        backgroundColor: Colors.body,
+        paddingHorizontal: Metrics.smallPadding,
+        paddingVertical: Metrics.basePadding,
+        marginVertical: Metrics.smallMargin,
+        // borderTopWidth: 1, borderBottomWidth: 1, 
+        width: "95%", alignSelf: "center",
+        borderRadius: 5, borderWidth: 1,
+        borderColor: Colors.border_line,
+        alignItems: "center"
+      }}>
+        <View style={{ width: "95%", }}>
+          <View>
+            <Label
+              text={`Payment Summary`}
+              style={{
+                color: Colors.primary,
+                fontSize: Fonts.size.h6,
+                fontWeight: 'bold'
+              }}
+            />
+          </View>
+          {/* Total Items Amount */}
+          <View style={{
+            flexDirection: 'row',
+            // paddingVertical: Metrics.smallPadding,
+            justifyContent: 'space-between',
+            marginTop: 15
+          }}>
+            <Label
+              text={`Total Items Amount: `}
+              style={{
+                fontSize: Fonts.size.large,
+                color: Colors.primary
+              }}
+            />
+
+            <Label
+              text={`${this.state.currency_symbol} ${this.state.total_amount}`}
+              style={{
+                fontSize: Fonts.size.large,
+                color: Colors.primary,
+              }}
+            />
+          </View>
+
+          {/* Shipping Fee */}
+          <View style={{
+            flexDirection: 'row',
+            // paddingVertical: Metrics.smallPadding,
+            justifyContent: 'space-between'
+          }}>
+            <Label
+              text={`Shipping Fee: `}
+              style={{
+                fontSize: Fonts.size.large,
+                color: Colors.primary
+              }}
+            />
+
+            <Label
+              text={`${this.state.currency_symbol} ${parseFloat(this.state.shipping_fee).toFixed(2)}`}
+              style={{
+                fontSize: Fonts.size.large,
+                color: Colors.primary,
+              }}
+            />
+          </View>
+          <View>
+          </View>
+
+          {/* Total Amount */}
+          <View style={{
+            flexDirection: 'row',
+            // paddingVertical: Metrics.smallPadding,
+            marginBottom: Metrics.smallMargin,
+            justifyContent: 'space-between'
+          }}>
+            <Label
+              text={`Total Payment: `}
+              style={{
+                fontSize: Fonts.size.h6,
+                fontWeight: 'bold',
+                color: Colors.primary
+              }}
+            />
+
+            <Label
+              text={`${this.state.currency_symbol} ${this.state.total_item_amount}`}
+              style={{
+                fontSize: Fonts.size.h6,
+                fontWeight: 'bold',
+                color: Colors.primary,
+              }}
+            />
+          </View>
+
+        </View>
+
+      </View>
+    )
+  }
+
 
   handleRenderShippingMethodContainer() {
     return (
@@ -941,34 +1080,43 @@ export default class EComCheckoutView extends React.Component {
         paddingHorizontal: Metrics.smallPadding,
         paddingVertical: Metrics.basePadding,
         marginVertical: Metrics.smallMargin,
-        borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line
+        // borderTopWidth: 1, borderBottomWidth: 1,
+        width: "95%", alignSelf: "center",
+        borderRadius: 5, borderWidth: 1,
+        borderColor: Colors.border_line
       }}>
-        <Label
-          text={`Shipping Method`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            fontWeight: 'bold',
-            marginBottom: Metrics.smallMargin
-          }}
-        />
+        <View style={{ width: "95%", alignSelf: "center" }}>
+          <Label
+            text={`Shipping Method`}
+            style={{
+              color: Colors.primary,
+              fontSize: Fonts.size.h6,
+              fontWeight: 'bold',
+              marginBottom: Metrics.smallMargin
+            }}
+          />
+          <View style={{ paddingTop: Metrics.smallPadding,}}>
+            {
+              Object.keys(this.state.shipment_methods_list).length > 0
+                ? <ShippingMethod
+                  data={this.state.shipment_methods_list}
+                  preSelectedData={this.state.selected_shipment_method}
+                  onChange={this.handleShippingMethodOnChange}
+                />
+                : <Label
+                  text={`Action Require, please fill in delivery address.`}
+                  style={{
+                    color: Colors.button_red,
+                    fontSize: Fonts.size.input,
+                    marginBottom: Metrics.smallMargin
+                  }}
+                />
+            }
+          </View>
 
-        {
-          Object.keys(this.state.shipment_methods_list).length > 0
-            ? <ShippingMethod
-              data={this.state.shipment_methods_list}
-              preSelectedData={this.state.selected_shipment_method}
-              onChange={this.handleShippingMethodOnChange}
-            />
-            : <Label
-              text={`Action Require, please fill in delivery address.`}
-              style={{
-                color: Colors.button_red,
-                fontSize: Fonts.size.input,
-                marginBottom: Metrics.smallMargin
-              }}
-            />
-        }
+
+        </View>
+
 
       </View>
     )
@@ -981,27 +1129,33 @@ export default class EComCheckoutView extends React.Component {
         paddingHorizontal: Metrics.smallPadding,
         paddingVertical: Metrics.basePadding,
         marginVertical: Metrics.smallMargin,
-        borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line
+        // borderTopWidth: 1, borderBottomWidth: 1, 
+        width: "95%", alignSelf: "center",
+        borderRadius: 5, borderWidth: 1,
+        borderColor: Colors.border_line
       }}>
-        <Label
-          text={`Shipping Note`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            fontWeight: 'bold',
-            marginBottom: Metrics.smallMargin
-          }}
-        />
-        <TextInput
-          placeholder={`Please enter your shipping note here...`}
-          value={`${this.state.shipping_notes}`}
-          multiline={true}
-          onChangeText={(value) => {
-            this.setState({
-              shipping_notes: value
-            });
-          }}
-        />
+        <View style={{ width: "95%", alignSelf: "center" }}>
+          <Label
+            text={`Shipping Note`}
+            style={{
+              color: Colors.primary,
+              fontSize: Fonts.size.h6,
+              fontWeight: 'bold',
+              marginBottom: Metrics.smallMargin
+            }}
+          />
+          <TextInput
+            placeholder={`Please enter your shipping note here...`}
+            value={`${this.state.shipping_notes}`}
+            multiline={true}
+            onChangeText={(value) => {
+              this.setState({
+                shipping_notes: value
+              });
+            }}
+          />
+        </View>
+
 
       </View>
     )
@@ -1010,85 +1164,21 @@ export default class EComCheckoutView extends React.Component {
   handleRenderCheckoutButtonContainer() {
     return (
       <View style={{
+        // alignSelf: "center",
+        position: "absolute",
+        width: "75%",
+        alignSelf: "center",
+        // paddingVertical: Metrics.basePadding,
+        // paddingHorizontal: Metrics.smallMargin,
+        // justifyContent: "center",
         // position: 'absolute',
         // bottom: 0, right: 0, left: 0,
-        backgroundColor: Colors.body,
-        borderTopWidth: 1, borderColor: Colors.border_line,
-        paddingVertical: Metrics.basePadding,
-        paddingHorizontal: Metrics.smallMargin
+        // backgroundColor: Colors.body,
+        // backgroundColor:"lightblue",
+        // borderColor: Colors.border_line,
       }}>
-        {/* Total Items Amount */}
-        <View style={{
-          flexDirection: 'row',
-          paddingVertical: Metrics.smallPadding,
-          justifyContent: 'space-between'
-        }}>
-          <Label
-            text={`Total Items Amount: `}
-            style={{
-              fontSize: Fonts.size.large,
-              color: Colors.primary
-            }}
-          />
 
-          <Label
-            text={`${this.state.currency_symbol} ${this.state.total_amount}`}
-            style={{
-              fontSize: Fonts.size.large,
-              color: Colors.primary,
-            }}
-          />
-        </View>
-
-        {/* Shipping Fee */}
-        <View style={{
-          flexDirection: 'row',
-          paddingVertical: Metrics.smallPadding,
-          justifyContent: 'space-between'
-        }}>
-          <Label
-            text={`Shipping Fee: `}
-            style={{
-              fontSize: Fonts.size.large,
-              color: Colors.primary
-            }}
-          />
-
-          <Label
-            text={`${this.state.currency_symbol} ${parseFloat(this.state.shipping_fee).toFixed(2)}`}
-            style={{
-              fontSize: Fonts.size.large,
-              color: Colors.primary,
-            }}
-          />
-        </View>
-
-        {/* Total Amount */}
-        <View style={{
-          flexDirection: 'row',
-          paddingVertical: Metrics.smallPadding,
-          marginBottom: Metrics.smallMargin,
-          justifyContent: 'space-between'
-        }}>
-          <Label
-            text={`Total Payment: `}
-            style={{
-              fontSize: Fonts.size.h6,
-              fontWeight: 'bold',
-              color: Colors.primary
-            }}
-          />
-
-          <Label
-            text={`${this.state.currency_symbol} ${this.state.total_item_amount}`}
-            style={{
-              fontSize: Fonts.size.h6,
-              fontWeight: 'bold',
-              color: Colors.primary,
-            }}
-          />
-        </View>
-
+        {/* <View style={{ marginTop: 5, width: "90%", alignSelf: "center" }}> */}
         {/* Checkout Button */}
         <AppsButton
           text={`Payment`}
@@ -1098,6 +1188,8 @@ export default class EComCheckoutView extends React.Component {
             this.handlePaymentProcess();
           }}
         />
+        {/* </View> */}
+
       </View>
     )
   }

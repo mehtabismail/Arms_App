@@ -1,6 +1,7 @@
 /** REACT NATIVE **/
 import React, { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import tw from 'tailwind-react-native-classnames'
 
 /** PROJECT FILES **/
 import {
@@ -47,6 +48,7 @@ function PickUpFragment(props) {
   for (let i = 0; i < locationList.length; i++) {
     locationListRenderStack.push(
       <PickUpLocation
+        style={tw`m-3`}
         key={`${i}`}
         onPress={handleLocationOnChange}
         selected={locationList[i].branch_id === selectedLocation.branch_id}
@@ -59,6 +61,7 @@ function PickUpFragment(props) {
   for (let i = 0; i < dateList.length; i++) {
     dateListRenderStack.push(
       <PickUpDate
+        style={tw`m-3`}
         key={`${i}`}
         onPress={handleDateOnChange}
         date={dateList[i]}
@@ -72,6 +75,7 @@ function PickUpFragment(props) {
     timeList[selectedDate].map((value) => {
       timeListRenderStack.push(
         <PickUpTime
+        style={tw`m-3`}
           key={`${value}`}
           onPress={handleTimeOnChange}
           time={value}
@@ -82,52 +86,59 @@ function PickUpFragment(props) {
   }
 
   return (
-    <View>
-      {/* Pickup Location */}
-      <Label
-        text={'Pickup Location'}
-        style={{
-          color: Colors.primary,
-          fontSize: Fonts.size.h6,
-          marginTop: Metrics.basePadding
-        }}
-      />
-      <View>{locationListRenderStack}</View>
-
-      {/* Pickup Date */}
-      <Label
-        text={'Pickup Date'}
-        style={{
-          color: Colors.primary,
-          fontSize: Fonts.size.h6,
-          marginTop: Metrics.basePadding
-        }}
-      />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{dateListRenderStack}</View>
-
-      {/* Pickup Time */}
-      <Label
-        text={'Pickup Time'}
-        style={{
-          color: Colors.primary,
-          fontSize: Fonts.size.h6,
-          marginTop: Metrics.basePadding
-        }}
-      />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {
-          timeListRenderStack.length > 0
-            ? timeListRenderStack
-            : <Label
-              text={'-- No Available --'}
-              style={{
-                color: Colors.primary,
-                fontSize: Fonts.size.regular,
-                marginTop: Metrics.smallMargin
-              }}
-            />
-        }
+    <View style={{ marginTop: 20 }}>
+      <View >
+        {/* Pickup Location */}
+        <Label
+          text={'Pickup Location'}
+          style={{
+            color: Colors.primary,
+            fontSize: Fonts.size.h6,
+            marginTop: Metrics.basePadding
+          }}
+        />
+        <View>{locationListRenderStack}</View>
       </View>
+
+      <View style={tw`m-5`}>
+        {/* Pickup Date */}
+        <Label
+          text={'Pickup Date'}
+          style={{
+            color: Colors.primary,
+            fontSize: Fonts.size.h6,
+            marginTop: Metrics.basePadding
+          }}
+        />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{dateListRenderStack}</View>
+
+      </View>
+      <View style={tw`m-5`}>
+        {/* Pickup Time */}
+        <Label
+          text={'Pickup Time'}
+          style={{
+            color: Colors.primary,
+            fontSize: Fonts.size.h6,
+            marginTop: Metrics.basePadding
+          }}
+        />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {
+            timeListRenderStack.length > 0
+              ? timeListRenderStack
+              : <Label
+                text={'-- No Available --'}
+                style={{
+                  color: Colors.primary,
+                  fontSize: Fonts.size.regular,
+                  marginTop: Metrics.smallMargin
+                }}
+              />
+          }
+        </View>
+      </View>
+
     </View>
   )
 }
@@ -144,7 +155,7 @@ function PickUpLocation(props) {
       style={{
         borderWidth: borderWidth,
         borderColor: borderColor,
-        borderRadius: 10,
+        borderRadius: 20,
         paddingHorizontal: Metrics.basePadding,
         paddingVertical: Metrics.smallPadding,
         marginVertical: Metrics.smallPadding,

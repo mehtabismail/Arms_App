@@ -25,8 +25,9 @@ export default class AppsButton extends Component {
       <Animated.View
         style={[
           styles.button,{ ...this.props.style,
+            alignSelf:"center",
             // height: this.props.height ? this.props.height : Metrics.button,
-            width: this.props.width ? this.props.width : "100%",
+            width: this.props.width ? this.props.width : "95%",borderRadius:5,
             backgroundColor: this.props.backgroundColor ? this.props.backgroundColor : Colors.button_background,
           },
           this.props.disabled
