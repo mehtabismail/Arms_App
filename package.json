@@ -3,6 +3,7 @@
   "version": "2.5.1",
   "private": true,
   "scripts": {
+    "build-css": "tailwindcss build ./src/styles.css -o ./index.css",
     "start": "nodemon node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "preversion": "./npm-version/pre-version.sh",
@@ -19,6 +20,7 @@
     "@react-native-async-storage/async-storage": "^1.13.3",
     "@react-native-community/netinfo": "^4.2.1",
     "@react-native-community/push-notification-ios": "^1.0.2",
+    "babel-preset-react-native": "^2.1.0",
     "moment": "^2.24.0",
     "nodemon": "^2.0.13",
     "pusher-js": "^5.0.1",
@@ -44,11 +46,12 @@
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-reanimated": "^1.2.0",
     "react-native-render-html": "^4.2.0",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-share": "^5.1.0",
     "react-native-snap-carousel": "^3.8.2",
     "react-native-sound": "^0.11.0",
     "react-native-sqlite-storage": "^3.3.10",
-    "react-native-svg": "^9.9.3",
+    "react-native-svg": "^9.13.6",
     "react-native-swipeout": "^2.3.6",
     "react-native-system-setting": "^1.7.3",
     "react-native-tab-view": "^2.5.0",
@@ -60,17 +63,21 @@
     "react-navigation": "3.0.9",
     "rn-fetch-blob": "^0.10.15",
     "tailwind-react-native-classnames": "^1.5.1",
-    "tailwindcss": "^2.2.16",
+    "tailwind-rn": "^3.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",
     "@babel/runtime": "7.4.5",
+    "autoprefixer": "^10.3.7",
     "babel-jest": "24.8.0",
+    "css-loader": "^6.4.0",
     "jest": "24.8.0",
     "metro-react-native-babel-preset": "0.54.1",
     "react-test-renderer": "16.8.3",
-    "reactotron-react-native": "^3.2.1"
+    "reactotron-react-native": "^3.2.1",
+    "style-loader": "^3.3.0",
+    "tailwindcss": "^2.2.16"
   },
   "jest": {
     "preset": "react-native"

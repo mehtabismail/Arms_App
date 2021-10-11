@@ -2,7 +2,7 @@
  * @format
  */
 
-import './App/Config/ReactotronConfig'
+import './App/Config/ReactotronConfig';
 import {AppRegistry} from 'react-native';
 import App from './App/Modules/General/App';
 import {name as appName} from './app.json';

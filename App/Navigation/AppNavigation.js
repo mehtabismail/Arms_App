@@ -172,7 +172,7 @@ const DashboardStack = createStackNavigator({
     initialRouteName: '',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.button_background,
       },
       headerTitleStyle: {
         ...Fonts.size.normal,
@@ -536,7 +536,7 @@ const ECommerceStack = createStackNavigator({
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.button_background,
       },
       headerTitleStyle: {
         ...Fonts.size.normal,

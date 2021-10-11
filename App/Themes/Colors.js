@@ -40,7 +40,8 @@ const colors = {
   editable_disabled: '#D9D2D2',
   
   /** Button **/
-  button_background: '#5893D4', //'#213260',
+  // button_background: '#5893D4', 
+  button_background: '#586bca',
   button_background_disabled: 'grey',
   button_font: secondary, 
   button_green: '#99b83c',

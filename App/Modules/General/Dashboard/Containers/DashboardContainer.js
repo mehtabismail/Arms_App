@@ -384,7 +384,7 @@ export default class DashboardView extends React.Component {
         <Label style={{marginBottom: Metrics.baseMargin*6}}>Come and join us to get your discountedddd vouchers and many more great deals.</Label>
         <AppsButton 
           onPress={() => {this.props.navigation.navigate("LandingScreen", {prev_screen: this.props.navigation.state.routeName})}}
-          backgroundColor={Colors.primary}
+          backgroundColor={Colors.button_background}
           text={"LOGIN / REGISTER"}
           fontSize={20}
         />

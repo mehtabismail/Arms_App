@@ -27,8 +27,10 @@ export default class AppsButton extends Component {
           styles.button,{ ...this.props.style,
             alignSelf:"center",
             // height: this.props.height ? this.props.height : Metrics.button,
-            width: this.props.width ? this.props.width : "95%",borderRadius:5,
+          
+            width: this.props.width ? this.props.width : "95%",borderRadius:15,
             backgroundColor: this.props.backgroundColor ? this.props.backgroundColor : Colors.button_background,
+            // backgroundColor:"#586bca"
           },
           this.props.disabled
             ? { backgroundColor: Colors.button_background_disabled }

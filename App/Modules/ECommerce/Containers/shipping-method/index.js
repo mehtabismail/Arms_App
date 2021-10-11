@@ -128,8 +128,9 @@ function ShippingMethodButton(props) {
   const { text, onPress, disabled = false, style, selected } = props
   const fontWeight = selected ? 'bold' : 'normal'
   const borderWidth = selected ? 2 : 1
-  const borderColor = selected ? Colors.primary : Colors.border_line
-  const color = disabled ? Colors.border_line : Colors.primary
+  const borderColor = selected ? Colors.button_background : Colors.border_line
+  // const color = disabled ? Colors.border_line : Colors.button_background
+  const color = selected ? Colors.button_background : Colors.button_background_disabled
   const disabledText = disabled ? ' (Not Available)' : ''
   return (
     <TouchableOpacity

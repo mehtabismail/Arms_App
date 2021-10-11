@@ -1,6 +1,7 @@
 /** REACT NATIVE **/
 import React, { Component } from "react";
 
+
 /** PROJECT FILES **/
 import "../../Config";
 import AppConfig from "../../Config/AppConfig";
@@ -14,6 +15,7 @@ import ARMSDownloader from '../../Services/arms_downloader';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import NetInfo from "@react-native-community/netinfo";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js
@@ -24,7 +26,7 @@ class App extends Component {
   /**
    * Create Ads Banner Folders
    */
-  handleCreateAdsBannerFolders(){
+  handleCreateAdsBannerFolders() {
     /**
      * Create Ads Banner Folders
      * - home_btm_vertical
@@ -45,13 +47,13 @@ class App extends Component {
       var crFolderResult = armsDownloader.handleCreateFolder(foldersPath[i]);
     }
   }
-  
+
   /**
    * Update Ads Banner Data
    */
-  async handleUpdateAdsBannerData(){
+  async handleUpdateAdsBannerData() {
     var network = await this.networkConnectValidation();
-    if(network.result == 1){
+    if (network.result == 1) {
       var armsDownloader = new ARMSDownloader();
       armsDownloader.handleRetrieveAdsBannerViaAPI();
     }
@@ -60,9 +62,9 @@ class App extends Component {
   /**
    * Download Company Logo
    */
-  async handleDownloadCompanyLogo(){
+  async handleDownloadCompanyLogo() {
     var network = await this.networkConnectValidation();
-    if(network.result == 1){
+    if (network.result == 1) {
       var armsDownloader = new ARMSDownloader();
       armsDownloader.handleDownloadCompanyLogo();
     }
@@ -71,26 +73,26 @@ class App extends Component {
   /**
    * Network Checking
    */
-  networkConnectValidation(){
+  networkConnectValidation() {
     let result = new Promise((resolve, reject) => {
-      NetInfo.isConnected.fetch().done((isConnected) => { 
-        if(isConnected) {
-          resolve({result: 1});
+      NetInfo.isConnected.fetch().done((isConnected) => {
+        if (isConnected) {
+          resolve({ result: 1 });
         } else {
-          resolve({result: 0});
+          resolve({ result: 0 });
         }
       });
     })
     return result;
   }
-  
+
 
   render() {
     /**
      * Init Download Company Logo
      */
     this.handleDownloadCompanyLogo();
-    
+
     /**
      * Init Ads Banner
      */
@@ -108,7 +110,7 @@ class App extends Component {
      */
     // var PushNotification = require('react-native-push-notification');
     PushNotification.configure({
-    
+
       // (optional) Called when Token is generated (iOS and Android)
       // onRegister: function(token) {
       //   console.log( 'TOKEN:', token );
@@ -117,7 +119,7 @@ class App extends Component {
       //   result.then((res)=>{
       //     alert(JSON.stringify(res));
       //   })
-          
+
       // },
 
       // // (required) Called when a remote or local notification is opened or received
@@ -158,10 +160,15 @@ class App extends Component {
     // PushNotification.setApplicationIconBadgeNumber(0);
 
     return (
-      <AppNavigation />
+      <SafeAreaProvider>
+        <AppNavigation />
+      </SafeAreaProvider>
+
+
     );
   }
 }
 
 // allow reactotron overlay for fast design in dev mode
 export default (DebugConfig.useReactotron ? console.tron.overlay(App) : App);
+
