@@ -15,11 +15,12 @@ import {
 } from 'react-native';
 
 /** REACT NATIVE ELEMENTS **/
-import { Card, Text } from 'react-native-elements';
+import { Card, Text, Input, Button, Icon } from 'react-native-elements';
+import { t } from 'react-native-tailwindcss';
 
 
 /** TAILWIND CSS **/
-import {tailwind} from '../../../../tailwind';
+import { tailwind } from '../../../../tailwind';
 
 
 /** PROJECT FILES **/
@@ -567,8 +568,8 @@ export default class EComCheckoutView extends React.Component {
         ?
         <View />
         :
-        <View style={tailwind('flex-1 flex-col h-full ')}>
-          <View style={{ justifyContent: "flex-start", height: "85%", width:"100%" }} >
+        <View style={tailwind('flex-1 flex-col h-full bg-gray-background')}>
+          <View style={{ justifyContent: "flex-start", height: "85%", width: "100%" }} >
             <Animated.ScrollView
               contentContainerStyle={[this.state.scrollViewBtmMargin]}
             >
@@ -620,12 +621,9 @@ export default class EComCheckoutView extends React.Component {
       // this.state.shipping_details_status
       // ?
       <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
-        <Card.Title style={{
-          color: Colors.button_background,
-          fontSize: Fonts.size.h6,
-          fontWeight: 'bold',
-        }}>Delivery Address</Card.Title>
-        <Card.Divider/>
+        <Card.Title style={tailwind("text-primary text-xl font-bold")}>
+          Delivery Address</Card.Title>
+        <Card.Divider />
         <View
           style={tailwind('mt-5')}
         // style={{
@@ -641,83 +639,96 @@ export default class EComCheckoutView extends React.Component {
         // }}
         >
 
-              {/* Customer Name */}
-              {this.handleRenderDeliveryAddressAttrContainer("Name", this.state.name, "name")}
+          {/* Customer Name */}
+          {this.handleRenderDeliveryAddressAttrContainer("Name", this.state.name, "name")}
 
-              {/* Customer Phone Number */}
-              {this.handleRenderDeliveryAddressAttrContainer("Phone Number", this.state.phone, "phone")}
+          {/* Customer Phone Number */}
+          {this.handleRenderDeliveryAddressAttrContainer("Phone Number", this.state.phone, "phone")}
 
-              {/* Customer Email */}
-              {this.handleRenderDeliveryAddressAttrContainer("Email", this.state.email, "email")}
+          {/* Customer Email */}
+          {this.handleRenderDeliveryAddressAttrContainer("Email", this.state.email, "email")}
 
-              {/* Customer Delivery Address */}
-              {this.handleRenderDeliveryAddressAttrContainer("Address", this.state.address, "address")}
+          {/* Customer Delivery Address */}
+          {this.handleRenderDeliveryAddressAttrContainer("Address", this.state.address, "address")}
 
-              {/* Customer Delivery Address Postcode */}
-              {this.handleRenderDeliveryAddressAttrContainer("Postcode", this.state.postcode, "postcode")}
+          {/* Customer Delivery Address Postcode */}
+          {this.handleRenderDeliveryAddressAttrContainer("Postcode", this.state.postcode, "postcode")}
 
-              {/* Customer Delivery Address City */}
-              {this.handleRenderDeliveryAddressAttrContainer("City", this.state.city, "city")}
+          {/* Customer Delivery Address City */}
+          {this.handleRenderDeliveryAddressAttrContainer("City", this.state.city, "city")}
 
-              {/* Customer Delivery Address State */}
-              <View style={{ marginBottom: Metrics.basePadding - 2 }}>
+          {/* Customer Delivery Address State */}
+          <View style={{ marginBottom: Metrics.basePadding - 2 }}>
+            <Label
+              text={`State`}
+              style={tailwind("text-black text-lg ")}
+            />
+            <TouchableOpacity
+              onPress={() => { this.handleSelectState() }}
+              style={
+                tailwind(" h-10 border border-gray-400 rounded-lg justify-center")
+                //   [styles.deliveryAddressTextInput,
+                // this.state.state ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
+                // ]
+              }
+            >
+              <Label
+                text={`${this.state.state}`}
+                style={tailwind("text-gray-400 text-base ml-5")}
+              />
+            </TouchableOpacity>
+            {
+              !this.state.state
+                ?
                 <Label
-                  text={`State`}
+                  text={`Please select state.`}
                   style={{
-                    color: Colors.primary,
-                    fontSize: Fonts.size.large,
+                    color: Colors.text_negative,
+                    fontSize: Fonts.size.small,
                   }}
                 />
-                <TouchableOpacity
-                  onPress={() => { this.handleSelectState() }}
-                  style={[styles.deliveryAddressTextInput,
-                  this.state.state ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
-                  ]}
-                >
-                  <Label
-                    text={`${this.state.state}`}
-                    style={{
-                      color: '#000000',
-                      fontSize: Fonts.size.regular,
-                    }}
-                  />
-                </TouchableOpacity>
-                {
-                  !this.state.state
-                    ?
-                    <Label
-                      text={`Please select state.`}
-                      style={{
-                        color: Colors.text_negative,
-                        fontSize: Fonts.size.small,
-                      }}
-                    />
-                    :
-                    <View />
-                }
-              </View>
+                :
+                <View />
+            }
+          </View>
 
 
-              {/* Customer Delivery Address Country */}
-              <Label
-                text={`Country`}
-                style={{
-                  color: Colors.primary,
-                  fontSize: Fonts.size.large,
-                }}
-              />
-              <TextInput
-                editable={false}
-                placeholder={`Country`}
-                value={`${this.state.country}`}
-                onChangeText={(value) => {
-                  this.setState({
-                    country: value
-                  });
-                }}
-                style={[styles.deliveryAddressTextInput]}
-              />
-            </View>
+          {/* Customer Delivery Address Country */}
+          <Label
+            text={`Country`}
+            style={tailwind("text-black text-lg ")}
+          // style={{
+          //   color: Colors.primary,
+          //   fontSize: Fonts.size.large,
+          // }}
+          />
+          <Input
+            editable={false}
+            placeholder={`Country`}
+            value={`${this.state.country}`}
+            onChangeText={(value) => {
+              this.setState({
+                country: value
+              });
+            }}
+
+            inputStyle={tailwind("text-gray-400 text-base")}
+            inputContainerStyle={tailwind("border-transparent")}
+            containerStyle={tailwind(" h-10 border border-gray-400 rounded-lg")}
+          />
+          {/* <TextInput
+            editable={false}
+            placeholder={`Country`}
+            value={`${this.state.country}`}
+            onChangeText={(value) => {
+              this.setState({
+                country: value
+              });
+            }}
+            // style={[styles.deliveryAddressTextInput]}
+            style={tailwind(" h-10 border border-gray-400 rounded-lg justify-center")}
+          /> */}
+        </View>
       </Card>
       // :
       // <View style={{
@@ -768,12 +779,13 @@ export default class EComCheckoutView extends React.Component {
       <View style={tailwind('mb-3')}>
         <Label
           text={`${label}`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.large,
-          }}
+          style={tailwind("text-primaryBlue text-lg my-0.5")}
+        // style={{
+        //   color: Colors.primary,
+        //   fontSize: Fonts.size.large,
+        // }}
         />
-        <TextInput
+        {/* <TextInput
           placeholder={`${label}`}
           value={`${data}`}
           onChangeText={(value) => {
@@ -785,6 +797,24 @@ export default class EComCheckoutView extends React.Component {
           style={[styles.deliveryAddressTextInput,
           data ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
           ]}
+        /> */}
+        <Input
+          placeholder={`${label}`}
+          value={`${data}`}
+          onChangeText={
+            (value) => {
+              this.handleDeliveryAddressInfoUpdate(updateId, value);
+            }
+          }
+          onEndEditing={
+            () => {
+              this.handleGetShipmentMethodList()
+            }
+          }
+
+          inputStyle={tailwind("text-gray-400 text-base")}
+          inputContainerStyle={tailwind("border-transparent")}
+          containerStyle={tailwind(" h-10 border border-gray-400 rounded-lg")}
         />
         {
           !data
@@ -856,18 +886,18 @@ export default class EComCheckoutView extends React.Component {
 
   handleRenderCartListItemContainer = ({ item, index }) => {
     return (
-      <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
+      <Card containerStyle={tailwind(' bg-white rounded-lg opacity-100')}>
         <View style={tailwind('flex-1 flex-row')}>
           <View style={tailwind('justify-center items-center')}>
             {/* Left - Product Image */}
             {this.handleRenderCartItemImageContainer(item, index)}
           </View>
 
-          <View style={{ marginHorizontal: Metrics.basePadding, flexDirection: "column", justifyContent: "space-between" }}>
+          <View style={{ marginHorizontal: Metrics.basePadding, flexDirection: "column", justifyContent: "center" }}>
             {/* Right - Product Details */}
             {/* Prod Desc */}
             {this.handleRenderCartItemProdDescContainer(item, index)}
-            <View >
+            <View style={tailwind("mt-1")}>
               {/* Prod Variation */}
               {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
 
@@ -975,22 +1005,21 @@ export default class EComCheckoutView extends React.Component {
   handleRenderPaymentOptionContainer() {
     return (
       <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
-        <Card.Title style={{
-          color: Colors.button_background,
-          fontSize: Fonts.size.h6,
-          fontWeight: 'bold',
-        }}>Delivery Address</Card.Title>
-        <Card.Divider/>
-        
-          <View>
+        <Card.Title style={tailwind("text-primary text-xl font-bold")}>
+          Payment Option
+        </Card.Title>
+        <Card.Divider />
 
-            <Label
-              text={`iPay88`}
-              style={{
-                color: Colors.primary,
-                fontSize: Fonts.size.h6,
-              }}
-            />
+        <View>
+
+          <Label
+            text={`iPay88`}
+            style={tailwind("text-primaryBlue text-lg")}
+            // style={{
+            //   color: Colors.primary,
+            //   fontSize: Fonts.size.h6,
+            // }}
+          />
         </View>
       </Card>
 
@@ -1000,13 +1029,11 @@ export default class EComCheckoutView extends React.Component {
   handleRenderPaymentSummaryContainer() {
     return (
       <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
-        <Card.Title style={{
-          color: Colors.button_background,
-          fontSize: Fonts.size.h6,
-          fontWeight: 'bold',
-        }}>Delivery Address</Card.Title>
-        <Card.Divider/>
-        <View 
+        <Card.Title style={tailwind("text-primary text-xl font-bold")}>
+          Order Summary
+        </Card.Title>
+        <Card.Divider />
+        <View
         // style={{
         //   backgroundColor: Colors.body,
         //   paddingHorizontal: Metrics.smallPadding,
@@ -1020,7 +1047,7 @@ export default class EComCheckoutView extends React.Component {
         // }}
         >
           <View >
-            
+
             {/* Total Items Amount */}
             <View style={{
               flexDirection: 'row',
@@ -1126,8 +1153,8 @@ export default class EComCheckoutView extends React.Component {
           fontSize: Fonts.size.h6,
           fontWeight: 'bold',
         }}>Shipping Method</Card.Title>
-        <Card.Divider/>
-        <View 
+        <Card.Divider />
+        <View
         // style={{
         //   backgroundColor: Colors.body,
         //   paddingHorizontal: Metrics.smallPadding,
@@ -1140,28 +1167,28 @@ export default class EComCheckoutView extends React.Component {
         // }}
         >
 
-          
-            <View style={{ paddingTop: Metrics.smallPadding, }}>
-              {
-                Object.keys(this.state.shipment_methods_list).length > 0
-                  ? <ShippingMethod
-                    data={this.state.shipment_methods_list}
-                    preSelectedData={this.state.selected_shipment_method}
-                    onChange={this.handleShippingMethodOnChange}
-                  />
-                  : <Label
-                    text={`Action Require, please fill in delivery address.`}
-                    style={{
-                      color: Colors.button_red,
-                      fontSize: Fonts.size.input,
-                      marginBottom: Metrics.smallMargin
-                    }}
-                  />
-              }
-            </View>
 
-
+          <View style={{ paddingTop: Metrics.smallPadding, }}>
+            {
+              Object.keys(this.state.shipment_methods_list).length > 0
+                ? <ShippingMethod
+                  data={this.state.shipment_methods_list}
+                  preSelectedData={this.state.selected_shipment_method}
+                  onChange={this.handleShippingMethodOnChange}
+                />
+                : <Label
+                  text={`Action Require, please fill in delivery address.`}
+                  style={{
+                    color: Colors.button_red,
+                    fontSize: Fonts.size.input,
+                    marginBottom: Metrics.smallMargin
+                  }}
+                />
+            }
           </View>
+
+
+        </View>
 
 
       </Card>
@@ -1171,13 +1198,11 @@ export default class EComCheckoutView extends React.Component {
   handleRenderShippingNoteContainer() {
     return (
       <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
-        <Card.Title style={{
-          color: Colors.button_background,
-          fontSize: Fonts.size.h6,
-          fontWeight: 'bold',
-        }}>Shipping Note</Card.Title>
-        <Card.Divider/>
-        <View 
+        <Card.Title style={tailwind("text-primary text-xl font-bold")}>
+          Shipping Note
+        </Card.Title>
+        <Card.Divider />
+        <View
         // style={{
         //   backgroundColor: Colors.body,
         //   paddingHorizontal: Metrics.smallPadding,
@@ -1189,43 +1214,51 @@ export default class EComCheckoutView extends React.Component {
         //   borderColor: Colors.border_line
         // }}
         >
+
           
-            <TextInput
-              placeholder={`Please enter your shipping note here...`}
-              value={`${this.state.shipping_notes}`}
-              multiline={true}
-              onChangeText={(value) => {
-                this.setState({
-                  shipping_notes: value
-                });
-              }}
-              style={{ borderColor: Colors.border_line }}
-            />
-          </View>
+          <TextInput
+            placeholder={`Please enter your shipping note here...`}
+            value={`${this.state.shipping_notes}`}
+            multiline={true}
+            onChangeText={(value) => {
+              this.setState({
+                shipping_notes: value
+              });
+            }}
+            style={{color:Colors.primary, borderColor: Colors.border_line, borderBottomWidth:1 }}
+          />
+        </View>
       </Card>
     )
   }
 
   handleRenderCheckoutButtonContainer() {
     return (
-      <View style={{
-        position: "absolute",
-        width: "95%",
-        alignSelf: "center",
-        // paddingVertical: Metrics.basePadding,
-        // paddingHorizontal: Metrics.smallMargin,
-        // position: 'absolute',
-        // bottom: 0, right: 0, left: 0,
-        // backgroundColor: Colors.body,
-        // backgroundColor:"lightblue",
-        // borderColor: Colors.border_line,
-      }}>
+      <View style={tailwind("self-center w-full ")}>
 
         {/* Checkout Button */}
-        <AppsButton
+        {/* <AppsButton
+
           text={`Payment`}
           backgroundColor={Colors.button_background}
           fontSize={Fonts.size.h6}
+          onPress={() => {
+            this.handlePaymentProcess();
+          }}
+        /> */}
+        <Button
+          containerStyle={tailwind("mx-5")}
+          buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+          icon={
+            <Icon
+              name="credit-card"
+              type="evilicon"
+              color="white"
+              containerStyle={tailwind("mr-1")}
+            />
+          }
+          title="Payment"
+          titleStyle={tailwind("text-xl")}
           onPress={() => {
             this.handlePaymentProcess();
           }}

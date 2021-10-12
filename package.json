@@ -55,6 +55,7 @@
     "react-native-swipeout": "^2.3.6",
     "react-native-system-setting": "^1.7.3",
     "react-native-tab-view": "^2.5.0",
+    "react-native-tailwindcss": "^1.1.11",
     "react-native-vector-icons": "^8.0.0",
     "react-native-video": "^4.4.4",
     "react-native-video-controls": "^2.2.3",
@@ -64,6 +65,7 @@
     "rn-fetch-blob": "^0.10.15",
     "tailwind-react-native-classnames": "^1.5.1",
     "tailwind-rn": "^3.0.1",
+    "tailwindcss-elevation": "^1.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

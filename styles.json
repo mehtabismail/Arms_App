@@ -1,4 +1,5 @@
 {
+	
 	"container": {
 		"width": "100%"
 	},
@@ -5770,6 +5771,10 @@
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(255, 255, 255, var(--tw-bg-opacity))"
 	},
+	"bg-gray-background": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgb(246, 248, 250, var(--tw-bg-opacity))"
+	},
 	"bg-gray-50": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(249, 250, 251, var(--tw-bg-opacity))"
@@ -5777,6 +5782,10 @@
 	"bg-gray-100": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(243, 244, 246, var(--tw-bg-opacity))"
+	},
+	"bg-gray-custom": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(250, 250, 250, var(--tw-bg-opacity))"
 	},
 	"bg-gray-200": {
 		"--tw-bg-opacity": 1,
@@ -7222,6 +7231,9 @@
 	"tracking-widest": {
 		"letterSpacing": "0.1em"
 	},
+	"text-secondary": {
+		"color": "transparent"
+	},
 	"text-transparent": {
 		"color": "transparent"
 	},
@@ -7553,9 +7565,12 @@
 		"--tw-text-opacity": 1,
 		"color": "rgba(131, 24, 67, var(--tw-text-opacity))"
 	},
-	"text-buttoncolor": {
+	"text-primary": {
 		"--tw-text-opacity": 1,
 		"color": "rgba(88, 107, 202, var(--tw-text-opacity))"
+	},
+	"text-primaryBlue": {
+		"color": "#213260"
 	},
 	"text-opacity-0": {
 		"--tw-text-opacity": 0
