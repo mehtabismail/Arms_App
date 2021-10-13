@@ -1,7 +1,7 @@
 /** REACT NATIVE **/
 import React, { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import tw from 'tailwind-react-native-classnames'
+import {tailwind} from '../../../../../../tailwind';
 
 /** PROJECT FILES **/
 import {
@@ -48,7 +48,7 @@ function PickUpFragment(props) {
   for (let i = 0; i < locationList.length; i++) {
     locationListRenderStack.push(
       <PickUpLocation
-        style={tw`m-3`}
+        style={tailwind("mt-3")}
         key={`${i}`}
         onPress={handleLocationOnChange}
         selected={locationList[i].branch_id === selectedLocation.branch_id}
@@ -61,7 +61,7 @@ function PickUpFragment(props) {
   for (let i = 0; i < dateList.length; i++) {
     dateListRenderStack.push(
       <PickUpDate
-        style={tw`m-3`}
+        style={tailwind("mt-3")}
         key={`${i}`}
         onPress={handleDateOnChange}
         date={dateList[i]}
@@ -75,7 +75,7 @@ function PickUpFragment(props) {
     timeList[selectedDate].map((value) => {
       timeListRenderStack.push(
         <PickUpTime
-        style={tw`m-3`}
+        style={tailwind("mt-3")}
           key={`${value}`}
           onPress={handleTimeOnChange}
           time={value}
@@ -86,42 +86,30 @@ function PickUpFragment(props) {
   }
 
   return (
-    <View style={{ marginTop: 20 }}>
+    <View style={tailwind("mt-5")}>
       <View >
         {/* Pickup Location */}
         <Label
           text={'Pickup Location'}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            marginTop: Metrics.basePadding
-          }}
+          style={tailwind("text-primary text-xl font-bold ")}
         />
         <View>{locationListRenderStack}</View>
       </View>
 
-      <View style={tw`m-5`}>
+      <View style={tailwind("mt-5")}>
         {/* Pickup Date */}
         <Label
           text={'Pickup Date'}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            marginTop: Metrics.basePadding
-          }}
+          style={tailwind("text-primary text-xl font-bold")}
         />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{dateListRenderStack}</View>
 
       </View>
-      <View style={tw`m-5`}>
+      <View style={tailwind("mt-5")}>
         {/* Pickup Time */}
         <Label
           text={'Pickup Time'}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            marginTop: Metrics.basePadding
-          }}
+          style={tailwind("text-primary text-xl font-bold ")}
         />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {
@@ -146,9 +134,9 @@ export default PickUpFragment
 
 function PickUpLocation(props) {
   const { branch_id, code, address, onPress, disabled = false, style, selected } = props
-  const fontWeight = selected ? 'bold' : 'normal'
+  const fontWeight = selected ? 'normal' : 'normal'
   const borderWidth = selected ? 2 : 1
-  const borderColor = selected ? Colors.primary : Colors.border_line
+  const borderColor = selected ? Colors.button_background : Colors.border_line
   return (
     <TouchableOpacity
       key={`${branch_id}`}
@@ -186,9 +174,9 @@ function PickUpLocation(props) {
 
 function PickUpDate(props) {
   const { date, onPress, disabled = false, style, selected } = props
-  const fontWeight = selected ? 'bold' : 'normal'
+  const fontWeight = selected ? 'normal' : 'normal'
   const borderWidth = selected ? 2 : 1
-  const borderColor = selected ? Colors.primary : Colors.border_line
+  const borderColor = selected ? Colors.button_background : Colors.border_line
   return (
     <TouchableOpacity
       key={`${date}`}
@@ -218,9 +206,9 @@ function PickUpDate(props) {
 
 function PickUpTime(props) {
   const { time, onPress, disabled = false, style, selected } = props
-  const fontWeight = selected ? 'bold' : 'normal'
+  const fontWeight = selected ? 'normal' : 'normal'
   const borderWidth = selected ? 2 : 1
-  const borderColor = selected ? Colors.primary : Colors.border_line
+  const borderColor = selected ? Colors.button_background : Colors.border_line
   return (
     <TouchableOpacity
       key={`${time}`}

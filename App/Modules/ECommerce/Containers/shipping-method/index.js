@@ -2,6 +2,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
+import { tailwind } from '../../../../../tailwind';
+
 /** PROJECT FILES **/
 import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
@@ -67,25 +69,26 @@ function ShippingMethod(props) {
   return (
     <View>
       <View
-        style={{
-          flexDirection: 'row',
-          justifyContent:"space-between",
-          marginBottom: Metrics.smallMargin
-        }}
+        style={tailwind("flex-col ")}
       >
-        <ShippingMethodButton
-          text={'Pick Up'}
-          onPress={() => { onChangeSelectedMethod(ShippingMethodType.PICKUP) }}
-          style={{ marginRight: Metrics.smallMargin }}
-          selected={selectedMethod === ShippingMethodType.PICKUP}
-          disabled={!pickup}
-        />
-        <ShippingMethodButton
-          text={'Delivery'}
-          onPress={() => { onChangeSelectedMethod(ShippingMethodType.DELIVERY) }}
-          selected={selectedMethod === ShippingMethodType.DELIVERY}
-          disabled={!easyparcel}
-        />
+        <View style={tailwind("mb-3")}>
+          <ShippingMethodButton
+            text={'Pick Up'}
+            onPress={() => { onChangeSelectedMethod(ShippingMethodType.PICKUP) }}
+            // style={{ marginRight: Metrics.smallMargin }}
+            selected={selectedMethod === ShippingMethodType.PICKUP}
+            disabled={!pickup}
+          />
+        </View>
+        <View>
+          <ShippingMethodButton
+            text={'Delivery'}
+            onPress={() => { onChangeSelectedMethod(ShippingMethodType.DELIVERY) }}
+            selected={selectedMethod === ShippingMethodType.DELIVERY}
+            disabled={!easyparcel}
+          />
+        </View>
+
       </View>
 
       {/* Pickup Fragment */}
@@ -126,11 +129,11 @@ export default ShippingMethod
 
 function ShippingMethodButton(props) {
   const { text, onPress, disabled = false, style, selected } = props
-  const fontWeight = selected ? 'bold' : 'normal'
+  const fontWeight = selected ? 'normal' : 'normal'
   const borderWidth = selected ? 2 : 1
   const borderColor = selected ? Colors.button_background : Colors.border_line
   // const color = disabled ? Colors.border_line : Colors.button_background
-  const color = selected ? Colors.button_background : Colors.button_background_disabled
+  const color = selected ? Colors.button_background_disabled : Colors.button_background_disabled
   const disabledText = disabled ? ' (Not Available)' : ''
   return (
     <TouchableOpacity

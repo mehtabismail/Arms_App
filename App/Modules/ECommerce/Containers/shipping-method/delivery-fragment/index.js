@@ -2,6 +2,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
+
+import {tailwind} from '../../../../../../tailwind';
+
+
 /** PROJECT FILES **/
 import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
@@ -38,17 +42,13 @@ function DeliveryFragment(props) {
   }
 
   return (
-    <View>
+    <View style={tailwind("mt-5")}>
       {/* Delivery Service */}
       <Label
         text={'Choose courier service'}
-        style={{
-          color: Colors.primary,
-          fontSize: Fonts.size.h6,
-          marginTop: Metrics.basePadding
-        }}
+        style={tailwind("text-primary text-xl font-bold ")}
       />
-      <View>{courierListRenderStack}</View>
+      <View style={tailwind("mt-3")}>{courierListRenderStack}</View>
     </View>
   )
 }
@@ -65,9 +65,9 @@ function Courier(props) {
     style,
     selected
   } = props
-  const fontWeight = selected ? 'bold' : 'normal'
+  const fontWeight = selected ? 'normal' : 'normal'
   const borderWidth = selected ? 2 : 1
-  const borderColor = selected ? Colors.primary : Colors.border_line
+  const borderColor = selected ? Colors.button_background : Colors.border_line
   return (
     <TouchableOpacity
       key={`${service_id}`}

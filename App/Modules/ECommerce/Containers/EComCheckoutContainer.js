@@ -16,7 +16,6 @@ import {
 
 /** REACT NATIVE ELEMENTS **/
 import { Card, Text, Input, Button, Icon } from 'react-native-elements';
-import { t } from 'react-native-tailwindcss';
 
 
 /** TAILWIND CSS **/
@@ -661,12 +660,12 @@ export default class EComCheckoutView extends React.Component {
           <View style={{ marginBottom: Metrics.basePadding - 2 }}>
             <Label
               text={`State`}
-              style={tailwind("text-black text-lg ")}
+              style={tailwind("text-primaryBlue text-lg ")}
             />
             <TouchableOpacity
               onPress={() => { this.handleSelectState() }}
               style={
-                tailwind(" h-10 border border-gray-400 rounded-lg justify-center")
+                tailwind(" h-12 border border-gray-400 rounded-lg justify-center")
                 //   [styles.deliveryAddressTextInput,
                 // this.state.state ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
                 // ]
@@ -696,7 +695,7 @@ export default class EComCheckoutView extends React.Component {
           {/* Customer Delivery Address Country */}
           <Label
             text={`Country`}
-            style={tailwind("text-black text-lg ")}
+            style={tailwind("text-primaryBlue text-lg ")}
           // style={{
           //   color: Colors.primary,
           //   fontSize: Fonts.size.large,
@@ -714,7 +713,7 @@ export default class EComCheckoutView extends React.Component {
 
             inputStyle={tailwind("text-gray-400 text-base")}
             inputContainerStyle={tailwind("border-transparent")}
-            containerStyle={tailwind(" h-10 border border-gray-400 rounded-lg")}
+            containerStyle={tailwind(" h-12 border border-gray-400 rounded-lg")}
           />
           {/* <TextInput
             editable={false}
@@ -780,24 +779,7 @@ export default class EComCheckoutView extends React.Component {
         <Label
           text={`${label}`}
           style={tailwind("text-primaryBlue text-lg my-0.5")}
-        // style={{
-        //   color: Colors.primary,
-        //   fontSize: Fonts.size.large,
-        // }}
         />
-        {/* <TextInput
-          placeholder={`${label}`}
-          value={`${data}`}
-          onChangeText={(value) => {
-            this.handleDeliveryAddressInfoUpdate(updateId, value);
-          }}
-          onEndEditing={() => {
-            this.handleGetShipmentMethodList()
-          }}
-          style={[styles.deliveryAddressTextInput,
-          data ? { borderColor: Colors.border_line } : { borderColor: Colors.text_negative }
-          ]}
-        /> */}
         <Input
           placeholder={`${label}`}
           value={`${data}`}
@@ -814,7 +796,7 @@ export default class EComCheckoutView extends React.Component {
 
           inputStyle={tailwind("text-gray-400 text-base")}
           inputContainerStyle={tailwind("border-transparent")}
-          containerStyle={tailwind(" h-10 border border-gray-400 rounded-lg")}
+          containerStyle={tailwind(" h-12 border border-gray-400 rounded-lg")}
         />
         {
           !data
@@ -1033,65 +1015,45 @@ export default class EComCheckoutView extends React.Component {
           Order Summary
         </Card.Title>
         <Card.Divider />
-        <View
-        // style={{
-        //   backgroundColor: Colors.body,
-        //   paddingHorizontal: Metrics.smallPadding,
-        //   paddingVertical: Metrics.basePadding,
-        //   marginVertical: Metrics.smallMargin,
-        //   // borderTopWidth: 1, borderBottomWidth: 1, 
-        //   width: "95%", alignSelf: "center",
-        //   borderRadius: 5, borderWidth: 1,
-        //   borderColor: Colors.border_line,
-        //   alignItems: "center"
-        // }}
-        >
+        <View>
           <View >
 
             {/* Total Items Amount */}
-            <View style={{
-              flexDirection: 'row',
-              // paddingVertical: Metrics.smallPadding,
-              justifyContent: 'space-between',
-              marginTop: 15
-            }}>
+            <View 
+            // style={{
+            //   flexDirection: 'row',
+            //   // paddingVertical: Metrics.smallPadding,
+            //   justifyContent: 'space-between',
+            // }}
+            style={tailwind("flex-row justify-between mt-5")}
+            >
               <Label
                 text={`Total Items Amount: `}
-                style={{
-                  fontSize: Fonts.size.large,
-                  color: Colors.primary
-                }}
+              //   style={{
+              //     fontSize: Fonts.size.large,
+              //     color: Colors.primary
+              //   }
+              // }
+              style={tailwind("text-primaryBlue text-lg")}
               />
 
               <Label
                 text={`${this.state.currency_symbol} ${this.state.total_amount}`}
-                style={{
-                  fontSize: Fonts.size.large,
-                  color: Colors.primary,
-                }}
+                style={tailwind("text-primaryBlue text-lg")}
               />
             </View>
 
             {/* Shipping Fee */}
-            <View style={{
-              flexDirection: 'row',
-              // paddingVertical: Metrics.smallPadding,
-              justifyContent: 'space-between'
-            }}>
+            <View style={tailwind("flex-row justify-between")}
+            >
               <Label
                 text={`Shipping Fee: `}
-                style={{
-                  fontSize: Fonts.size.large,
-                  color: Colors.primary
-                }}
+                style={tailwind("text-primaryBlue text-lg")}
               />
 
               <Label
                 text={`${this.state.currency_symbol} ${parseFloat(this.state.shipping_fee).toFixed(2)}`}
-                style={{
-                  fontSize: Fonts.size.large,
-                  color: Colors.primary,
-                }}
+                style={tailwind("text-primaryBlue text-lg")}
               />
             </View>
             <View>
@@ -1106,20 +1068,12 @@ export default class EComCheckoutView extends React.Component {
             }}>
               <Label
                 text={`Total Payment: `}
-                style={{
-                  fontSize: Fonts.size.large,
-                  fontWeight: 'bold',
-                  color: Colors.button_background
-                }}
+                style={tailwind("text-primary text-lg font-bold")}
               />
 
               <Label
                 text={`${this.state.currency_symbol} ${this.state.total_item_amount}`}
-                style={{
-                  fontSize: Fonts.size.large,
-                  fontWeight: 'bold',
-                  color: Colors.button_background,
-                }}
+                style={tailwind("text-primary text-lg")}
               />
             </View>
 
@@ -1214,19 +1168,22 @@ export default class EComCheckoutView extends React.Component {
         //   borderColor: Colors.border_line
         // }}
         >
-
+          <Input
+         placeholder={`Please enter your shipping note here...`}
+         value={`${this.state.shipping_notes}`}
+        //  multiline={true}
+         onChangeText={(value) => {
+           this.setState({
+             shipping_notes: value
+           });
+         }}
           
-          <TextInput
-            placeholder={`Please enter your shipping note here...`}
-            value={`${this.state.shipping_notes}`}
-            multiline={true}
-            onChangeText={(value) => {
-              this.setState({
-                shipping_notes: value
-              });
-            }}
-            style={{color:Colors.primary, borderColor: Colors.border_line, borderBottomWidth:1 }}
-          />
+
+          inputStyle={tailwind("text-gray-400 text-base")}
+          inputContainerStyle={tailwind("border-transparent")}
+          containerStyle={tailwind(" h-12 border border-gray-400 rounded-lg")}
+        />
+         
         </View>
       </Card>
     )

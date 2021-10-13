@@ -5568,6 +5568,13 @@
 		"borderBottomColor": "rgba(49, 46, 129, var(--tw-border-opacity))",
 		"borderLeftColor": "rgba(49, 46, 129, var(--tw-border-opacity))"
 	},
+	"border-primary": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(88, 107, 202, var(--tw-text-opacity))",
+		"borderRightColor": "rgba(88, 107, 202, var(--tw-text-opacity))",
+		"borderBottomColor": "rgba(88, 107, 202, var(--tw-text-opacity))",
+		"borderLeftColor": "rgba(88, 107, 202, var(--tw-text-opacity))"
+	},
 	"border-purple-50": {
 		"--tw-border-opacity": 1,
 		"borderTopColor": "rgba(245, 243, 255, var(--tw-border-opacity))",

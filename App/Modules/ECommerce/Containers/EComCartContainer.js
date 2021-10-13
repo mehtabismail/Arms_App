@@ -15,8 +15,17 @@ import {
   View,
 } from 'react-native';
 
+
+/** REACT NATIVE ELEMENTS **/
+import { Card, Text, Input, Button, Icon } from 'react-native-elements';
+
+
+/** TAILWIND CSS **/
+import { tailwind } from '../../../../tailwind';
+
+
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
   LoadingIndicator, Label, AppsButton,
 } from '../../../Services/LibLinking';
@@ -26,6 +35,7 @@ import EComProductItemControllers from '../Actions/EComProductItemControllers';
 
 /** NPM LIBRARIES **/
 import { NavigationActions, DrawerActions, SafeAreaView } from 'react-navigation';
+import { t } from 'i18n-js';
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -46,7 +56,7 @@ if (
  */
 
 export default class EComCartView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       screenWidth: Dimensions.get('window').width,
@@ -59,7 +69,7 @@ export default class EComCartView extends React.Component {
 
       // Keyboard show indicator
       screenY: new Animated.Value(0),
-      scrollViewBtmMargin: {paddingBottom: 150},
+      scrollViewBtmMargin: { paddingBottom: 150 },
 
       // Cart Data
       voucher_code: "",
@@ -100,7 +110,7 @@ export default class EComCartView extends React.Component {
   /****************************************************************/
 
   // Navigation Tab
-  static navigationOptions = ({navigation, navigationOptions}) => {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
     var navigateToScreen = params.this;
 
@@ -114,7 +124,7 @@ export default class EComCartView extends React.Component {
       //   </TouchableOpacity>
       // ),
       headerRight: (
-        <View style={{width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10}}></View>
+        <View style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10 }}></View>
       ),
     }
   }
@@ -123,7 +133,7 @@ export default class EComCartView extends React.Component {
   /*********************** COMPONENT  *****************************/
   /****************************************************************/
 
-  componentDidMount(){
+  componentDidMount() {
     // this.props.navigation.setParams({this: this.navigateToScreen});
     this.handleGetCartList();
 
@@ -131,22 +141,22 @@ export default class EComCartView extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide.bind(this));
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     console.log(this.props.navigation)
     // Cart Update
     var cartUpdate = this.props.navigation.getParam('cartUpdate', false);
-    if(cartUpdate && this.props.navigation != prevProps.navigation){
-      this.props.navigation.setParams({cartUpdate: false});
+    if (cartUpdate && this.props.navigation != prevProps.navigation) {
+      this.props.navigation.setParams({ cartUpdate: false });
       this.handleGetCartList();
     }
   }
 
-  handleFetchDataIndicator(status, text=""){
+  handleFetchDataIndicator(status, text = "") {
     this.setState({
       fetch_data: status,
       fetch_data_text: text ? text : 'Fetching data...'
@@ -157,33 +167,33 @@ export default class EComCartView extends React.Component {
   /******************** FUNCTIONALITY *****************************/
   /****************************************************************/
 
-  keyboardDidShow(e){
+  keyboardDidShow(e) {
     // Animated.timing(this.state.screenY,{
     //   toValue : 0 - e.endCoordinates.height,
     //   duration : e.duration
     // }).start();
 
     this.setState({
-      scrollViewBtmMargin: {paddingBottom: e.endCoordinates.height + Metrics.basePadding}
+      scrollViewBtmMargin: { paddingBottom: e.endCoordinates.height + Metrics.basePadding }
     });
   }
-  
-  keyboardDidHide(e){
+
+  keyboardDidHide(e) {
     // Animated.timing(this.state.screenY,{
     //   toValue : 0,
     //   duration : e.duration
     // }).start();
 
     this.setState({
-      scrollViewBtmMargin: {paddingBottom: 150}
+      scrollViewBtmMargin: { paddingBottom: 150 }
     });
   }
 
-  handleGetCartList(){
+  handleGetCartList() {
     this.handleFetchDataIndicator(true, "Fetching Cart Data...");
     var cart_data = this.eComProductItemControllers.getCartList();
     cart_data.then((res) => {
-      if(res.result == 1){
+      if (res.result == 1) {
         this.setState({
           firstLoad: false,
           cart_list: res.item_data,
@@ -202,7 +212,7 @@ export default class EComCartView extends React.Component {
     })
   }
 
-  handleItemQtyUpdate(action, index, value){
+  handleItemQtyUpdate(action, index, value) {
     this.handleFetchDataIndicator(true, "Updating Quantity...");
     var cart_list = this.state.cart_list;
     var qty = cart_list[index].qty;
@@ -218,12 +228,12 @@ export default class EComCartView extends React.Component {
       case 'edit':
         qty = value;
         break;
-    
+
       default:
         break;
     }
-    
-    if(qty >= 1){
+
+    if (qty >= 1) {
       // Update cart to server
       var product_data = {
         product_sku_id: cart_list[index].product_sku_id,
@@ -231,7 +241,7 @@ export default class EComCartView extends React.Component {
       }
       var update_result = this.eComProductItemControllers.updateQtyToCart(product_data);
       update_result.then((res) => {
-        if(res.result == 1){
+        if (res.result == 1) {
           // Update local cart_list data
           cart_list[index].qty = qty;
           this.setState({
@@ -239,7 +249,7 @@ export default class EComCartView extends React.Component {
             flatListRentalTrigger: !this.state.flatListRentalTrigger
           });
         } else {
-          if(res.data.error_code == "stock_not_enough"){
+          if (res.data.error_code == "stock_not_enough") {
             var product_available_qty = cart_list[index].full_product_data.quantity;
             Alert.alert("Error", `${res.data.msg} Stock available quantity is ${product_available_qty}.`);
           } else {
@@ -251,18 +261,18 @@ export default class EComCartView extends React.Component {
     } else {
       this.handleFetchDataIndicator(false);
     }
-    
-    
+
+
   }
 
-  handleRemoveItemFromCart(index){
+  handleRemoveItemFromCart(index) {
     this.handleFetchDataIndicator(true, "Deleting item...");
     var cart_list = this.state.cart_list;
     var product_sku_id = cart_list[index].product_sku_id;
-    
+
     var del_result = this.eComProductItemControllers.deleteItemFromCart(product_sku_id);
     del_result.then((res) => {
-      if(res.result == 1){
+      if (res.result == 1) {
         // Remove item from local cart_list
         cart_list.splice(index, 1);
         this.setState({
@@ -281,9 +291,9 @@ export default class EComCartView extends React.Component {
   /****************************************************************/
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
         size={"large"}
         text={`${this.state.fetch_data_text}`}
@@ -292,131 +302,128 @@ export default class EComCartView extends React.Component {
   }
 
   // Render Cart Products list
-  handleRenderCartProductsContainer(){
-    return(
+  handleRenderCartProductsContainer() {
+    return (
       this.state.fetch_data
-      ?
-      <View/>
-      :
-      <View style={{flex: 1}}>
-        
-        {/* Edit Mode */}
-        {this.handleRenderEditModeContainer()}
-        
-        <Animated.ScrollView 
-          contentContainerStyle={[this.state.scrollViewBtmMargin]}
+        ?
+        <View />
+        :
+        <View style={{ flex: 1 }}>
+
+          {/* Edit Mode */}
+          {this.handleRenderEditModeContainer()}
+
+          <Animated.ScrollView
+            contentContainerStyle={[this.state.scrollViewBtmMargin]}
           // style={{
           //   transform: [{scaleY: this.state.screenY}]
           // }}
-        >
-        
-          {/* Cart List */}
-          <View>
-            <FlatList 
-              data={this.state.cart_list}
-              renderItem={this.handleRenderCartListItemContainer}
-              extraData={this.state.flatListRentalTrigger}
-              keyExtractor={(item, index)=>`${index}`}
-              scrollEnabled={false}
-            />
-          </View>
+          >
 
-        </Animated.ScrollView>
+            {/* Cart List */}
+            <View>
+              <FlatList
+                data={this.state.cart_list}
+                renderItem={this.handleRenderCartListItemContainer}
+                extraData={this.state.flatListRentalTrigger}
+                keyExtractor={(item, index) => `${index}`}
+                scrollEnabled={false}
+              />
+            </View>
 
-        {/* Checkout Button */}
-        {this.handleRenderCheckoutButtonContainer()}
-      </View>
+          </Animated.ScrollView>
+
+          {/* Checkout Button */}
+          {this.handleRenderCheckoutButtonContainer()}
+        </View>
     )
   }
 
-  handleRenderEditModeContainer(){
-    return(
+  handleRenderEditModeContainer() {
+    return (
       // <View>
-        <TouchableOpacity 
+      <TouchableOpacity
+        style={{
+          paddingTop: Metrics.smallPadding,
+          paddingHorizontal: Metrics.smallPadding,
+          alignSelf: 'flex-end',
+        }}
+        onPress={() => {
+          this.setState({
+            is_delete_mode: !this.state.is_delete_mode,
+            flatListRentalTrigger: !this.state.flatListRentalTrigger
+          }, () => {
+            Animated.timing(this.state.deleteButtonTranslateX, {
+              toValue: this.state.is_delete_mode ? 0 : 100,
+              duration: 320
+            }).start();
+          })
+        }}
+      >
+        <Label
+          text={this.state.is_delete_mode ? `Done` : `Edit`}
           style={{
-            paddingTop: Metrics.smallPadding, 
-            paddingHorizontal: Metrics.smallPadding, 
+            fontSize: Fonts.size.regular,
+            color: Colors.primary,
             alignSelf: 'flex-end',
           }}
-          onPress={()=>{
-            this.setState({
-              is_delete_mode: !this.state.is_delete_mode,
-              flatListRentalTrigger: !this.state.flatListRentalTrigger
-            }, () => {
-              Animated.timing(this.state.deleteButtonTranslateX,{
-                toValue : this.state.is_delete_mode ? 0 : 100,
-                duration : 320
-              }).start();
-            })
-          }}
-        >
-          <Label 
-            text={this.state.is_delete_mode ? `Done` : `Edit`}
-            style={{
-              fontSize: Fonts.size.regular,
-              color: Colors.primary,
-              alignSelf: 'flex-end',
-            }}
-          />
-        </TouchableOpacity>
+        />
+      </TouchableOpacity>
       // </View>
     )
   }
 
-  handleRenderCartListItemContainer = ({item, index}) =>{
-    return(
-      <TouchableOpacity 
-        activeOpacity={0.9}
-        style={{
-          backgroundColor: Colors.body,
-          borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
-          flex: 1, flexDirection: 'row',
-          marginVertical: Metrics.smallMargin,
-        }}
+  handleRenderCartListItemContainer = ({ item, index }) => {
+    return (
+      <Card
+        containerStyle={tailwind("flex rounded-lg opacity-100 ")}
         onPress={() => {
           this.props.navigation.navigate("EComProductItemScreen", {
             product_data: item.full_product_data
           })
         }}
       >
-        {/* Left - Product Image */}
-        {this.handleRenderCartItemImageContainer(item, index)}
-
-        {/* Right - Product Details */}
-        <View style={{
-          flex: 1,
-          paddingHorizontal: Metrics.smallPadding,
-          paddingVertical: Metrics.basePadding,
-        }}>
-          
-          {/* Prod Desc */}
-          {this.handleRenderCartItemProdDescContainer(item, index)}
-
-          {/* Prod Variation */}
-          {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
-
-          {/* Prod Price */}
-          {this.handleRenderCartItemProdPriceContainer(item, index)}
-
-          {/* Prod Quantity */}
-          {this.handleRenderCartItemProdQuantityContainer(item, index)}
-
-          {/* Item Total Amount */}
-          {this.handleRenderCartItemProdTotalAmountContainer(item, index)}
-
-          {/* Delete Item Button */}
-          {this.handleRenderCartItemDeleteButton(item, index)}
-          
+        <View style={tailwind("flex-row justify-around ")}>
+          <View style={tailwind("items-center justify-center")}>
+            {/* Left - Product Image */}
+            {this.handleRenderCartItemImageContainer(item, index)}
+          </View>
+          <View style={tailwind("justify-center")}>
+            <View>
+              {/* Right - Product Details */}
+              {/* Prod Desc */}
+              {this.handleRenderCartItemProdDescContainer(item, index)}
+            </View>
+            {/* Prod Variation */}
+            {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
+            <View style={tailwind("self-start")}>
+              {/* Prod Price */}
+              {this.handleRenderCartItemProdPriceContainer(item, index)}
+            </View>
+          </View>
         </View>
-
-      </TouchableOpacity>
+        <View style={tailwind("flex-col justify-center items-center")}>
+          <View>
+            {/* Prod Quantity */}
+            {this.handleRenderCartItemProdQuantityContainer(item, index)}
+          </View>
+          <View>
+            {/* Item Total Amount */}
+            {/* {this.handleRenderCartItemProdTotalAmountContainer(item, index)} */}
+          </View>
+          {/* Delete Item Button */}
+          {/* {this.handleRenderCartItemDeleteButton(item, index)} */}
+        </View>
+      </Card>
     )
   }
 
-  handleRenderCartItemImageContainer(item, index){
-    return(
-      <View style={{paddingVertical: Metrics.basePadding, paddingLeft: Metrics.smallPadding}}>
-        <Image 
+  handleRenderCartItemImageContainer(item, index) {
+    return (
+      <View
+      // style={{ paddingVertical: Metrics.basePadding, paddingLeft: Metrics.smallPadding }}
+      >
+        <Image
           source={item.images}
           style={{
             width: SCREEN_WIDTH * 0.2,
@@ -428,9 +435,9 @@ export default class EComCartView extends React.Component {
     )
   }
 
-  handleRenderCartItemProdDescContainer(item, index){
-    return(
-      <Label 
+  handleRenderCartItemProdDescContainer(item, index) {
+    return (
+      <Label
         text={`${item.product_name}`}
         style={{
           fontSize: Fonts.size.regular,
@@ -442,9 +449,9 @@ export default class EComCartView extends React.Component {
     )
   }
 
-  handleRenderCartItemProdVariationContainer(item, index){
-    return(
-      <Label 
+  handleRenderCartItemProdVariationContainer(item, index) {
+    return (
+      <Label
         text={`Variation: ${item.variation}`}
         style={{
           fontSize: Fonts.size.medium,
@@ -454,31 +461,29 @@ export default class EComCartView extends React.Component {
     )
   }
 
-  handleRenderCartItemProdPriceContainer(item, index){
-    return(
-      <Label 
+  handleRenderCartItemProdPriceContainer(item, index) {
+    return (
+      <Label
         text={`${this.state.currency_symbol} ${item.prod_price}`}
         style={{
           fontSize: Fonts.size.regular,
           fontWeight: 'bold',
           color: Colors.primary,
-          paddingVertical: Metrics.basePadding
+          // paddingVertical: Metrics.basePadding
         }}
       />
     )
   }
 
-  handleRenderCartItemProdQuantityContainer(item, index){
-    return(
-      <View style={{
-        flexDirection: 'row',
-      }}>
-        <TouchableOpacity 
+  handleRenderCartItemProdQuantityContainer(item, index) {
+    return (
+      <View style={tailwind("flex-row")}>
+        {/* <TouchableOpacity
           style={{
             borderWidth: 1, borderColor: Colors.border_line,
             width: 25, height: 25
           }}
-          onPress={()=>{
+          onPress={() => {
             // var cart_list = this.state.cart_list;
             // cart_list[index].qty -= 1;
             // this.setState({
@@ -487,7 +492,7 @@ export default class EComCartView extends React.Component {
             // });
             this.handleItemQtyUpdate("sub", index, 1);
           }}
-          // disabled={this.state.cart_list[index].qty <= 1 ? true : false}
+        // disabled={this.state.cart_list[index].qty <= 1 ? true : false}
         >
           <Label
             text={`-`}
@@ -497,10 +502,20 @@ export default class EComCartView extends React.Component {
               textAlign: 'center'
             }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Button
+          title="__"
+          type="clear"
+          onPress={() => {
+            this.handleItemQtyUpdate("sub", index, 1);
+          }}
+          containerStyle={tailwind("border-2 border-primary mx-1 h-12 w-12 justify-center rounded-lg opacity-100")}
+          buttonStyle={tailwind("border-red-600 ")}
+          titleStyle={tailwind("text-black font-bold text-lg")}
+        />
 
-        <TextInput 
-          onEndEditing={(value)=>{
+        <TextInput
+          onEndEditing={(value) => {
             // var cart_list = this.state.cart_list;
             // cart_list[index].qty = value;
             // this.setState({
@@ -511,22 +526,33 @@ export default class EComCartView extends React.Component {
           }}
           defaultValue={`${item.qty}`}
           keyboardType={'number-pad'}
-          style={{
-            fontSize: Fonts.size.regular,
-            color: Colors.primary,
-            textAlign: 'center',
-            width: 80, 
-            paddingHorizontal: Metrics.basePadding,
-            borderWidth: 1, borderColor: Colors.border_line
+          // style={{
+          //   fontSize: Fonts.size.regular,
+          //   color: Colors.primary,
+          //   textAlign: 'center',
+          //   width: 80,
+          //   paddingHorizontal: Metrics.basePadding,
+          //   borderWidth: 1, borderColor: Colors.border_line
+          // }}
+          style={tailwind("text-2xl text-black text-center h-12 w-16 ")}
+        />
+        <Button
+          title="+"
+          type="clear"
+          onPress={() => {
+            this.handleItemQtyUpdate("add", index, 1);
           }}
+          containerStyle={tailwind("border-2 border-black mx-1 h-12 w-12 justify-center rounded-lg opacity-100")}
+          buttonStyle={tailwind("border-red-600 border-black border-transparent")}
+          titleStyle={tailwind("text-black font-bold text-2xl ")}
         />
 
-        <TouchableOpacity 
+        {/* <TouchableOpacity
           style={{
             borderWidth: 1, borderColor: Colors.border_line,
             width: 25, height: 25
           }}
-          onPress={()=>{
+          onPress={() => {
             // var cart_list = this.state.cart_list;
             // cart_list[index].qty += 1;
             // this.setState({
@@ -544,16 +570,19 @@ export default class EComCartView extends React.Component {
               textAlign: 'center'
             }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     )
   }
 
-  handleRenderCartItemProdTotalAmountContainer(item, index){
+  handleRenderCartItemProdTotalAmountContainer(item, index) {
     var total_amount = parseFloat(item.prod_price) * item.qty;
-    return(
-      <View style={{marginVertical: Metrics.smallMargin}}>
-        <Label 
+    return (
+      <View 
+      // style={{ marginVertical: Metrics.smallMargin }}
+      style={tailwind("mt-3")}
+      >
+        <Label
           text={`Total Amount: ${this.state.currency_symbol} ${total_amount.toFixed(2)}`}
           style={{
             fontSize: Fonts.size.regular,
@@ -565,16 +594,16 @@ export default class EComCartView extends React.Component {
     )
   }
 
-  handleRenderCartItemDeleteButton(item, index){
-    return(
+  handleRenderCartItemDeleteButton(item, index) {
+    return (
       <Animated.View style={{
         backgroundColor: Colors.button_red,
         position: 'absolute',
         right: 0, top: 0, bottom: 0,
-        transform: [{translateX: this.state.deleteButtonTranslateX}]
+        transform: [{ translateX: this.state.deleteButtonTranslateX }]
       }}>
-        <TouchableOpacity 
-          onPress={()=>{
+        <TouchableOpacity
+          onPress={() => {
             this.handleRemoveItemFromCart(index);
           }}
           style={{
@@ -584,7 +613,7 @@ export default class EComCartView extends React.Component {
             paddingHorizontal: Metrics.smallPadding,
           }}
         >
-          <Label 
+          <Label
             text={`Delete`}
             style={{
               fontSize: Fonts.size.input,
@@ -597,8 +626,8 @@ export default class EComCartView extends React.Component {
     )
   }
 
-  handleRenderCheckoutButtonContainer(){
-    return(
+  handleRenderCheckoutButtonContainer() {
+    return (
       <View style={{
         position: 'absolute',
         bottom: 0, right: 0, left: 0,
@@ -613,7 +642,7 @@ export default class EComCartView extends React.Component {
           paddingVertical: Metrics.basePadding,
           justifyContent: 'center'
         }}>
-          <Label 
+          <Label
             text={`Sub Total: `}
             style={{
               fontSize: Fonts.size.input,
@@ -621,9 +650,9 @@ export default class EComCartView extends React.Component {
             }}
           />
 
-          <Label 
+          <Label
             text={`${this.state.currency_symbol} ${this.state.cart_list.reduce((total, currentValue, index, arr) => {
-              return total + (currentValue.qty * currentValue.prod_price );
+              return total + (currentValue.qty * currentValue.prod_price);
             }, 0).toFixed(2)}`}
             style={{
               fontSize: Fonts.size.input,
@@ -634,11 +663,11 @@ export default class EComCartView extends React.Component {
         </View>
 
         {/* Checkout Button */}
-        <AppsButton 
-          text={`Checkout`} 
+        <AppsButton
+          text={`Checkout`}
           backgroundColor={Colors.primary}
           fontSize={Fonts.size.h6}
-          onPress={()=>{
+          onPress={() => {
             this.props.navigation.replace("EComCheckoutScreen");
           }}
         />
@@ -649,18 +678,18 @@ export default class EComCartView extends React.Component {
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
-        
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+
         {/* Screen on loading, hide default state data */}
         {
           this.state.firstLoad
-          ?
-            <View/>
-          :
+            ?
+            <View />
+            :
             // Cart Products list
             this.handleRenderCartProductsContainer()
         }
-        
+
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
 
