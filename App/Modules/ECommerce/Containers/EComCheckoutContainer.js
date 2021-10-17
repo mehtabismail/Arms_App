@@ -868,17 +868,19 @@ export default class EComCheckoutView extends React.Component {
 
   handleRenderCartListItemContainer = ({ item, index }) => {
     return (
-      <Card containerStyle={tailwind(' bg-white rounded-lg opacity-100')}>
-        <View style={tailwind('flex-1 flex-row')}>
+      <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
+        <View style={tailwind('flex-row ')}>
           <View style={tailwind('justify-center items-center')}>
             {/* Left - Product Image */}
             {this.handleRenderCartItemImageContainer(item, index)}
           </View>
 
-          <View style={{ marginHorizontal: Metrics.basePadding, flexDirection: "column", justifyContent: "center" }}>
+          <View style={{flexShrink: 1, marginLeft: Metrics.basePadding, flexDirection: "column", justifyContent: "center" }}>
             {/* Right - Product Details */}
             {/* Prod Desc */}
-            {this.handleRenderCartItemProdDescContainer(item, index)}
+            <View>
+              {this.handleRenderCartItemProdDescContainer(item, index)}
+            </View>
             <View style={tailwind("mt-1")}>
               {/* Prod Variation */}
               {/* {this.handleRenderCartItemProdVariationContainer(item, index)} */}
@@ -918,12 +920,13 @@ export default class EComCheckoutView extends React.Component {
     return (
       <Label
         text={`${item.product_name}`}
-        style={{
-          fontSize: Fonts.size.large,
-          fontWeight: "bold",
-          color: Colors.button_background,
-        }}
-        numberOfLines={1}
+        style={tailwind("flex flex-wrap text-lg font-bold text-primary")}
+        // {{
+        //   fontSize: Fonts.size.large,
+        //   fontWeight: "bold",
+        //   color: Colors.button_background,
+        // }}
+        numberOfLines={3}
         ellipsizeMode={'tail'}
       />
     )
@@ -961,9 +964,7 @@ export default class EComCheckoutView extends React.Component {
         text={`Quantity: ${item.qty}`}
         style={{
           fontSize: Fonts.size.regular,
-          // fontWeight: 'bold',
           color: Colors.primary,
-          // paddingVertical: Metrics.smallPadding
         }}
       />
     )
@@ -974,12 +975,8 @@ export default class EComCheckoutView extends React.Component {
     return (
       <Label
         text={`Total Amount: ${this.state.currency_symbol} ${total_amount.toFixed(2)}`}
-        style={{
-          fontSize: Fonts.size.regular,
-          // fontWeight: 'bold',
-          color: Colors.primary,
-          // paddingVertical: Metrics.smallPadding
-        }}
+        style={tailwind("flex flex-wrap text-primaryBlue text-base")}
+        numberOfLines={2}
       />
     )
   }
@@ -997,10 +994,10 @@ export default class EComCheckoutView extends React.Component {
           <Label
             text={`iPay88`}
             style={tailwind("text-primaryBlue text-lg")}
-            // style={{
-            //   color: Colors.primary,
-            //   fontSize: Fonts.size.h6,
-            // }}
+          // style={{
+          //   color: Colors.primary,
+          //   fontSize: Fonts.size.h6,
+          // }}
           />
         </View>
       </Card>
@@ -1019,22 +1016,22 @@ export default class EComCheckoutView extends React.Component {
           <View >
 
             {/* Total Items Amount */}
-            <View 
-            // style={{
-            //   flexDirection: 'row',
-            //   // paddingVertical: Metrics.smallPadding,
-            //   justifyContent: 'space-between',
-            // }}
-            style={tailwind("flex-row justify-between mt-5")}
+            <View
+              // style={{
+              //   flexDirection: 'row',
+              //   // paddingVertical: Metrics.smallPadding,
+              //   justifyContent: 'space-between',
+              // }}
+              style={tailwind("flex-row justify-between mt-5")}
             >
               <Label
                 text={`Total Items Amount: `}
-              //   style={{
-              //     fontSize: Fonts.size.large,
-              //     color: Colors.primary
-              //   }
-              // }
-              style={tailwind("text-primaryBlue text-lg")}
+                //   style={{
+                //     fontSize: Fonts.size.large,
+                //     color: Colors.primary
+                //   }
+                // }
+                style={tailwind("text-primaryBlue text-lg")}
               />
 
               <Label
@@ -1169,21 +1166,21 @@ export default class EComCheckoutView extends React.Component {
         // }}
         >
           <Input
-         placeholder={`Please enter your shipping note here...`}
-         value={`${this.state.shipping_notes}`}
-        //  multiline={true}
-         onChangeText={(value) => {
-           this.setState({
-             shipping_notes: value
-           });
-         }}
-          
+            placeholder={`Please enter your shipping note here...`}
+            value={`${this.state.shipping_notes}`}
+            //  multiline={true}
+            onChangeText={(value) => {
+              this.setState({
+                shipping_notes: value
+              });
+            }}
 
-          inputStyle={tailwind("text-gray-400 text-base")}
-          inputContainerStyle={tailwind("border-transparent")}
-          containerStyle={tailwind(" h-12 border border-gray-400 rounded-lg")}
-        />
-         
+
+            inputStyle={tailwind("text-gray-400 text-base")}
+            inputContainerStyle={tailwind("border-transparent")}
+            containerStyle={tailwind(" h-12 border border-gray-400 rounded-lg")}
+          />
+
         </View>
       </Card>
     )
