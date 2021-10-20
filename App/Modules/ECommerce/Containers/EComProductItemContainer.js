@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
   LoadingIndicator, Label, AppsButton, DiscountLabel, Divider, SmallBadge,
 } from '../../../Services/LibLinking';
@@ -28,6 +28,8 @@ import EComProductItemControllers from '../Actions/EComProductItemControllers';
 import { NavigationActions, DrawerActions, SafeAreaView } from 'react-navigation';
 import { TextInput } from 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
+import { tailwind } from '../../../../tailwind';
+import { Card, Icon, Text, Button } from 'react-native-elements';
 
 /**
  * TODO: 
@@ -47,7 +49,7 @@ if (
 }
 
 export default class EComProductItemView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       screenWidth: Dimensions.get('window').width,
@@ -89,11 +91,11 @@ export default class EComProductItemView extends React.Component {
       prod_variation_selected: -1,
       prod_variation_label: "Size",
       prod_variation_list: [
-        {key: "1", data: "128goawk"},
-        {key: "2", data: "128gdadawdawdawd"},
-        {key: "3", data: "128g"},
-        {key: "4", data: "128g"},
-        {key: "5", data: "128g"},
+        { key: "1", data: "128goawk" },
+        { key: "2", data: "128gdadawdawdawd" },
+        { key: "3", data: "128g" },
+        { key: "4", data: "128g" },
+        { key: "5", data: "128g" },
       ],
 
       // Product Quantity
@@ -116,79 +118,63 @@ export default class EComProductItemView extends React.Component {
   /************************ HEADER ********************************/
   /****************************************************************/
 
+
   // Navigation Tab
-  static navigationOptions = ({navigation, navigationOptions}) => {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
     var navigateToScreen = params.this;
 
     return {
-      title: '',
+      title: 'Header',
       headerLeft: (
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            opacity: 1,
+            elevation: 20, shadowColor: "black",
+            shadowOpacity: 1, flexDirection: "row",
+            marginTop: 30, marginLeft: 18, height: 40, width: 40,
+            borderRadius: 10,
+          }}
+        >
           {/* Back Button */}
-          <TouchableOpacity 
-            style={{
-              padding: Metrics.smallPadding, 
-              marginLeft: Metrics.basePadding,
-              backgroundColor: Colors.primary,
-              borderRadius: 30, borderWidth: 0.5, borderColor: Colors.secondary,
-              opacity: 0.9
-            }} 
+          <TouchableOpacity
+            style={tailwind("bg-white rounded w-full h-full justify-center items-center opacity-100")}
             onPress={() => navigation.goBack()}>
-            <Image
-              style={{
-                width: Metrics.icons.medium, height: Metrics.icons.medium, 
-                tintColor: Colors.secondary
-              }} 
-              source={Images.arrowLeft}/>
+            <Icon
+              name='chevron-back-outline'
+              type='ionicon'
+              color='black'
+              size={32}
+            />
           </TouchableOpacity>
-
+        </View>
+      ),
+      headerRight: (
+        <View
+          style={{
+            elevation: 20, shadowColor: "black",
+            shadowOpacity: 1, flexDirection: "row",
+            marginTop: 30, marginRight: 18, height: 40, width: 40,
+            borderRadius: 10,
+          }}
+        >
           {/* Cart Button */}
-          <TouchableOpacity 
-            style={{
-              padding: Metrics.smallPadding + 5, 
-              marginLeft: Metrics.basePadding,
-              backgroundColor: Colors.primary,
-              borderRadius: 30, borderWidth: 0.5, borderColor: Colors.secondary,
-              opacity: 0.9
-            }} 
-            onPress={() => navigation.navigate("EComCartScreen", {cartUpdate: true})}>
-            <Image
-              style={{
-                width: Metrics.icons.small, height: Metrics.icons.small, 
-                tintColor: Colors.secondary
-              }} 
-              source={Images.shopping_cart}/>
-            
-            <SmallBadge 
+          <TouchableOpacity
+            style={tailwind("bg-white rounded w-full h-full justify-center items-center opacity-100")}
+            onPress={() => navigation.navigate("EComCartScreen", { cartUpdate: true })}>
+            <Icon
+              name='cart-outline'
+              type='ionicon'
+              color='black'
+              size={32}
+            />
+            <SmallBadge
               data={`${params.cart_item_count ? params.cart_item_count : ''}`}
               positionTop={2}
             />
           </TouchableOpacity>
         </View>
-        
-      ),
-      // headerRight: (
-      //   <View>
-      //     {/* Cart Button */}
-      //     <TouchableOpacity 
-      //       style={{
-      //         padding: Metrics.smallPadding + 5, 
-      //         marginRight: Metrics.basePadding,
-      //         backgroundColor: Colors.primary,
-      //         borderRadius: 30, borderWidth: 0.5, borderColor: Colors.secondary,
-      //         opacity: 0.9
-      //       }} 
-      //       onPress={() => navigation.navigate("EComCartScreen")}>
-      //       <Image
-      //         style={{
-      //           width: Metrics.icons.small, height: Metrics.icons.small, 
-      //           tintColor: Colors.secondary
-      //         }} 
-      //         source={Images.shopping_cart}/>
-      //     </TouchableOpacity>
-      //   </View>
-      // ),
+      )
     }
   }
 
@@ -198,7 +184,7 @@ export default class EComProductItemView extends React.Component {
       routeName: "DrawerStack",
       params: params,
     });
-    
+
     navigation.dispatch(navigateAction);
     navigation.dispatch(DrawerActions.openDrawer());
   }
@@ -207,7 +193,7 @@ export default class EComProductItemView extends React.Component {
   /*********************** COMPONENT  *****************************/
   /****************************************************************/
 
-  componentDidMount(){
+  componentDidMount() {
     // this.props.navigation.setParams({this: this.navigateToScreen});
     var product_data = this.props.navigation.getParam("product_data", {});
     this.setState({
@@ -226,16 +212,16 @@ export default class EComProductItemView extends React.Component {
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
     this.focusListener.remove();
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
   }
 
-  handleFetchDataIndicator(status, text=""){
+  handleFetchDataIndicator(status, text = "") {
     this.setState({
       fetch_data: status,
       fetch_data_text: text ? text : 'Fetching data...'
@@ -246,7 +232,7 @@ export default class EComProductItemView extends React.Component {
   /******************** FUNCTIONALITY *****************************/
   /****************************************************************/
 
-  keyboardDidShow(e){
+  keyboardDidShow(e) {
     // alert(JSON.stringify(e.endCoordinates));
     // e.endCoordinates.screenY
     // e.endCoordinates.height
@@ -256,24 +242,24 @@ export default class EComProductItemView extends React.Component {
     //   modalTranslateY: 0 - e.endCoordinates.height
     // })
 
-    Animated.timing(this.state.modalTranslateY,{
-      toValue : 0 - e.endCoordinates.height,
-      duration : e.duration
+    Animated.timing(this.state.modalTranslateY, {
+      toValue: 0 - e.endCoordinates.height,
+      duration: e.duration
     }).start();
   }
-  
-  keyboardDidHide(e){
+
+  keyboardDidHide(e) {
     // this.setState({
     //   modalTranslateY: 0,
     // })
 
-    Animated.timing(this.state.modalTranslateY,{
-      toValue : 0,
-      duration : e.duration
+    Animated.timing(this.state.modalTranslateY, {
+      toValue: 0,
+      duration: e.duration
     }).start();
-  }  
+  }
 
-  addItemToCart(){
+  addItemToCart() {
     this.handleFetchDataIndicator(true, "Adding to cart...");
     var product_data = {
       product_sku_id: this.state.product_data.product_sku_id,
@@ -283,7 +269,7 @@ export default class EComProductItemView extends React.Component {
     var return_result = this.eComProductItemControllers.addItemToCart(product_data);
     return_result.then((res) => {
       // alert(JSON.stringify(res));
-      if(res.result == 1){
+      if (res.result == 1) {
         Alert.alert("Added", "Item Added To Cart.");
       } else {
         Alert.alert("Oops..", res.data.msg);
@@ -294,9 +280,9 @@ export default class EComProductItemView extends React.Component {
     })
   }
 
-  async handleGetCartItemCount(){
+  async handleGetCartItemCount() {
     var cart_item_count = await this.eComProductItemControllers.getCartItemCount();
-    this.props.navigation.setParams({cart_item_count});
+    this.props.navigation.setParams({ cart_item_count });
   }
 
   /****************************************************************/
@@ -304,9 +290,9 @@ export default class EComProductItemView extends React.Component {
   /****************************************************************/
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
         size={"large"}
         text={`${this.state.fetch_data_text}`}
@@ -315,113 +301,135 @@ export default class EComProductItemView extends React.Component {
   }
 
   // Render Product
-  handleRenderProductContainer(){
-    return(
+  handleRenderProductContainer() {
+    return (
       this.state.fetch_data
-      ?
-      <View/>
-      :
-      <View style={{flex: 1}}>
-        
-        <ScrollView contentContainerStyle={{
-          paddingBottom: Metrics.mainContainerMargin
-        }}>
+        ?
+        <View />
+        :
+        <View style={tailwind("flex-1 bg-light")}>
+          <View style={{ height: 80, width: "100%" }}></View>
+          <ScrollView contentContainerStyle={{
+            paddingBottom: Metrics.mainContainerMargin
+          }}>
 
-          {/* Product Image, Desc & Price */}
-          {this.handleRenderProdImgDescPriceContainer()}
+            <View>
+              {/* Product Image, Desc & Price */}
+              {this.handleRenderProdImgDescPriceContainer()}
+            </View>
 
-          {/* Product Variation */}
-          {/* NOTE: Temp disabled due to product data from server cannot support */}
-          {/* {this.handleRenderProdVariationContainer()} */}
+            {/* Product Variation */}
+            {/* NOTE: Temp disabled due to product data from server cannot support */}
+            {/* {this.handleRenderProdVariationContainer()} */}
 
-          {/* Product Details */}
-          {this.handleRenderProdDescContainer()}
+            {/* Product Details */}
+            {this.handleRenderProdDescContainer()}
 
-        </ScrollView>
+          </ScrollView>
 
-        {/* Add To Cart Button */}
-        {this.handleRenderAddToCartButtonContainer()}
+          {/* Add To Cart Button */}
+          {this.handleRenderAddToCartButtonContainer()}
 
-        {/* Prod Variation Modal */}
-        {this.handleRenderProdVariationModal()}
+          {/* Prod Variation Modal */}
+          {this.handleRenderProdVariationModal()}
+        </View>
+    )
+  }
+
+  // handleRenderProdImgDescPriceContainer(){
+  //   return(
+  //     <View style={[styles.ProdImgDescPriceContainer]}>
+
+  //       <View style={{
+  //         paddingVertical: Metrics.basePadding
+  //       }}>
+  //         {/* Product Images List */}
+  //         <FlatList 
+  //           data={this.state.product_data.images}
+  //           keyExtractor={(item, index)=>`${index}`}
+  //           renderItem={this.handleRenderProdImageItem}
+  //           extraData={this.state.flatListRentalTrigger}
+  //           horizontal={true}
+  //           disableIntervalMomentum={true}
+  //           pagingEnabled={true}
+  //           showsHorizontalScrollIndicator={false}
+  //         />
+  //       </View>
+
+  //       {/* Product Desc */}
+  //       <View style={[styles.ProdDescPriceContainer]}>
+  //         <Label 
+  //           text={`${this.state.product_data.product_name}`} 
+  //           style={[styles.ProdDescPriceText, {
+  //             marginRight: 80
+  //           }]}
+  //         />
+
+  //         {/* Product Discount Badge */}
+  //         {this.handleRenderProductDiscountPercentBadge(this.state.product_data.discount_per)}
+  //       </View>
+
+  //       {/* Product Price */}
+  //       <View style={[styles.ProdDescPriceContainer]}>
+  //         <Label 
+  //           text={`${this.state.product_data.currency_symbol} ${parseFloat(this.state.product_data.discount_amt) > 0 ? 
+  //                                                                 this.state.product_data.discounted_price : 
+  //                                                                 this.state.product_data.default_selling_price}`}
+  //           style={[styles.ProdDescPriceText, {fontWeight: 'bold'}]}
+  //         />
+
+  //         {/* If product discounted show Original Price */}
+  //         {
+  //           parseFloat(this.state.product_data.discount_amt)
+  //           ?
+  //           <Label 
+  //             text={`${this.state.product_data.currency_symbol} ${this.state.product_data.default_selling_price}`} 
+  //             style={[styles.ProdDescPriceOriginalText, {}]}
+  //           />
+  //           :
+  //           <View/>
+  //         }
+  //       </View>
+
+  //     </View>
+  //   )
+  // }
+
+
+  handleRenderProdImgDescPriceContainer() {
+    return (
+      <View >
+        {/* Product Images List */}
+        <FlatList
+          data={this.state.product_data.images}
+          keyExtractor={(item, index) => `${index}`}
+          renderItem={this.handleRenderProdImageItem}
+          extraData={this.state.flatListRentalTrigger}
+          horizontal={true}
+          disableIntervalMomentum={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     )
   }
 
-  handleRenderProdImgDescPriceContainer(){
-    return(
-      <View style={[styles.ProdImgDescPriceContainer]}>
 
-        <View style={{
-          paddingVertical: Metrics.basePadding
-        }}>
-          {/* Product Images List */}
-          <FlatList 
-            data={this.state.product_data.images}
-            keyExtractor={(item, index)=>`${index}`}
-            renderItem={this.handleRenderProdImageItem}
-            extraData={this.state.flatListRentalTrigger}
-            horizontal={true}
-            disableIntervalMomentum={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-
-        {/* Product Desc */}
-        <View style={[styles.ProdDescPriceContainer]}>
-          <Label 
-            text={`${this.state.product_data.product_name}`} 
-            style={[styles.ProdDescPriceText, {
-              marginRight: 80
-            }]}
-          />
-
-          {/* Product Discount Badge */}
-          {this.handleRenderProductDiscountPercentBadge(this.state.product_data.discount_per)}
-        </View>
-
-        {/* Product Price */}
-        <View style={[styles.ProdDescPriceContainer]}>
-          <Label 
-            text={`${this.state.product_data.currency_symbol} ${parseFloat(this.state.product_data.discount_amt) > 0 ? 
-                                                                  this.state.product_data.discounted_price : 
-                                                                  this.state.product_data.default_selling_price}`}
-            style={[styles.ProdDescPriceText, {fontWeight: 'bold'}]}
-          />
-
-          {/* If product discounted show Original Price */}
-          {
-            parseFloat(this.state.product_data.discount_amt)
-            ?
-            <Label 
-              text={`${this.state.product_data.currency_symbol} ${this.state.product_data.default_selling_price}`} 
-              style={[styles.ProdDescPriceOriginalText, {}]}
-            />
-            :
-            <View/>
-          }
-        </View>
-
-      </View>
-    )
-  }
-
-  handleRenderProdImageItem = ({item, index}) => {
-    return(
+  handleRenderProdImageItem = ({ item, index }) => {
+    return (
       <View>
-        <Image 
+        <Image
           source={item}
           style={{
             resizeMode: 'contain',
             width: SCREEN_WIDTH,
-            height: SCREEN_WIDTH,
+            height: SCREEN_WIDTH * 0.5,
           }}
         />
 
         {/* Total Images Indicator */}
         <View style={[styles.TotalProdImageIndicatorContainer]}>
-          <Label 
+          <Label
             text={`${index + 1} / ${this.state.product_data.images.length}`}
             style={{
               textAlign: 'center', fontSize: Fonts.size.medium,
@@ -433,19 +441,19 @@ export default class EComProductItemView extends React.Component {
     )
   }
 
-  handleRenderProductDiscountPercentBadge(discount_per){
-    return(
+  handleRenderProductDiscountPercentBadge(discount_per) {
+    return (
       discount_per > 0
-      ?
-      <DiscountLabel data={`Dis ${discount_per}%`}/>
-      :
-      <View/>
+        ?
+        <DiscountLabel data={`Dis ${discount_per}%`} />
+        :
+        <View />
     )
   }
 
-  handleRenderProdVariationContainer(){
-    return(
-      <TouchableOpacity 
+  handleRenderProdVariationContainer() {
+    return (
+      <TouchableOpacity
         style={{
           backgroundColor: Colors.body,
           borderColor: Colors.border_line, borderTopWidth: 1, borderBottomWidth: 1,
@@ -455,9 +463,9 @@ export default class EComProductItemView extends React.Component {
           flexDirection: 'row',
           justifyContent: 'space-between'
         }}
-        onPress={()=>{this.setState({is_pv_modal_show: true})}}
+        onPress={() => { this.setState({ is_pv_modal_show: true }) }}
       >
-        <Label 
+        <Label
           text={`Select Variation`}
           style={{
             color: Colors.primary,
@@ -465,7 +473,7 @@ export default class EComProductItemView extends React.Component {
             fontWeight: 'bold',
           }}
         />
-        <Label 
+        <Label
           text={`>`}
           style={{
             color: Colors.primary,
@@ -477,136 +485,125 @@ export default class EComProductItemView extends React.Component {
     )
   }
 
-  handleRenderProdDescContainer(){
-    return(
-      <View style={{
-        backgroundColor: Colors.body,
-        borderColor: Colors.border_line, borderTopWidth: 1, borderBottomWidth: 1,
-        marginTop: Metrics.smallMargin,
-        paddingHorizontal: Metrics.smallPadding,
-        paddingVertical: Metrics.basePadding,
-        flex: 1
-      }}>
-        {/* Product Details - Label */}
-        <Label 
-          text={`Product Details`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h6,
-            fontWeight: 'bold',
-            marginBottom: Metrics.baseMargin
-          }}
+  handleRenderProdDescContainer() {
+    return (
+      <View>
+        {/* Product Desc */}
+        <Card containerStyle={tailwind("rounded mb-3")}>
+          <View>
+            <Label
+              text={`${this.state.product_data.product_name}`}
+              style={tailwind("text-primary font-bold text-lg")}
+            />
+          </View>
+          {/* Product Discount Badge */}
+          {this.handleRenderProductDiscountPercentBadge(this.state.product_data.discount_per)}
+
+
+          {/* Product Price */}
+          <View style={tailwind("mt-2 mb-1")}>
+            <Label
+              text={`${this.state.product_data.currency_symbol} ${parseFloat(this.state.product_data.discount_amt) > 0 ?
+                this.state.product_data.discounted_price :
+                this.state.product_data.default_selling_price}`}
+              style={tailwind("text-primaryBlue font-normal")}
+            />
+
+            {/* If product discounted show Original Price */}
+            {
+              parseFloat(this.state.product_data.discount_amt)
+                ?
+                <Label
+                  text={`${this.state.product_data.currency_symbol} ${this.state.product_data.default_selling_price}`}
+                  style={[styles.ProdDescPriceOriginalText, {}]}
+                />
+                :
+                <View />
+            }
+          </View>
+          <Card.Divider />
+          {/* Product Details - Label */}
+          <Label
+            text={`Product Details`}
+            style={tailwind("text-primary font-bold text-lg")}
+          // {{
+          //   color: Colors.primary,
+          //   fontSize: Fonts.size.h6,
+          //   fontWeight: 'bold',
+          //   marginBottom: Metrics.baseMargin
+          // }}
+          />
+
+          {/* Product Details - Data */}
+          <View style={tailwind("text-primaryBlue font-normal text-lg mt-2")}>
+
+            {/* Stock */}
+            {this.handleRenderProdDescItemContainer("Stock", this.state.product_data.quantity)}
+
+            {/* Brand */}
+            {this.handleRenderProdDescItemContainer("Brand", this.state.product_data.brand)}
+
+            {/* Categories Tree */}
+            {this.handleRenderProdDescItemContainer("Category", this.state.product_data.category_tree)}
+
+            {/* Weight */}
+            {this.handleRenderProdDescItemContainer("Weight", this.state.product_data.weight)}
+
+            {/* Description */}
+            {this.handleRenderProdDescWebViewContainer("Description", this.state.product_data.description)}
+
+          </View>
+        </Card>
+      </View>
+    )
+  }
+
+  handleRenderProdDescItemContainer(label, data) {
+    return (
+      <View style={tailwind("flex-row w-full")} >
+        <Label
+          text={`${label}`}
+          style={tailwind("w-1/3 text-primaryBlue font-normal mb-1")}
         />
+        <Label
+          text={`${data}`}
+          style={tailwind("w-2/3 text-primaryBlue font-normal mb-1")}
+        />
+      </View>
+    )
+  }
 
-        {/* Product Details - Data */}
-        <View>
-          
-          {/* Stock */}
-          {this.handleRenderProdDescItemContainer("Stock", this.state.product_data.quantity)}
-
-          {/* Brand */}
-          {this.handleRenderProdDescItemContainer("Brand", this.state.product_data.brand)}
-
-          {/* Categories Tree */}
-          {this.handleRenderProdDescItemContainer("Category", this.state.product_data.category_tree)}
-
-          {/* Weight */}
-          {this.handleRenderProdDescItemContainer("Weight", this.state.product_data.weight)}
-
-          {/* Description */}
-          {this.handleRenderProdDescWebViewContainer("Description", this.state.product_data.description)}
-
+  handleRenderProdDescWebViewContainer(label, data) {
+    return (
+      <View style={tailwind("w-full mt-3 ")}>
+        <Label
+          text={`${label}`}
+          style={tailwind("w-1/3 text-primary font-bold text-lg")}
+        />
+        <View style={tailwind("mt-1")}>
+          <HTML
+            html={`${data ? data : `<p>---</p>`}`}
+            baseFontStyle={tailwind("text-primaryBlue")}
+          />
         </View>
-
       </View>
     )
   }
 
-  handleRenderProdDescItemContainer(label, data){
-    return(
-      <View style={{
-        flexDirection: 'row',
-        width: '100%',
-        marginVertical: Metrics.smallMargin,
-      }}>
-        <Label 
-          text={`${label}`} 
-          style={{
-            width: '30%',
-            color: Colors.primary,
-            fontSize: Fonts.size.medium + 1,
-          }}
-        />
-        <Label 
-          text={`${data}`} 
-          style={{
-            width: '70%',
-            paddingLeft: Metrics.smallPadding,
-            color: Colors.primary,
-            fontSize: Fonts.size.medium + 1,
-          }}
-        />
-      </View>
-    )
-  }
-
-  handleRenderProdDescWebViewContainer(label, data){
-    return(
-      <View style={{
-        width: '100%',
-        marginVertical: Metrics.smallMargin,
-        marginTop: Metrics.baseMargin,
-      }}>
-        <Divider 
-          lineColor={Colors.primary} 
-          lineWidth={1} 
-          opacity={0.7} 
-        />
-
-        <Label 
-          text={`${label}`} 
-          style={{
-            width: '30%',
-            color: Colors.primary,
-            fontSize: Fonts.size.medium + 1,
-            fontWeight: 'bold',
-            marginTop: Metrics.baseMargin
-          }}
-        />
-        {/* <Label 
-          text={`${data}`} 
-          style={{
-            width: '70%',
-            paddingLeft: Metrics.smallPadding,
-            color: Colors.primary,
-            fontSize: Fonts.size.medium + 1,
-          }}
-        /> */}
-
-        <HTML 
-          html={`${data ? data : `<p>---</p>`}`}
-          baseFontStyle={{
-            color: Colors.primary
-          }}
-          // style={{...ApplicationStyles.screen.test}}
-        />
-      </View>
-    )
-  }
-
-  handleRenderAddToCartButtonContainer(){
+  handleRenderAddToCartButtonContainer() {
     var qty_available = this.state.product_data.quantity;
-    return(
+    return (
       <View style={{
         position: 'absolute',
         bottom: 10, right: 5, left: 10
       }}>
-        <AppsButton 
+        <Button
+          containerStyle={tailwind("mx-5")}
+          buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
           disabled={qty_available ? false : true}
-          text={qty_available ? `Add To Cart` : `Sold Out`} 
-          backgroundColor={qty_available ? Colors.primary : Colors.inactive_primary}
-          fontSize={Fonts.size.h6}
-          onPress={()=>{
+          title={qty_available ? `Add To Cart` : `Sold Out`}
+          titleStyle={tailwind("text-xl")}
+          onPress={() => {
             this.addItemToCart();
           }}
         />
@@ -615,8 +612,8 @@ export default class EComProductItemView extends React.Component {
   }
 
   // Prod Variation Modal
-  handleRenderProdVariationModal(){
-    return(
+  handleRenderProdVariationModal() {
+    return (
       <View>
         <Modal
           animationType="slide"
@@ -626,21 +623,24 @@ export default class EComProductItemView extends React.Component {
           {/* Dark Background */}
           <Animated.View style={[
             styles.PVModalDarkBackgroundContainer, {
-              transform: [{translateY: this.state.modalTranslateY}]
+              transform: [{ translateY: this.state.modalTranslateY }]
             }
           ]}>
             {/* Product Content */}
-            <View style={{
-              maxHeight: SCREEN_HEIGHT * 0.8,
-              backgroundColor: Colors.body
-            }}>
+            <View
+            // style={{
+            //   maxHeight: SCREEN_HEIGHT * 0.8,
+            //   backgroundColor: Colors.body
+            // }}
+            >
 
               {/* Prod Image, Price & Stock */}
               {/* {this.handleRenderPVModalProdHeader()} */}
-
-              <ScrollView 
-                onScroll={()=>{Keyboard.dismiss();}}
-              > 
+              {/* Close Modal Button */}
+              {this.handleRenderClosePVModalButton()}
+              <ScrollView
+                onScroll={() => { Keyboard.dismiss(); }}
+              >
                 {/* Prod Image, Price & Stock */}
                 {this.handleRenderPVModalProdHeader()}
 
@@ -658,18 +658,13 @@ export default class EComProductItemView extends React.Component {
                   paddingHorizontal: Metrics.smallPadding,
                   paddingVertical: Metrics.basePadding,
                 }}>
-                  <AppsButton 
-                    text={`Add To Cart`} 
+                  <AppsButton
+                    text={`Add To Cart`}
                     backgroundColor={Colors.primary}
                     fontSize={Fonts.size.h6}
                   />
                 </View>
-
               </ScrollView>
-
-              {/* Close Modal Button */}
-              {this.handleRenderClosePVModalButton()}
-
             </View>
           </Animated.View>
         </Modal>
@@ -677,18 +672,18 @@ export default class EComProductItemView extends React.Component {
     )
   }
 
-  handleRenderClosePVModalButton(){
-    return(
+  handleRenderClosePVModalButton() {
+    return (
       <TouchableOpacity
-        style={{
-          position: 'absolute',
-          top: 5, right: 5,
-        }}
-        onPress={()=>{
-          this.setState({is_pv_modal_show: false});
+        // style={{
+        //   position: 'absolute',
+        //   top: 5, right: 5,
+        // }}
+        onPress={() => {
+          this.setState({ is_pv_modal_show: false });
         }}
       >
-        <Image 
+        <Image
           source={Images.round_cancel}
           style={{
             tintColor: Colors.primary,
@@ -699,8 +694,8 @@ export default class EComProductItemView extends React.Component {
     )
   }
 
-  handleRenderPVModalProdHeader(){
-    return(
+  handleRenderPVModalProdHeader() {
+    return (
       <View style={{
         width: '100%',
         alignItems: 'flex-end',
@@ -711,7 +706,7 @@ export default class EComProductItemView extends React.Component {
       }}>
         {/* Left - Prod Image*/}
         <View>
-          <Image 
+          <Image
             source={this.state.product_data.images[0]}
             style={{
               width: 90, height: 90,
@@ -725,10 +720,10 @@ export default class EComProductItemView extends React.Component {
           paddingLeft: Metrics.smallPadding
         }}>
           {/* Price */}
-          <Label 
-            text={`${this.state.product_data.currency_symbol} ${parseFloat(this.state.product_data.discount_amt) > 0 ? 
-                                                                  this.state.product_data.discounted_price : 
-                                                                  this.state.product_data.default_selling_price}`}
+          <Label
+            text={`${this.state.product_data.currency_symbol} ${parseFloat(this.state.product_data.discount_amt) > 0 ?
+              this.state.product_data.discounted_price :
+              this.state.product_data.default_selling_price}`}
             style={{
               color: Colors.primary,
               fontSize: Fonts.size.large,
@@ -737,7 +732,7 @@ export default class EComProductItemView extends React.Component {
           />
 
           {/* Stock */}
-          <Label 
+          <Label
             text={`Stock: ${this.state.product_data.quantity}`}
             style={{
               color: Colors.primary,
@@ -749,14 +744,14 @@ export default class EComProductItemView extends React.Component {
     )
   }
 
-  handleRenderPVModalItemContainer(label, prod_variation_data){
-    return(
+  handleRenderPVModalItemContainer(label, prod_variation_data) {
+    return (
       <View style={{
         paddingVertical: Metrics.smallPadding,
         borderBottomWidth: 1, borderColor: Colors.border_line
       }}>
         {/* Variation Label */}
-        <Label 
+        <Label
           text={`${label}`}
           style={{
             fontSize: Fonts.size.input,
@@ -765,23 +760,23 @@ export default class EComProductItemView extends React.Component {
             marginHorizontal: Metrics.smallMargin,
           }}
         />
-        
+
         {/* Variation Option */}
         <View style={{ flexWrap: "wrap", flexDirection: 'row' }}>
           {this.handleRenderPVModalSelectionItem(prod_variation_data)}
         </View>
-  
+
       </View>
     )
   }
 
-  handleRenderPVModalSelectionItem(prod_variation_list){
+  handleRenderPVModalSelectionItem(prod_variation_list) {
     var data = [];
     for (let index = 0; index < prod_variation_list.length; index++) {
       var item = prod_variation_list[index];
       data.push(
-      // return(
-        <TouchableOpacity 
+        // return(
+        <TouchableOpacity
           key={`${index}`}
           activeOpacity={9}
           style={{
@@ -813,17 +808,17 @@ export default class EComProductItemView extends React.Component {
     return data;
   }
 
-  handleRenderPVModalProdQuantity(){
-    return(
+  handleRenderPVModalProdQuantity() {
+    return (
       <View style={{
         paddingVertical: Metrics.basePadding,
         paddingHorizontal: Metrics.smallPadding,
         borderBottomWidth: 1, borderColor: Colors.border_line,
-        flexDirection: 'row', 
+        flexDirection: 'row',
         justifyContent: 'space-between'
       }}>
         {/* Quantity Label */}
-        <Label 
+        <Label
           text={`Quantity`}
           style={{
             fontSize: Fonts.size.input,
@@ -849,8 +844,8 @@ export default class EComProductItemView extends React.Component {
             />
           </TouchableOpacity>
 
-          <TextInput 
-            onChangeText={(value)=>{this.setState({add_to_cart_qty: value})}}
+          <TextInput
+            onChangeText={(value) => { this.setState({ add_to_cart_qty: value }) }}
             value={`${this.state.add_to_cart_qty}`}
             style={{
               fontSize: Fonts.size.regular,
@@ -883,18 +878,18 @@ export default class EComProductItemView extends React.Component {
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
-        
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+
         {/* Screen on loading, hide default state data */}
         {
           this.state.firstLoad
-          ?
-            <View/>
-          :
+            ?
+            <View />
+            :
             // Product Details
             this.handleRenderProductContainer()
         }
-        
+
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
 

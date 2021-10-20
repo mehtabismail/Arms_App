@@ -921,11 +921,6 @@ export default class EComCheckoutView extends React.Component {
       <Label
         text={`${item.product_name}`}
         style={tailwind("flex flex-wrap text-lg font-bold text-primary")}
-        // {{
-        //   fontSize: Fonts.size.large,
-        //   fontWeight: "bold",
-        //   color: Colors.button_background,
-        // }}
         numberOfLines={3}
         ellipsizeMode={'tail'}
       />
@@ -1081,20 +1076,7 @@ export default class EComCheckoutView extends React.Component {
 
     )
   }
-
-  // handleDummyCard() {
-  //   return (
-  //     <Card>
-  //       <Card.Title>CARD WITH DIVIDER</Card.Title>
-  //       <Card.Divider />
-  //       <Text>
-  //         Cards are a great way to display information, usually containing content and actions about a single subject.
-  //         Cards can contain images, buttons, text and more.
-  //       </Text>
-  //     </Card>
-  //   )
-  // }
-
+  
 
   handleRenderShippingMethodContainer() {
     return (

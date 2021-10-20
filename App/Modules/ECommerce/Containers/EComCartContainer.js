@@ -58,6 +58,7 @@ if (
 export default class EComCartView extends React.Component {
   constructor(props) {
     super(props);
+    // this.stateHandler = this.stateHandler.bind(this);
     this.state = {
       pressedEditButton: "pressed",
       screenWidth: Dimensions.get('window').width,
@@ -121,20 +122,6 @@ export default class EComCartView extends React.Component {
 
   componentDidMount() {
     // this.props.navigation.setParams({this: this.navigateToScreen});
-    this.props.navigation.setParams({
-      headerRight: (
-        <TouchableOpacity
-        onPress={() => {console.log(this.state.pressedEditButton)}}
-        >
-          <Icon
-            reverse
-            name='create-outline'
-            type='ionicon'
-            color="#586bca"
-          />
-        </TouchableOpacity>
-      ),
-    })
 
     this.handleGetCartList();
 
@@ -339,15 +326,29 @@ export default class EComCartView extends React.Component {
     )
   }
 
+  stateHandler = ()=> {
+    console.log(this.state.pressedEditButton);
+  }
+
   // Navigation Tab
   static navigationOptions = ({ navigation, navigationOptions, screenProps }) => {
-    // const params = navigation.state.params || {};
-    // var navigateToScreen = params.this;
+    const params = navigation.state.params || {};
+    var navigateToScreen = params.this;
 
 
     return {
       title: 'Shopping Cart',
-      headerRight: navigation.state.params ? navigation.state.params.headerRight : null
+      headerRight:
+        <TouchableOpacity
+        onPress={() => {console.log(this.isPressed)}}
+        >
+          <Icon
+            reverse
+            name='create-outline'
+            type='ionicon'
+            color="#586bca"
+          />
+        </TouchableOpacity>
     }
   }
 
@@ -407,7 +408,7 @@ export default class EComCartView extends React.Component {
                 {/* Left - Product Image */}
                 {this.handleRenderCartItemImageContainer(item, index)}
               </View>
-              <View style={tailwind("flex-shrink justify-center")}>
+              <View style={tailwind("flex-shrink justify-center ml-2")}>
                 <View>
                   {/* Right - Product Details */}
                   {/* Prod Desc */}
@@ -513,7 +514,7 @@ export default class EComCartView extends React.Component {
           onPress={() => {
             this.handleItemQtyUpdate("sub", index, 1);
           }}
-          containerStyle={tailwind("border-2 border-blue-300 mx-1 h-10 w-10 justify-center rounded-2xl opacity-100")}
+          containerStyle={tailwind("border-2 border-blue-300 mx-1 h-10 w-10 justify-center rounded-xl opacity-100")}
           buttonStyle={tailwind("border-red-600 ")}
           titleStyle={tailwind("text-primary font-bold text-lg -mt-3")}
         />
@@ -539,7 +540,7 @@ export default class EComCartView extends React.Component {
             this.handleItemQtyUpdate("add", index, 1);
             console.log(this.state.pressedEditButton)
           }}
-          containerStyle={tailwind("border-2 border-blue-300 mx-1 h-10 w-10 justify-center rounded-2xl opacity-100")}
+          containerStyle={tailwind("border-2 border-blue-300 mx-1 h-10 w-10 justify-center rounded-xl opacity-100")}
           buttonStyle={tailwind("border-transparent")}
           titleStyle={tailwind("text-primary font-bold text-2xl ")}
         />
@@ -649,6 +650,8 @@ export default class EComCartView extends React.Component {
   }
 
   render() {
+
+    const isPressed = "falseee";
     return (
       /**Start Safe Area**/
       <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
