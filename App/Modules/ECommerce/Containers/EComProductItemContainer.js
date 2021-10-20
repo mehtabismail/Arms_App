@@ -125,7 +125,7 @@ export default class EComProductItemView extends React.Component {
     var navigateToScreen = params.this;
 
     return {
-      title: 'Header',
+      title: '',
       headerLeft: (
         <View
           style={{

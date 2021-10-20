@@ -495,12 +495,6 @@ export default class EComCartView extends React.Component {
       <Label
         text={`${this.state.currency_symbol} ${item.prod_price}`}
         style={tailwind("text-primaryBlue text-base font-normal")}
-      // {{
-      //   fontSize: Fonts.size.regular,
-      //   fontWeight: 'bold',
-      //   color: Colors.primary,
-      //   // paddingVertical: Metrics.basePadding
-      // }}
       />
     )
   }
@@ -509,24 +503,18 @@ export default class EComCartView extends React.Component {
     return (
       <View style={tailwind("flex-row")}>
         <Button
-          title="__"
+          title="-"
           type="clear"
           onPress={() => {
             this.handleItemQtyUpdate("sub", index, 1);
           }}
           containerStyle={tailwind("border-2 border-blue-300 mx-1 h-10 w-10 justify-center rounded-xl opacity-100")}
           buttonStyle={tailwind("border-red-600 ")}
-          titleStyle={tailwind("text-primary font-bold text-lg -mt-3")}
+          titleStyle={tailwind("text-primary font-bold text-lg ")}
         />
 
         <TextInput
           onEndEditing={(value) => {
-            // var cart_list = this.state.cart_list;
-            // cart_list[index].qty = value;
-            // this.setState({
-            //   cart_list,
-            //   flatListRentalTrigger: !this.state.flatListRentalTrigger
-            // });
             this.handleItemQtyUpdate("edit", index, value.nativeEvent.text);
           }}
           defaultValue={`${item.qty}`}

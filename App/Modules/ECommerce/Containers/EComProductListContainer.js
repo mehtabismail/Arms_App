@@ -13,10 +13,13 @@ import {
   View,
 } from 'react-native';
 
+import { Input, Icon } from 'react-native-elements';
+import { tailwind } from '../../../../tailwind';
+
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
-  LoadingIndicator, Label,  SpringAnimation, HorizontalScrollAnimation, AppsButton, DiscountLabel
+  LoadingIndicator, Label, SpringAnimation, HorizontalScrollAnimation, AppsButton, DiscountLabel
 } from '../../../Services/LibLinking';
 import styles from '../Styles/e_com_prod_list_styles';
 import LoginController from '../../General/Login/Actions/login_controller';
@@ -34,7 +37,7 @@ import { NavigationActions, DrawerActions, SafeAreaView } from 'react-navigation
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export default class EComProductListView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       screenWidth: Dimensions.get('window').width,
@@ -49,7 +52,7 @@ export default class EComProductListView extends React.Component {
       getMoreData: true,
 
       // Search Parameter
-      search_type: '', 
+      search_type: '',
       search_data: '',
 
       // Product Data List
@@ -102,7 +105,7 @@ export default class EComProductListView extends React.Component {
   /****************************************************************/
 
   // Navigation Tab
-  static navigationOptions = ({navigation, navigationOptions}) => {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
     // var navigateToScreen = params.this;
     var search_type = params.search_type;
@@ -112,37 +115,68 @@ export default class EComProductListView extends React.Component {
 
     return {
       headerTitle: (
-        <View style={{
-          backgroundColor: Colors.body,
-          width: SCREEN_WIDTH * 0.6,
-          flexDirection: 'row', flex: 1,
-        }}>
-          <Image 
-            source={Images.search}
-            style={{
-              tintColor: Colors.primary,
-              height: 30, width: 30,
-            }}
-          />
-          <TextInput
-            editable={false}
-            placeholder={`Searching...`}
-            onChangeText={(value)=>{
-              search_text = value;
-              // params.setParams({search_data: {
-              //   description: value
-              // }});
-            }}
-            defaultValue={`${search_data_desc}`}
-            value={`${search_text}`}
-            style={{
-              color: Colors.primary,
-              paddingVertical: Metrics.smallPadding,
-              marginLeft: Metrics.smallPadding,
-              flex: 1,
-            }}
-          />
-        </View>
+        <Input
+          editable={false}
+          placeholder={`Searching...`}
+          ref={(input) => this.searchInput = input}
+          value={`${search_text}`}
+          leftIcon={
+            <Icon
+              name='search'
+              type='font-awesome'
+              size={25}
+              color="#586bca"
+            />
+          }
+          onChangeText={(value)=>{
+            search_text = value;
+          }}
+          defaultValue={`${search_data_desc}`}
+          containerStyle={{
+            marginTop: 25,
+            width: '95%',
+          }}
+          inputContainerStyle={tailwind("border px-2 bg-white opacity-100 h-10 w-full self-center rounded-lg")}
+          inputStyle={tailwind("text-primaryBlue mt-1")}
+          // leftIconContainerStyle={tailwind("p-2")}
+        />
+
+
+
+
+
+
+        // <View style={{
+        //   backgroundColor: Colors.body,
+        //   width: SCREEN_WIDTH * 0.6,
+        //   flexDirection: 'row', flex: 1,
+        // }}>
+        //   <Image 
+        //     source={Images.search}
+        //     style={{
+        //       tintColor: Colors.primary,
+        //       height: 30, width: 30,
+        //     }}
+        //   />
+        //   <TextInput
+        //     editable={false}
+        //     placeholder={`Searching...`}
+            // onChangeText={(value)=>{
+            //   search_text = value;
+            //   // params.setParams({search_data: {
+            //   //   description: value
+            //   // }});
+            // }}
+        //     defaultValue={`${search_data_desc}`}
+        //     value={`${search_text}`}
+        //     style={{
+        //       color: Colors.primary,
+        //       paddingVertical: Metrics.smallPadding,
+        //       marginLeft: Metrics.smallPadding,
+        //       flex: 1,
+        //     }}
+        //   />
+        // </View>
       ),
       // headerLeft: (
       //   <TouchableOpacity style={{paddingLeft: 10}} onPress={() => navigateToScreen(navigation, {loginUpdate: true})}>
@@ -180,7 +214,7 @@ export default class EComProductListView extends React.Component {
       routeName: "DrawerStack",
       params: params,
     });
-    
+
     navigation.dispatch(navigateAction);
     navigation.dispatch(DrawerActions.openDrawer());
   }
@@ -200,16 +234,16 @@ export default class EComProductListView extends React.Component {
   componentWillUnmount() {
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     // Login Update
     var loginUpdate = this.props.navigation.getParam('loginUpdate', false);
-    if(loginUpdate && this.props.navigation != prevProps.navigation){
-      this.props.navigation.setParams({loginUpdate: false});
+    if (loginUpdate && this.props.navigation != prevProps.navigation) {
+      this.props.navigation.setParams({ loginUpdate: false });
       // this.handleLoginUpdate();
     }
   }
 
-  handleFetchDataIndicator(status, text=""){
+  handleFetchDataIndicator(status, text = "") {
     this.setState({
       fetch_data: status,
       fetch_data_text: text ? text : 'Fetching data...'
@@ -220,25 +254,25 @@ export default class EComProductListView extends React.Component {
   /******************** FUNCTIONALITY *****************************/
   /****************************************************************/
 
-  handleInitScreen_GetProductList(search_type, search_data){
+  handleInitScreen_GetProductList(search_type, search_data) {
     this.handleFetchDataIndicator(true, "Loading...");
     this.setState({
       firstLoad: false,
-      search_type, 
+      search_type,
       search_data
     });
     this.handleGetProductData(search_type, search_data);
   }
 
-  handleGetProductData(search_type, search_data){
+  handleGetProductData(search_type, search_data) {
     var productList = this.state.productList;
     var start_from = productList.length;
 
     var product_result = this.eComProductListController.getProductList(search_type, search_data, start_from);
     product_result.then((res) => {
       // alert(JSON.stringify(res));
-      if(res.result == 1){
-        if(res.data.length > 0){
+      if (res.result == 1) {
+        if (res.data.length > 0) {
           this.setState({
             getMoreData: true,
             productList: productList.concat(res.data),
@@ -255,9 +289,9 @@ export default class EComProductListView extends React.Component {
   /****************************************************************/
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
         size={"large"}
         text={`${this.state.fetch_data_text}`}
@@ -266,69 +300,69 @@ export default class EComProductListView extends React.Component {
   }
 
   // Render Main Container
-  handleRenderMainContainer(){
-    return(
+  handleRenderMainContainer() {
+    return (
       this.state.fetch_data
-      ?
-      <View/>
-      :
-      <View>
-        <ScrollView 
-          contentContainerStyle={{
-            paddingBottom: Metrics.mainContainerMargin,
-          }}
-          onScroll={({nativeEvent}) => {
-            if (this.isCloseToBottom(nativeEvent)){
-              if(this.state.getMoreData){
-                this.setState({ getMoreData: false });
-                this.handleGetProductData(this.state.search_type, this.state.search_data);
+        ?
+        <View />
+        :
+        <View>
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: Metrics.mainContainerMargin,
+            }}
+            onScroll={({ nativeEvent }) => {
+              if (this.isCloseToBottom(nativeEvent)) {
+                if (this.state.getMoreData) {
+                  this.setState({ getMoreData: false });
+                  this.handleGetProductData(this.state.search_type, this.state.search_data);
+                }
               }
-            }
-          }}
-          scrollEventThrottle={400}
-        >
-          <View>
-            {/* Product List */}
-            {this.handleRenderProductContainer()}
-          </View>
-        </ScrollView>
-      </View>
+            }}
+            scrollEventThrottle={400}
+          >
+            <View>
+              {/* Product List */}
+              {this.handleRenderProductContainer()}
+            </View>
+          </ScrollView>
+        </View>
     )
   }
 
-  handleRenderProductContainer(){
-    return(
+  handleRenderProductContainer() {
+    return (
       this.state.productList.length > 0
-      ?
-      <View style={{marginBottom: Metrics.baseMargin}}>
-        <FlatList 
-          data={this.state.productList}
-          renderItem={this.handleRenderProductItem}
-          extraData={this.state.flatListRentalTrigger}
-          numColumns={2}
-          keyExtractor={(item, index)=>`${index}`}
-        />
-      </View>
-      :
-      <View>
-        <Label 
-          text={`No Product.`}
-          style={{
-            fontSize: Fonts.size.h5,
-            color: Colors.primary,
-            textAlign: 'center',
-            marginVertical: Metrics.doubleBaseMargin
-          }}
-        />
-      </View>
+        ?
+        <View style={{ marginBottom: Metrics.baseMargin }}>
+          <FlatList
+            data={this.state.productList}
+            renderItem={this.handleRenderProductItem}
+            extraData={this.state.flatListRentalTrigger}
+            numColumns={2}
+            keyExtractor={(item, index) => `${index}`}
+          />
+        </View>
+        :
+        <View>
+          <Label
+            text={`No Product.`}
+            style={{
+              fontSize: Fonts.size.h5,
+              color: Colors.primary,
+              textAlign: 'center',
+              marginVertical: Metrics.doubleBaseMargin
+            }}
+          />
+        </View>
     )
   }
 
   // Render Product Data Item List
-  handleRenderProductItem = ({item, index}) => {
-    return(
-      <TouchableOpacity 
-        onPress={()=>{
+  handleRenderProductItem = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
           this.props.navigation.navigate("EComProductItemScreen", {
             product_data: item
           })
@@ -341,14 +375,14 @@ export default class EComProductListView extends React.Component {
           padding: Metrics.smallPadding,
           marginBottom: Metrics.smallMargin,
           borderColor: Colors.border_line, borderTopWidth: 1, borderBottomWidth: 1
-        }, 
-          (index % 2) ? 
-          {marginLeft: Metrics.smallMargin, borderLeftWidth: 1} : 
-          {borderRightWidth: 1}
+        },
+        (index % 2) ?
+          { marginLeft: Metrics.smallMargin, borderLeftWidth: 1 } :
+          { borderRightWidth: 1 }
         ]}
       >
         {/* Image */}
-        <Image 
+        <Image
           source={item.images[0]}
           style={{
             resizeMode: 'contain',
@@ -359,7 +393,7 @@ export default class EComProductListView extends React.Component {
         />
 
         {/* Product Desc */}
-        <Label 
+        <Label
           text={`${item.product_name}`}
           numberOfLines={2}
           ellipsizeMode={"tail"}
@@ -373,10 +407,10 @@ export default class EComProductListView extends React.Component {
         />
 
         {/* Product Price */}
-        <Label 
-          text={`${item.currency_symbol} ${parseFloat(item.discount_amt) > 0 ? 
-                                            item.discounted_price : 
-                                            item.default_selling_price}`}
+        <Label
+          text={`${item.currency_symbol} ${parseFloat(item.discount_amt) > 0 ?
+            item.discounted_price :
+            item.default_selling_price}`}
           numberOfLines={1}
           ellipsizeMode={"tail"}
           style={{
@@ -398,43 +432,43 @@ export default class EComProductListView extends React.Component {
     )
   }
 
-  handleRenderProductDiscountPercentBadge(item){
-    return(
+  handleRenderProductDiscountPercentBadge(item) {
+    return (
       item.discount_per > 0
-      ?
-      <DiscountLabel data={`Dis ${item.discount_per}%`}/>
-      :
-      <View/>
+        ?
+        <DiscountLabel data={`Dis ${item.discount_per}%`} />
+        :
+        <View />
     )
   }
 
-  handleRenderProductSoldOutContainer(item, index){
-    return(
+  handleRenderProductSoldOutContainer(item, index) {
+    return (
       item.quantity == 0
-      ?
-      <View style={{
-        position: 'absolute',
-        left: 0, right: 0, top: 0,
-        height: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 2) + Metrics.smallMargin*2,
-        backgroundColor: '#000000', opacity: 0.7,
-        justifyContent: 'center'
-      }}>
-        <Label 
-          text={`Sold Out`}
-          style={{
-            fontSize: Fonts.size.h5,
-            color: '#FFFFFF',
-            textAlign: 'center'
-          }}
-        />
-      </View>
-      :
-      <View/>
+        ?
+        <View style={{
+          position: 'absolute',
+          left: 0, right: 0, top: 0,
+          height: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 2) + Metrics.smallMargin * 2,
+          backgroundColor: '#000000', opacity: 0.7,
+          justifyContent: 'center'
+        }}>
+          <Label
+            text={`Sold Out`}
+            style={{
+              fontSize: Fonts.size.h5,
+              color: '#FFFFFF',
+              textAlign: 'center'
+            }}
+          />
+        </View>
+        :
+        <View />
     )
   }
 
   // Scroll View onEndReach Function
-  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = Metrics.mainContainerMargin + Metrics.baseMargin;
     return layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom;
@@ -443,14 +477,14 @@ export default class EComProductListView extends React.Component {
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
-        
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+
         {/* Screen on loading, hide default state data */}
         {
           this.state.firstLoad
-          ?
-            <View/>
-          :
+            ?
+            <View />
+            :
             // (!this.state.nric)
             // ?
             // // Access Login Screen

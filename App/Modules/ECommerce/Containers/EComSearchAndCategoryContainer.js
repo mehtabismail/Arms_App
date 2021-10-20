@@ -14,8 +14,18 @@ import {
   View,
 } from 'react-native';
 
+import { FlatListSlider } from 'react-native-flatlist-slider';
+import { SliderBox } from "react-native-image-slider-box";
+
+/** TAILWIND CSS **/
+import { tailwind } from '../../../../tailwind';
+
+/** REACT NATIVE ELEMENTS **/
+import { Card, Button, Text, Icon, Input } from 'react-native-elements';
+
+
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
   LoadingIndicator, Label, AppsButton,
 } from '../../../Services/LibLinking';
@@ -35,7 +45,7 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
  */
 
 export default class EComSearchAndCategoryView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       screenWidth: Dimensions.get('window').width,
@@ -74,7 +84,7 @@ export default class EComSearchAndCategoryView extends React.Component {
   /****************************************************************/
 
   // Navigation Tab
-  static navigationOptions = ({navigation, navigationOptions}) => {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
     var navigateToScreen = params.this;
 
@@ -88,7 +98,7 @@ export default class EComSearchAndCategoryView extends React.Component {
       //   </TouchableOpacity>
       // ),
       headerRight: (
-        <View style={{width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10}}></View>
+        <View style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10 }}></View>
       ),
     }
   }
@@ -97,24 +107,24 @@ export default class EComSearchAndCategoryView extends React.Component {
   /*********************** COMPONENT  *****************************/
   /****************************************************************/
 
-  componentDidMount(){
+  componentDidMount() {
     // this.props.navigation.setParams({this: this.navigateToScreen});
     this.handleSetNRIC();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     // Login Update
     var loginUpdate = this.props.navigation.getParam('loginUpdate', false);
-    if(loginUpdate && this.props.navigation != prevProps.navigation){
-      this.props.navigation.setParams({loginUpdate: false});
+    if (loginUpdate && this.props.navigation != prevProps.navigation) {
+      this.props.navigation.setParams({ loginUpdate: false });
       this.handleLoginUpdate();
     }
   }
 
-  handleFetchDataIndicator(status, text=""){
+  handleFetchDataIndicator(status, text = "") {
     this.setState({
       fetch_data: status,
       fetch_data_text: text ? text : 'Fetching data...'
@@ -125,27 +135,27 @@ export default class EComSearchAndCategoryView extends React.Component {
   /******************** FUNCTIONALITY *****************************/
   /****************************************************************/
 
-  async handleLoginUpdate(){
+  async handleLoginUpdate() {
     var nric = '';
     var login_user = await this.loginController.fetchCurrentLoginMember();
-    if(login_user.result == 1 && login_user.data){
+    if (login_user.result == 1 && login_user.data) {
       nric = login_user.data.nric;
     }
-    this.props.navigation.setParams({loginUpdate: false});
+    this.props.navigation.setParams({ loginUpdate: false });
     this.handleSetNRIC(nric);
   }
 
-  handleSetNRIC(nric){
-    this.setState({nric, firstLoad: false}, ()=>{
+  handleSetNRIC(nric) {
+    this.setState({ nric, firstLoad: false }, () => {
       this.handleGetAllCategory();
     });
   }
 
-  handleGetAllCategory(){
+  handleGetAllCategory() {
     this.handleFetchDataIndicator(true, "Fetching category...");
     var cat_result = this.eComSearchAndCategoryController.getAllCategoryData();
     cat_result.then((res) => {
-      if(res.result == 1){
+      if (res.result == 1) {
         this.setState({
           category_list: res.data.cat_lvl2_list,
           sub_category_list: res.data.cat_lvl3_list,
@@ -165,24 +175,24 @@ export default class EComSearchAndCategoryView extends React.Component {
   /****************************************************************/
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
-        size={"large"} 
+        size={"large"}
         text={`${this.state.fetch_data_text}`}
       />
     )
   }
 
   // Access Login Screen
-  handleRenderAccessLoginScreen(){
-    return(
-      <View style={[ApplicationStyles.screen.testContainer,  {alignSelf: 'center'}]}>
-        <View style={{width: '100%', justifyContent: 'center', padding: Metrics.basePadding}}>
-          <Label style={{marginBottom: Metrics.baseMargin*6}}>Come and join us to get many more great deals.</Label>
-          <AppsButton 
-            onPress={() => {this.props.navigation.navigate("LandingScreen", {prev_screen: this.props.navigation.state.routeName})}}
+  handleRenderAccessLoginScreen() {
+    return (
+      <View style={[ApplicationStyles.screen.testContainer, { alignSelf: 'center' }]}>
+        <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
+          <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get many more great deals.</Label>
+          <AppsButton
+            onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
             backgroundColor={Colors.primary}
             text={"LOGIN / REGISTER"}
             fontSize={20}
@@ -193,91 +203,77 @@ export default class EComSearchAndCategoryView extends React.Component {
   }
 
   // Render Search Bar & Category List
-  handleRenderSearchAndCategoryContainer(){
-    return(
+  handleRenderSearchAndCategoryContainer() {
+    return (
       this.state.fetch_data
-      ?
-      <View/>
-      :
-      <View style={{flex: 1}}>
+        ?
+        <View />
+        :
+        <View style={tailwind("flex-1 bg-light")}>
 
-        {/* Search Bar */}
-        {this.handleRenderSearchBarContainer()}
-        
-        {/* Category List */}
-        <View style={{flex: 1}}>
-          <Label 
-            text={`Categories`}
-            style={{
-              color: Colors.primary,
-              fontSize: Fonts.size.h5,
-              fontWeight: 'bold',
-              paddingHorizontal: Metrics.smallPadding,
-              paddingVertical: Metrics.smallPadding,
-            }}
-          />
+          <View style={{ height: "18%" }}>
+            {/* Search Bar */}
+            {this.handleRenderSearchBarContainer()}
+          </View>
 
-          {/* Category Level 2 (left), Level 3 (right) */}
-          {
-            this.state.category_list.length > 0
-            ?
-            
-            <View style={{ 
-              flexDirection: 'row', 
-              // height: '100%', 
-              flex: 1,
-              // paddingBottom: Metrics.smallPadding,
-              // borderWidth: 1, borderColor: 'blue' 
-            }}>
-              {/* <Label text="test" style={{...ApplicationStyles.screen.test}} /> */}
-              {/* Level 2 - Left */}
-              {this.handleRenderCategoryContainer()}
-  
-              {/* Level 3 - Right */}
-              {this.handleRenderSubCategoryContainer()}
-  
+          {/* Category List */}
+          <ScrollView>
+            <View style={{ height: "82%" }}>
+              <Label
+                text={`Categories`}
+                style={tailwind("text-primary text-xl mx-5 font-bold")}
+              />
+
+              {/* Category Level 2 (left), Level 3 (right) */}
+              {
+                this.state.category_list.length > 0
+                  ?
+
+                  <View style={{
+                    flexDirection: 'column',
+                    flex: 1,
+                  }}>
+                    {/* <Label text="test" style={{...ApplicationStyles.screen.test}} /> */}
+                    {/* Level 2 - Left */}
+                    {this.handleRenderCategoryContainer()}
+
+                    {/* Level 3 - Right */}
+                    {this.handleRenderSubCategoryContainer()}
+
+                  </View>
+                  :
+                  <View />
+              }
+
             </View>
-            :
-            <View/>
-          }
-          
-        </View>
+          </ScrollView>
 
-      </View>
+        </View>
     )
   }
 
-  handleRenderSearchBarContainer(){
-    return(
-      <View style={{
-        backgroundColor: Colors.body,
-        paddingHorizontal: Metrics.smallPadding,
-        paddingVertical: Metrics.basePadding,
-        marginVertical: Metrics.smallMargin,
-        borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
-        flexDirection: 'row'
-      }}>
-        {/* Icon */}
-        <Image
-          source={Images.search}
-          style={{
-            width: Metrics.icons.medium,
-            height: Metrics.icons.medium,
-            tintColor: Colors.primary
-          }}
-        />
-
+  handleRenderSearchBarContainer() {
+    return (
+      <View style={tailwind("h-full justify-center items-center")}>
         {/* Search Text Input */}
-        <TextInput 
-          ref={(input)=>this.searchInput = input}
-          placeholder={`Search Product Here`}
+        <Input
+          ref={(input) => this.searchInput = input}
+          placeholder='Search Product Here'
           value={`${this.state.search_query}`}
-          onChangeText={(value)=>{
+          leftIcon={
+            <Icon
+              name='search'
+              type='font-awesome'
+              size={25}
+              color="#586bca"
+            />
+          }
+          onChangeText={(value) => {
             this.setState({
               search_query: value
             });
           }}
-          onSubmitEditing={(value)=>{
+          onSubmitEditing={(value) => {
             // this.eComSearchAndCategoryController.searchProductByKeyword(value.nativeEvent.text);
             this.props.navigation.navigate("EComProductListScreen", {
               search_type: "keyword",
@@ -286,136 +282,121 @@ export default class EComSearchAndCategoryView extends React.Component {
               }
             });
           }}
-          style={{
-            fontSize: Fonts.size.h6,
-            color: Colors.primary,
-            marginLeft: Metrics.smallMargin,
-            flex: 1,
+          containerStyle={{
+            marginTop: 16,
+            width: '90%',
           }}
+          inputContainerStyle={tailwind("border-2 border-t bg-white opacity-100 w-full rounded-lg")}
+          inputStyle={tailwind("text-primaryBlue")}
+          leftIconContainerStyle={tailwind("p-2")}
         />
       </View>
     )
   }
 
-  handleRenderCategoryContainer(){
-    return(
+  handleRenderCategoryContainer() {
+    return (
       <View>
-        <ScrollView>
-          <FlatList 
-            data={this.state.category_list}
-            renderItem={this.handleRenderCategoryItemContainer}
-            extraData={this.state.flatListRentalTrigger}
-            keyExtractor={(item, index)=>`${index}`}
-            scrollEnabled={false}
-          />
-        </ScrollView>
+        <FlatList
+          data={this.state.category_list}
+          renderItem={this.handleRenderCategoryItemContainer}
+          extraData={this.state.flatListRentalTrigger}
+          keyExtractor={(item, index) => `${index}`}
+          horizontal={true}
+          scrollEnabled={true}
+          disableIntervalMomentum={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     )
   }
 
-  handleRenderCategoryItemContainer = ({item, index}) =>{
-    return(
-      <TouchableOpacity 
-        activeOpacity={0.9}
-        onPress={()=>{
+  handleRenderCategoryItemContainer = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
           this.setState({
             selected_cat_level2_index: index,
             selected_cat_level2_id: item.category_id,
             flatListRentalTrigger: !this.state.flatListRentalTrigger
           })
         }}
-        style={{
-          backgroundColor: this.state.selected_cat_level2_index == index ? Colors.body : "#D9D2D2",
-          // borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
-          flex: 1, 
-          justifyContent: 'center', alignItems: 'center',
-          paddingVertical: Metrics.smallPadding,
-          paddingHorizontal: Metrics.smallPadding,
-          width: SCREEN_WIDTH*0.25,
-          minHeight: SCREEN_WIDTH*0.25,
-        }}
       >
-        {/* Category Icon */}
-        <Image 
-          source={item.icon}
-          style={{
-            width: (SCREEN_WIDTH*0.25)*0.5, //(SCREEN_WIDTH / 4)*0.5,
-            height: (SCREEN_WIDTH*0.25)*0.5,
-            marginBottom: Metrics.smallMargin
-          }}
-        />
+        <Card
+          containerStyle={tailwind("rounded-lg opacity-100 my-3")}
+          activeOpacity={1}
 
-        {/* Category Desc */}
-        <Label 
-          text={`${item.description}`}
           style={{
-            color: this.state.selected_cat_level2_index == index ? Colors.primary : "#000000",
-            fontSize: Fonts.size.medium,
-            textAlign: 'center'
+            backgroundColor: this.state.selected_cat_level2_index == index ? Colors.body : "#D9D2D2",
+            // borderTopWidth: 1, borderBottomWidth: 1, borderColor: Colors.border_line,
+            flex: 1,
+            justifyContent: 'center', alignItems: 'center',
+            paddingVertical: Metrics.smallPadding,
+            paddingHorizontal: Metrics.smallPadding,
+            width: SCREEN_WIDTH * 0.25,
+            minHeight: SCREEN_WIDTH * 0.25,
           }}
-        />
+        >
+          {/* Category Icon */}
 
-        {/* > Icon */}
-        {/* <Label 
-          text={`>`}
-          style={{
-            color: Colors.primary,
-            fontSize: Fonts.size.h5
-          }}
-        /> */}
-        
-
+          <Image
+            source={item.icon}
+            style={{
+              width: SCREEN_WIDTH * 0.25, //(SCREEN_WIDTH / 4)*0.5,
+              height: (SCREEN_WIDTH * 0.25),
+              marginBottom: Metrics.smallMargin
+            }}
+          />
+          <Card.Divider />
+          {/* Category Desc */}
+          <Label
+            text={`${item.description}`}
+            style={tailwind("text-primaryBlue text-lg font-normal")}
+          />
+        </Card>
       </TouchableOpacity>
     )
   }
 
-  handleRenderSubCategoryContainer(){
-    return(
-      <ScrollView style={{
-        width: SCREEN_WIDTH*0.75,
-        backgroundColor: Colors.body
-      }}>
+  handleRenderSubCategoryContainer() {
+    return (
+      <View
+        style={tailwind("w-full bg-light")}
+      >
 
         {/* Level 2 Category Title */}
         {
           this.state.category_list.length > 0
-          ?
-          <Label
-            text={`${this.state.category_list[this.state.selected_cat_level2_index].description}`}
-            style={{
-              color: Colors.primary,
-              fontSize: Fonts.size.regular,
-              fontWeight: 'bold',
-              marginVertical: Metrics.smallMargin,
-              marginHorizontal: Metrics.smallMargin,
-            }}
-          />
-          :
-          <View/>
+            ?
+            <Label
+              text={`${this.state.category_list[this.state.selected_cat_level2_index].description}`}
+              style={tailwind("text-primary text-xl font-bold mt-3 mx-5")}
+            />
+            :
+            <View />
         }
 
         {/* Level 3 Category List */}
-        <View style={{ flexWrap: "wrap", flexDirection: 'row' }}>
+        <View style={{ justifyContent: "center", alignItems: "center", flexDirection: 'column' }}>
           {this.handleRenderSubCategoryItemContainer(
             this.state.sub_category_list.filter(
-              (value, index)=>value.parent_category_id == this.state.selected_cat_level2_id
+              (value, index) => value.parent_category_id == this.state.selected_cat_level2_id
             )
           )}
         </View>
 
-      </ScrollView>
+      </View>
     )
   }
 
-  handleRenderSubCategoryItemContainer(sub_category_list){
+  handleRenderSubCategoryItemContainer(sub_category_list) {
     var data = [];
     for (let index = 0; index < sub_category_list.length; index++) {
       var item = sub_category_list[index];
       data.push(
         <TouchableOpacity
-          key={`${index}`} 
-          activeOpacity={0.9}
-          onPress={()=>{
+          onPress={() => {
             this.props.navigation.navigate("EComProductListScreen", {
               search_type: "category",
               search_data: {
@@ -425,39 +406,52 @@ export default class EComSearchAndCategoryView extends React.Component {
               }
             });
           }}
-          style={{
-            backgroundColor: "#D9D2D2",
-            borderWidth: 1, borderColor: Colors.border_line,
-            justifyContent: 'center', alignItems: 'center',
-            paddingVertical: Metrics.smallPadding,
-            paddingHorizontal: Metrics.smallPadding,
-            margin: Metrics.smallMargin,
-            width: ((SCREEN_WIDTH*0.75)/2)-Metrics.smallMargin*2,  //SCREEN_WIDTH*0.25,
-            minHeight: ((SCREEN_WIDTH*0.75)/2)-Metrics.smallMargin*2,
-          }}
         >
-
-          {/* Category Icon */}
-          <Image 
-            source={item.icon}
+          <Card
+            key={`${index}`}
+            activeOpacity={0.9}
+            containerStyle={tailwind("rounded-lg opacity-100 my-3")}
             style={{
-              width: (((SCREEN_WIDTH*0.75)/2)-Metrics.smallMargin*2)*0.5, //(SCREEN_WIDTH*0.25)*0.5, //(SCREEN_WIDTH / 4)*0.5,
-              height: (((SCREEN_WIDTH*0.75)/2)-Metrics.smallMargin*2)*0.5,
-              marginBottom: Metrics.smallMargin
+              backgroundColor: "#D9D2D2",
+              borderWidth: 1, borderColor: Colors.border_line,
+              justifyContent: 'center', alignItems: 'center',
+              paddingVertical: Metrics.smallPadding,
+              paddingHorizontal: Metrics.smallPadding,
+              margin: Metrics.smallMargin,
+              width: ((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2,  //SCREEN_WIDTH*0.25,
+              minHeight: ((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2,
             }}
-          />
-          
-          {/* Category Desc */}
-          <Label 
-            text={`${item.description}`}
-            style={{
-              color: "#000000",
-              fontSize: Fonts.size.medium,
-              textAlign: 'center'
-            }}
-          />
+          >
+            <View style={tailwind("flex-row justify-center items-center")}>
+              <View>
+                {/* Category Icon */}
+                <Image
+                  source={item.icon}
+                  style={{
+                    width: (((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2) * 0.5, //(SCREEN_WIDTH*0.25)*0.5, //(SCREEN_WIDTH / 4)*0.5,
+                    height: (((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2) * 0.5,
+                    marginBottom: Metrics.smallMargin
+                  }}
+                />
+              </View>
 
+              <View style={tailwind("ml-10")}>
+
+                {/* Category Desc */}
+                <Label
+                  text={`${item.description}`}
+                  // style={{
+                  //   color: "#000000",
+                  //   fontSize: Fonts.size.medium,
+                  //   textAlign: 'center'
+                  // }}
+                  style={tailwind("text-primary text-lg font-bold self-center")}
+                />
+              </View>
+            </View>
+          </Card>
         </TouchableOpacity>
+
       )
     }
     return data;
@@ -466,18 +460,18 @@ export default class EComSearchAndCategoryView extends React.Component {
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
-        
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+
         {/* Screen on loading, hide default state data */}
         {
           this.state.firstLoad
-          ?
-            <View/>
-          :
+            ?
+            <View />
+            :
             // Search Bar & Category List
             this.handleRenderSearchAndCategoryContainer()
         }
-        
+
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
 

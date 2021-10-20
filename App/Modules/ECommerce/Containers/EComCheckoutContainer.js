@@ -920,7 +920,7 @@ export default class EComCheckoutView extends React.Component {
     return (
       <Label
         text={`${item.product_name}`}
-        style={tailwind("flex flex-wrap text-lg font-bold text-primary")}
+        style={tailwind("flex flex-wrap text-xl font-bold text-primary")}
         numberOfLines={3}
         ellipsizeMode={'tail'}
       />
@@ -1081,11 +1081,14 @@ export default class EComCheckoutView extends React.Component {
   handleRenderShippingMethodContainer() {
     return (
       <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
-        <Card.Title style={{
-          color: Colors.button_background,
-          fontSize: Fonts.size.h6,
-          fontWeight: 'bold',
-        }}>Shipping Method</Card.Title>
+        <Card.Title 
+        style={tailwind("text-primary text-xl font-bold")}
+        // {{
+        //   color: Colors.button_background,
+        //   fontSize: Fonts.size.h6,
+        //   fontWeight: 'bold',
+        // }}
+        >Shipping Method</Card.Title>
         <Card.Divider />
         <View
         // style={{
