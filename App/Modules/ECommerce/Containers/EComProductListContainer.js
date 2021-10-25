@@ -13,7 +13,10 @@ import {
   View,
 } from 'react-native';
 
-import { Input, Icon } from 'react-native-elements';
+/** REACT NATIVE ELEMENTS **/
+import { Input, Icon, Text, Card } from 'react-native-elements';
+
+/** TAILWIND CSS **/
 import { tailwind } from '../../../../tailwind';
 
 /** PROJECT FILES **/
@@ -128,7 +131,7 @@ export default class EComProductListView extends React.Component {
               color="#586bca"
             />
           }
-          onChangeText={(value)=>{
+          onChangeText={(value) => {
             search_text = value;
           }}
           defaultValue={`${search_data_desc}`}
@@ -138,7 +141,7 @@ export default class EComProductListView extends React.Component {
           }}
           inputContainerStyle={tailwind("border px-2 bg-white opacity-100 h-10 w-full self-center rounded-lg")}
           inputStyle={tailwind("text-primaryBlue mt-1")}
-          // leftIconContainerStyle={tailwind("p-2")}
+        // leftIconContainerStyle={tailwind("p-2")}
         />
 
 
@@ -161,12 +164,12 @@ export default class EComProductListView extends React.Component {
         //   <TextInput
         //     editable={false}
         //     placeholder={`Searching...`}
-            // onChangeText={(value)=>{
-            //   search_text = value;
-            //   // params.setParams({search_data: {
-            //   //   description: value
-            //   // }});
-            // }}
+        // onChangeText={(value)=>{
+        //   search_text = value;
+        //   // params.setParams({search_data: {
+        //   //   description: value
+        //   // }});
+        // }}
         //     defaultValue={`${search_data_desc}`}
         //     value={`${search_text}`}
         //     style={{
@@ -306,7 +309,7 @@ export default class EComProductListView extends React.Component {
         ?
         <View />
         :
-        <View>
+        <View style={{ flex: 1, width: "100%", height: "100%" }}>
           <ScrollView
             contentContainerStyle={{
               paddingBottom: Metrics.mainContainerMargin,
@@ -334,7 +337,7 @@ export default class EComProductListView extends React.Component {
     return (
       this.state.productList.length > 0
         ?
-        <View style={{ marginBottom: Metrics.baseMargin }}>
+        <View style={tailwind("bg-light pb-5 w-full")}>
           <FlatList
             data={this.state.productList}
             renderItem={this.handleRenderProductItem}
@@ -344,15 +347,10 @@ export default class EComProductListView extends React.Component {
           />
         </View>
         :
-        <View>
+        <View style={tailwind("items-center")}>
           <Label
             text={`No Product.`}
-            style={{
-              fontSize: Fonts.size.h5,
-              color: Colors.primary,
-              textAlign: 'center',
-              marginVertical: Metrics.doubleBaseMargin
-            }}
+            style={tailwind("text-xl font-bold text-primary my-3 justify-center items-center")}
           />
         </View>
     )
@@ -361,74 +359,58 @@ export default class EComProductListView extends React.Component {
   // Render Product Data Item List
   handleRenderProductItem = ({ item, index }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          this.props.navigation.navigate("EComProductItemScreen", {
-            product_data: item
-          })
-        }}
-        activeOpacity={9}
-        style={[{
-          width: (SCREEN_WIDTH - Metrics.smallMargin) / 2,
-          backgroundColor: Colors.body,
-          alignItems: 'center',
-          padding: Metrics.smallPadding,
-          marginBottom: Metrics.smallMargin,
-          borderColor: Colors.border_line, borderTopWidth: 1, borderBottomWidth: 1
-        },
-        (index % 2) ?
-          { marginLeft: Metrics.smallMargin, borderLeftWidth: 1 } :
-          { borderRightWidth: 1 }
-        ]}
-      >
-        {/* Image */}
-        <Image
-          source={item.images[0]}
-          style={{
-            resizeMode: 'contain',
-            width: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 2) * 0.8,
-            height: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 2),
-            marginBottom: Metrics.smallMargin,
+      <View style={tailwind("flex-1 flex-wrap h-full w-full")}>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate("EComProductItemScreen", {
+              product_data: item
+            })
           }}
-        />
+        >
+          <Card
+            containerStyle={tailwind('bg-white rounded-lg opacity-100 w-10/12 mb-1 h-56')}
+          >
+            <View style={tailwind("justify-between h-full w-full")}>
+              <View style={tailwind('justify-start items-center')}>
+                {/* Left - Product Image */}
+                <Image
+                  source={item.images[0]}
+                  style={{
+                    width: SCREEN_WIDTH * 0.2,
+                    height: SCREEN_WIDTH * 0.2,
+                    resizeMode: 'contain'
+                  }}
+                />
+              </View>
+              <View style={tailwind('justify-center my-3')} >
+                {/* Product Desc */}
+                <Label
+                  text={`${item.product_name}`}
+                  style={tailwind("flex flex-wrap text-base font-bold text-primary")}
+                  numberOfLines={3}
+                  ellipsizeMode={'tail'}
+                />
+              </View>
+              <View style={{justifyContent:"flex-end"}}>
+                {/* Product Price */}
+                <Label
+                  text={`${item.currency_symbol} ${parseFloat(item.discount_amt) > 0 ?
+                    item.discounted_price :
+                    item.default_selling_price}`}
+                  style={tailwind("flex flex-wrap text-primaryBlue text-lg font-bold ")}
+                  numberOfLines={2}
+                />
+              </View>
+              {/* Product Discount Badge */}
+              {this.handleRenderProductDiscountPercentBadge(item)}
 
-        {/* Product Desc */}
-        <Label
-          text={`${item.product_name}`}
-          numberOfLines={2}
-          ellipsizeMode={"tail"}
-          style={{
-            width: '100%',
-            height: 45,
-            color: Colors.primary,
-            fontSize: Fonts.size.medium,
-            marginBottom: Metrics.smallMargin,
-          }}
-        />
+              {/* Sold Out Indicator */}
+              {this.handleRenderProductSoldOutContainer(item, index)}
+            </View>
+          </Card>
+        </TouchableOpacity>
+      </View>
 
-        {/* Product Price */}
-        <Label
-          text={`${item.currency_symbol} ${parseFloat(item.discount_amt) > 0 ?
-            item.discounted_price :
-            item.default_selling_price}`}
-          numberOfLines={1}
-          ellipsizeMode={"tail"}
-          style={{
-            width: '100%',
-            height: 25,
-            color: Colors.primary,
-            fontSize: Fonts.size.regular, fontWeight: 'bold',
-            marginBottom: Metrics.smallMargin,
-          }}
-        />
-
-        {/* Product Discount Badge */}
-        {this.handleRenderProductDiscountPercentBadge(item)}
-
-        {/* Sold Out Indicator */}
-        {this.handleRenderProductSoldOutContainer(item, index)}
-
-      </TouchableOpacity>
     )
   }
 
@@ -449,7 +431,7 @@ export default class EComProductListView extends React.Component {
         <View style={{
           position: 'absolute',
           left: 0, right: 0, top: 0,
-          height: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 2) + Metrics.smallMargin * 2,
+          height: ((SCREEN_WIDTH - (Metrics.smallMargin * 2)) / 4) + Metrics.smallMargin * 2,
           backgroundColor: '#000000', opacity: 0.7,
           justifyContent: 'center'
         }}>

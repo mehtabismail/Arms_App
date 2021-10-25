@@ -284,7 +284,7 @@ export default class EComSearchAndCategoryView extends React.Component {
           }}
           containerStyle={{
             marginTop: 16,
-            width: '90%',
+            width: '98%',
           }}
           inputContainerStyle={tailwind("border-2 border-t bg-white opacity-100 w-full rounded-lg")}
           inputStyle={tailwind("text-primaryBlue")}
@@ -378,7 +378,7 @@ export default class EComSearchAndCategoryView extends React.Component {
         }
 
         {/* Level 3 Category List */}
-        <View style={{ justifyContent: "center", alignItems: "center", flexDirection: 'column' }}>
+        <View style={tailwind("justify-center items-center w-full flex-col")}>
           {this.handleRenderSubCategoryItemContainer(
             this.state.sub_category_list.filter(
               (value, index) => value.parent_category_id == this.state.selected_cat_level2_id
@@ -396,6 +396,7 @@ export default class EComSearchAndCategoryView extends React.Component {
       var item = sub_category_list[index];
       data.push(
         <TouchableOpacity
+        style={tailwind("w-full")}
           onPress={() => {
             this.props.navigation.navigate("EComProductListScreen", {
               search_type: "category",
@@ -410,17 +411,7 @@ export default class EComSearchAndCategoryView extends React.Component {
           <Card
             key={`${index}`}
             activeOpacity={0.9}
-            containerStyle={tailwind("rounded-lg opacity-100 my-3")}
-            style={{
-              backgroundColor: "#D9D2D2",
-              borderWidth: 1, borderColor: Colors.border_line,
-              justifyContent: 'center', alignItems: 'center',
-              paddingVertical: Metrics.smallPadding,
-              paddingHorizontal: Metrics.smallPadding,
-              margin: Metrics.smallMargin,
-              width: ((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2,  //SCREEN_WIDTH*0.25,
-              minHeight: ((SCREEN_WIDTH * 0.75) / 2) - Metrics.smallMargin * 2,
-            }}
+            containerStyle={tailwind("items-start rounded-lg opacity-100 my-3")}
           >
             <View style={tailwind("flex-row justify-center items-center")}>
               <View>
