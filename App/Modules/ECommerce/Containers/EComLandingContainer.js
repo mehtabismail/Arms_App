@@ -411,11 +411,11 @@ export default class EComLandingView extends React.Component {
           <Card containerStyle={tailwind("bg-white border rounded-lg justify-center items-center opacity-100")}>
             {/* <Text style={tailwind("text-xl font-bold text-primary")}>{`${this.state.points} Points`}</Text> */}
             <Label
-            text={`${this.state.points} Points`}
-            numberOfLines={1}
-            style={tailwind("text-xl font-bold text-primary")}
-            ellipsizeMode={"tail"}
-          />
+              text={`${this.state.points} Points`}
+              numberOfLines={1}
+              style={tailwind("text-xl font-bold text-primary")}
+              ellipsizeMode={"tail"}
+            />
           </Card>
         </View>
 
@@ -450,7 +450,7 @@ export default class EComLandingView extends React.Component {
             renderItem={this.handleRenderCategoriesItem}
             extraData={this.state.flatListRentalTrigger}
             keyExtractor={(item, index) => `${index}`}
-            numColumns={3}
+            numColumns={4}
             columnWrapperStyle={{ justifyContent: 'center' }}
             scrollEnabled={false}
             initialNumToRender={5}
@@ -464,7 +464,8 @@ export default class EComLandingView extends React.Component {
   // Render Categories Data Item List
   handleRenderCategoriesItem = ({ item, index }) => {
     return (
-      <TouchableOpacity
+      <View style={tailwind("flex-1 p-1")}>
+        <TouchableOpacity
         onPress={() => {
           this.props.navigation.navigate("EComProductListScreen", {
             search_type: "category",
@@ -477,27 +478,35 @@ export default class EComLandingView extends React.Component {
         }}
         style={{
           alignItems: 'center',
-          width: SCREEN_WIDTH / 4,
-          padding: Metrics.smallPadding,
-          paddingVertical: Metrics.basePadding
+          flex:1,
+          // width: SCREEN_WIDTH / 4,
+          // padding: Metrics.smallPadding,
+          // paddingVertical: Metrics.basePadding,
         }}
       >
-        <Image
-          source={item.icon}
-          style={{
-            width: (SCREEN_WIDTH / 4) * 0.5, //50, //(SCREEN_WIDTH - ((Metrics.smallPadding*2)*4)) / 4,
-            height: (SCREEN_WIDTH / 4) * 0.5 //50, //(SCREEN_WIDTH - ((Metrics.smallPadding*2)*4)) / 4
-          }}
-        />
-        <View style={tailwind("my-1")}>
-          <Label
-            text={`${item.description}`}
-            numberOfLines={1}
-            style={tailwind("text-lg text-primaryBlue")}
-            ellipsizeMode={"tail"}
-          />
+        <View style={tailwind("justify-center items-center p-1")}>
+          <View style={tailwind("self-center")}>
+            <Image
+              source={item.icon}
+              style={{
+                width: (SCREEN_WIDTH / 4) * 0.5, //50, //(SCREEN_WIDTH - ((Metrics.smallPadding*2)*4)) / 4,
+                height: (SCREEN_WIDTH / 4) * 0.5 //50, //(SCREEN_WIDTH - ((Metrics.smallPadding*2)*4)) / 4
+              }}
+            />
+          </View>
+          <View style={tailwind("mt-1 items-center justify-center w-full")}>
+            <Label
+              text={`${item.description}`}
+              numberOfLines={2}
+              // style={tailwind("text-xs text-primaryBlue text-center")}
+              style={{color:"#213260", fontSize:8, textAlign:"center"}}
+              ellipsizeMode={"tail"}
+            />
+          </View>
         </View>
       </TouchableOpacity>
+      </View>
+      
     )
 
   }

@@ -1174,17 +1174,6 @@ export default class EComCheckoutView extends React.Component {
   handleRenderCheckoutButtonContainer() {
     return (
       <View style={tailwind("self-center w-full ")}>
-
-        {/* Checkout Button */}
-        {/* <AppsButton
-
-          text={`Payment`}
-          backgroundColor={Colors.button_background}
-          fontSize={Fonts.size.h6}
-          onPress={() => {
-            this.handlePaymentProcess();
-          }}
-        /> */}
         <Button
           containerStyle={tailwind("mx-5")}
           buttonStyle={tailwind("rounded-lg bg-buttoncolor")}

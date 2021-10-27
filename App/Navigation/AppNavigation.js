@@ -6,6 +6,8 @@ import {
   Text
 } from 'react-native';
 
+import { tailwind, getColor } from '../../tailwind';
+
 /** PROJECT FILES **/
 import { Colors, Metrics, Fonts, Images } from '../Themes';
 import { Label } from '../Services/LibLinking';
@@ -172,7 +174,7 @@ const DashboardStack = createStackNavigator({
     initialRouteName: '',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.button_background,
+        backgroundColor: getColor("primary")
       },
       headerTitleStyle: {
         ...Fonts.size.normal,
@@ -338,14 +340,8 @@ const ProfileStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      headerTransparent:  true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
@@ -416,14 +412,11 @@ const ReferralProgramStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      // headerStyle: {
+      //   backgroundColor: Colors.primary,
+      // },
+      headerTransparent:  true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
