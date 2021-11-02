@@ -173,14 +173,11 @@ const DashboardStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: getColor("primary")
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      // headerStyle: {
+      //   backgroundColor: getColor("transparent")
+      // },
+      headerTransparent: true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
@@ -360,14 +357,8 @@ const EBrochureStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      headerTransparent:  true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,

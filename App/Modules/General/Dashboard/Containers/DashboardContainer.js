@@ -105,18 +105,36 @@ export default class DashboardView extends React.Component {
     // const status = params.status ? `${nric}` : 'Home';
 
     return {
+      // title,
+      // headerLeft: (
+      //   <TouchableOpacity style={{ paddingLeft: 10 }} onPress={() => navigateToScreen(navigation, { loginUpdate: true })}>
+      //     <Image
+      //       style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary, colors:"black" }}
+      //       source={Images.menu} />
+      //   </TouchableOpacity>
+      // ),
+      // headerRight: (
+      //   <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => navigation.navigate('MemberHistoryScreen')}>
+      //     <Image
+      //       style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary }}
+      //       source={Images.history} />
+      //   </TouchableOpacity>
+      // ),
+      //NEW
       title,
       headerLeft: (
-        <TouchableOpacity style={{ paddingLeft: 10 }} onPress={() => navigateToScreen(navigation, { loginUpdate: true })}>
+        <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 ml-3 mt-3")}
+          onPress={() => navigateToScreen(navigation, { loginUpdate: true })}>
           <Image
-            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary }}
+            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
             source={Images.menu} />
         </TouchableOpacity>
       ),
+
       headerRight: (
-        <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => navigation.navigate('MemberHistoryScreen')}>
+        <TouchableOpacity style={{ paddingRight: 10,}} onPress={() => navigation.navigate('MemberHistoryScreen')}>
           <Image
-            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary }}
+            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
             source={Images.history} />
         </TouchableOpacity>
       ),
@@ -314,16 +332,16 @@ export default class DashboardView extends React.Component {
     return (
       <View
         // style={[ApplicationStyles.screen.headerContainer]} 
-      //   style={
-      //     {
-      //     alignItems: 'center',
-      //     backgroundColor: 'transparent',
-      //     // height: Metrics.headerContainerHeight,
-      //     width: '90%',
-      //     alignSelf: "center",
-      //   }
-      // }
-      style={tailwind("w-11/12 self-center rounded-lg mt-1")}
+        //   style={
+        //     {
+        //     alignItems: 'center',
+        //     backgroundColor: 'transparent',
+        //     // height: Metrics.headerContainerHeight,
+        //     width: '90%',
+        //     alignSelf: "center",
+        //   }
+        // }
+        style={tailwind("w-11/12 self-center rounded-lg mt-1")}
       >
         <AdsBanner
           dataFolderPath={ads_banner_path}
@@ -471,65 +489,63 @@ export default class DashboardView extends React.Component {
     return (
       /**Start Safe Area**/
       <SafeAreaView style={tailwind("bg-gray-200")} forceInset={{ vertical: 'never' }} >
-
-        {/* Start Main View */}
-        <ScrollView refreshControl={
-          <RefreshControl
-            refreshing={this.state.fetch_data}
-            onRefresh={this.handleRefresh}
-            colors={[Colors.background]} //android
-            progressBackgroundColor={Colors.background} //android
-            progressViewOffset={this.state.screenHeight * 2} //android
-            tintColor={Colors.background} //ios
-          />
-        }
-        >
-          {
-            (this.state.fetch_data)
-              ?
-              <View />
-              :
-              <View style={tailwind("flex-1")}
-              // {[ApplicationStyles.screen.mainContainer,{}]} 
-              // behavior="padding"
-              >
-                {/* Display Member Total Points */}
-                {this.handleRenderMemberTotalPoints()}
-
-                {/* Display Member QRCode and BarCode OR Login Screen */}
-                {/* <View style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding, ...ApplicationStyles.screen.test}]}> */}
-                {
-                  (!this.state.nric)
-                    ?
-                    <View style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}>
-                      {this.handleRenderAccessLoginScreen()}
-                    </View>
-                    :
-                    <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
-                      <TouchableOpacity
-                        onPress={() => { this.handleAdjustBrightness() }}
-                      >
-                        {this.handleRenderQRCodeAndBarcode()}
-                      </TouchableOpacity>
-                    </Card>
-                }
-                {/* </View> */}
-                <View style={tailwind("w-full h-full mt-3 pb-28")}>
-                  {/* Display Ads Banner */}
-                  {this.handleRenderAdsBanner()}
-                </View>
-              </View>
+        <View style={tailwind("mt-16")}>
+          {/* Start Main View */}
+          <ScrollView refreshControl={
+            <RefreshControl
+              refreshing={this.state.fetch_data}
+              onRefresh={this.handleRefresh}
+              colors={[Colors.background]} //android
+              progressBackgroundColor={Colors.background} //android
+              progressViewOffset={this.state.screenHeight * 2} //android
+              tintColor={Colors.background} //ios
+            />
           }
+          >
+            {
+              (this.state.fetch_data)
+                ?
+                <View />
+                :
+                <View style={tailwind("flex-1")}
+                // {[ApplicationStyles.screen.mainContainer,{}]} 
+                // behavior="padding"
+                >
+                  {/* Display Member Total Points */}
+                  {this.handleRenderMemberTotalPoints()}
+
+                  {/* Display Member QRCode and BarCode OR Login Screen */}
+                  {/* <View style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding, ...ApplicationStyles.screen.test}]}> */}
+                  {
+                    (!this.state.nric)
+                      ?
+                      <View style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}>
+                        {this.handleRenderAccessLoginScreen()}
+                      </View>
+                      :
+                      <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
+                        <TouchableOpacity
+                          onPress={() => { this.handleAdjustBrightness() }}
+                        >
+                          {this.handleRenderQRCodeAndBarcode()}
+                        </TouchableOpacity>
+                      </Card>
+                  }
+                  {/* </View> */}
+                  <View style={tailwind("w-full h-full mt-3 pb-28")}>
+                    {/* Display Ads Banner */}
+                    {this.handleRenderAdsBanner()}
+                  </View>
+                </View>
+            }
+
+          </ScrollView>
+
+          {/* Loading Animation */}
+          {this.handleRenderLoadingIndicator()}
 
 
-
-        </ScrollView>
-
-        {/* Loading Animation */}
-        {this.handleRenderLoadingIndicator()}
-
-
-
+        </View>
       </SafeAreaView>
     )
   }
