@@ -12,8 +12,10 @@ import {
   View
 } from 'react-native';
 
+import { Card } from 'react-native-elements'
+
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
   AppsButton, LoadingIndicator, AdsBanner, Label,
   I18n,
@@ -32,15 +34,16 @@ import { NavigationActions, DrawerActions } from 'react-navigation';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import SystemSetting from 'react-native-system-setting'
+import { tailwind } from '../../../../../tailwind';
 
 
 const ads_banner_path = AppConfig.ads_banner_dashboard_scn_path;
 const ads_screen_id = AppConfig.ads_dashboard_screen_id;
 
-const MIN_HEIGHT = 750; 
+const MIN_HEIGHT = 750;
 
 export default class DashboardView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       screenWidth: Dimensions.get('window').width,
@@ -82,11 +85,11 @@ export default class DashboardView extends React.Component {
 
 
   // Navigation Tab
-  static navigationOptions = ({navigation, navigationOptions}) => {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
-    
+
     // Open Drawer Navigation
-    var navigateToScreen = params.this; 
+    var navigateToScreen = params.this;
     // Get device screen height
     const deviceScreenHeight = params.deviceScreenHeight;
     // Set title, if device screen height is lower than MIN HEIGHT, set title 
@@ -104,18 +107,18 @@ export default class DashboardView extends React.Component {
     return {
       title,
       headerLeft: (
-        <TouchableOpacity style={{paddingLeft: 10}} onPress={() => navigateToScreen(navigation, {loginUpdate: true})}>
+        <TouchableOpacity style={{ paddingLeft: 10 }} onPress={() => navigateToScreen(navigation, { loginUpdate: true })}>
           <Image
-            style={{width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary}} 
-            source={Images.menu}/>
+            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary }}
+            source={Images.menu} />
         </TouchableOpacity>
       ),
       headerRight: (
-        <TouchableOpacity style={{paddingRight: 10}} onPress={() => navigation.navigate('MemberHistoryScreen')}>
+        <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => navigation.navigate('MemberHistoryScreen')}>
           <Image
-            style={{width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary}} 
-            source={Images.history}/>
-        </TouchableOpacity> 
+            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary }}
+            source={Images.history} />
+        </TouchableOpacity>
       ),
     }
   }
@@ -126,7 +129,7 @@ export default class DashboardView extends React.Component {
       routeName: "DrawerStack",
       params: params,
     });
-    
+
     navigation.dispatch(navigateAction);
     navigation.dispatch(DrawerActions.openDrawer());
   }
@@ -140,7 +143,7 @@ export default class DashboardView extends React.Component {
     this.handleLoginUpdate();
 
     /* Set open drawer navigation to header */
-    this.props.navigation.setParams({this: this.navigateToScreen});
+    this.props.navigation.setParams({ this: this.navigateToScreen });
 
     /** Handle PN onNotification Process **/
     this.handlePushNotificationScreenAllocate();
@@ -154,11 +157,11 @@ export default class DashboardView extends React.Component {
     clearTimeout(this.brightnessTimer);
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     // Handle Login Update Process, compare prev props with current Props is to prevent infinite loop and hit the update max limit. 
     var loginUpdate = this.props.navigation.getParam('loginUpdate', false);
-    if(loginUpdate && prevProps.navigation != this.props.navigation){
-      this.props.navigation.setParams({loginUpdate: false});
+    if (loginUpdate && prevProps.navigation != this.props.navigation) {
+      this.props.navigation.setParams({ loginUpdate: false });
       this.handleLoginUpdate();
     }
   }
@@ -171,7 +174,7 @@ export default class DashboardView extends React.Component {
   }
 
   // Handle fetch data indicator display.
-  handleFetchDataIndicator(status, text=""){
+  handleFetchDataIndicator(status, text = "") {
     this.setState({
       fetch_data: status,
       fetch_data_text: text ? text : 'Fetching data...'
@@ -182,11 +185,11 @@ export default class DashboardView extends React.Component {
   /******************** FUNCTIONALITY *****************************/
   /****************************************************************/
 
-  async handleLoginUpdate(){
+  async handleLoginUpdate() {
     this.handleFetchDataIndicator(true, "Check Login...");
     var nric = '';
     var login_user = await this.loginController.fetchCurrentLoginMember();
-    if(login_user.result == 1 && login_user.data){
+    if (login_user.result == 1 && login_user.data) {
       nric = login_user.data.nric;
     }
 
@@ -195,8 +198,8 @@ export default class DashboardView extends React.Component {
 
   }
 
-  handleSetNRIC(nric){
-    this.setState({nric});
+  handleSetNRIC(nric) {
+    this.setState({ nric });
     this.handleMemberInfo(nric);
     this.handleRegisterPNToken(nric);
   }
@@ -210,13 +213,13 @@ export default class DashboardView extends React.Component {
    * - points
    * - last_update
    */
-  handleMemberInfo(nric){
+  handleMemberInfo(nric) {
     this.handleFetchDataIndicator(true, "Fetching member...");
-    if(nric){
+    if (nric) {
       var result = this.dashboardController.getDashboardMemberInfoFromDB(nric);
       result.then((res) => {
-        if(res.result == 1) {
-          if(res.data){
+        if (res.result == 1) {
+          if (res.data) {
             this.handleSetMemberData(nric, res.data);
             this.handleFetchMemberDataFromServer(nric);
           }
@@ -233,16 +236,16 @@ export default class DashboardView extends React.Component {
   /**
    * This function created is to make retrieve data from server running in background. 
    */
-  handleFetchMemberDataFromServer(nric){
+  handleFetchMemberDataFromServer(nric) {
     var result = this.dashboardController.FetchMemberInfo(nric);
     result.then((res) => {
-      if(res.result == 1) {
-        if(res.data){
+      if (res.result == 1) {
+        if (res.data) {
           this.handleSetMemberData(nric, res.data);
         }
       } else {
         var res_mem_api = res.member_info_api;
-        var err_msg = (res_mem_api.result==1)?`${res.data.msg}.`:`${res.data.msg}. ${err_mem_api.data}`;
+        var err_msg = (res_mem_api.result == 1) ? `${res.data.msg}.` : `${res.data.msg}. ${err_mem_api.data}`;
         Alert.alert(
           '', err_msg
         )
@@ -252,8 +255,8 @@ export default class DashboardView extends React.Component {
     })
   }
 
-  handleSetMemberData(nric, data){
-    var points= data.points;
+  handleSetMemberData(nric, data) {
+    var points = data.points;
     this.setState({
       points: points,
       card_no: data.card_no,
@@ -270,7 +273,7 @@ export default class DashboardView extends React.Component {
    * - points
    * - nric
    */
-  handleMemberPointsHeader(nric, points){
+  handleMemberPointsHeader(nric, points) {
     this.props.navigation.setParams({
       deviceScreenHeight: this.state.screenHeight,
       points: points,
@@ -278,8 +281,8 @@ export default class DashboardView extends React.Component {
     });
   }
 
-  handleAdjustBrightness(){
-    if(!this.brightnessTimer){
+  handleAdjustBrightness() {
+    if (!this.brightnessTimer) {
       // Adjust to bright
       SystemSetting.getAppBrightness().then(brightness => {
         this.setState({
@@ -298,7 +301,7 @@ export default class DashboardView extends React.Component {
     }
   }
 
-  handleFetchBranchListData(){
+  handleFetchBranchListData() {
     var test = this.dashboardController.FetchBranchDataValidation();
   }
 
@@ -307,23 +310,33 @@ export default class DashboardView extends React.Component {
   /****************************************************************/
 
   // Ads Banner
-  handleRenderAdsBanner(){
-    return(
-      <View style={[ApplicationStyles.screen.headerContainer]} >
-        <AdsBanner 
+  handleRenderAdsBanner() {
+    return (
+      <View
+        // style={[ApplicationStyles.screen.headerContainer]} 
+        style={{
+          alignItems: 'center',
+          backgroundColor: 'transparent',
+          // height: Metrics.headerContainerHeight,
+          width: '90%',
+          alignSelf: "center",
+          borderRadius: 15,
+        }}
+      >
+        <AdsBanner
           dataFolderPath={ads_banner_path}
           screenId={ads_screen_id}
           imgResizeMode={'stretch'}
           height={Metrics.headerContainerHeight}
           arrowSize={0}
-          onPress={(data)=>{
+          onPress={(data) => {
             var url = data.image.link;
-            if(url && url != "undefined"){
-              url = (url.substring(0,8)=="https://" || url.substring(0,7)=="http://")?url:`http://${url}`;
+            if (url && url != "undefined") {
+              url = (url.substring(0, 8) == "https://" || url.substring(0, 7) == "http://") ? url : `http://${url}`;
               Linking.openURL(url);
             } else {
               Alert.alert("", I18n.t("alert_banner_empty_weblink"));
-  }
+            }
           }}
           onRefresh={this.state.fetch_data}
         />
@@ -332,58 +345,64 @@ export default class DashboardView extends React.Component {
   }
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
-        size={"large"} 
+        size={"large"}
         text={`${this.state.fetch_data_text}`}
-          />
+      />
     )
   }
 
   // Handle Render Member Total Points
-  handleRenderMemberTotalPoints(){
-    return(
+  handleRenderMemberTotalPoints() {
+    return (
       (!this.state.nric)
-      ?
-      <View/>
-      :
-      <View>
-      {
-        (this.state.screenHeight > MIN_HEIGHT)
         ?
-        // Display Total Point
-        <View style={[styles.pointContainer, {flexDirection: 'row', backgroundColor: Colors.primary}]}>
-          {/* Customer Point Data Container  */}
-          <View style={{width: '70%', alignItems: 'center', padding: Metrics.regularPadding,  paddingLeft: Metrics.basePadding}}>
-            <View style={{width: '100%', justifyContent: 'center', marginVertical: Metrics.baseMargin,}}>
-              <Text style={{fontSize: Fonts.size.h5, fontWeight: '500', color: Colors.secondary}}>TOTAL POINTS: </Text>
-            </View>
-            <View style={{width: '100%',}}>
-              <Text style={{fontSize: Fonts.size.label, color: Colors.secondary}}>Last update on {this.state.last_update}</Text>
-            </View>
-          </View>
-          
-          {/* Customer Point Container */}
-          <View style={{width: '30%',  justifyContent: 'center',}}>
-            <Text style={{fontSize: Fonts.size.h3, fontWeight: 'bold', color: Colors.secondary}}>{this.state.points}</Text>
-          </View>
-        </View>
+        <View />
         :
-        <View/>
-      } 
-      </View>
+        <View>
+          {
+            (this.state.screenHeight > MIN_HEIGHT)
+              ?
+              // Display Total Point
+              <Card
+                containerStyle={tailwind('bg-white rounded-lg opacity-100')}
+              >
+                {/* Customer Point Data Container  */}
+                <View style={tailwind("flex-row justify-between")}>
+                  <View>
+                    <Text
+                      // style={{ fontSize: Fonts.size.h5, fontWeight: '500', color: Colors.secondary }}
+                      style={tailwind("text-primary text-2xl font-bold")}
+                    >TOTAL POINTS: </Text>
+                  </View>
+                  {/* Customer Point Container */}
+                  <View>
+                    <Text style={tailwind("text-primary text-2xl font-bold")}>{this.state.points}</Text>
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    style={tailwind("text-base text-primaryBlue mt-3")}
+                  >Last update on {this.state.last_update}</Text>
+                </View>
+              </Card>
+              :
+              <View />
+          }
+        </View>
     )
   }
 
   // Access Login Screen
-  handleRenderAccessLoginScreen(){
-    return(
-      <View style={{width: '100%', justifyContent: 'center', padding: Metrics.basePadding}}>
-        <Label style={{marginBottom: Metrics.baseMargin*6}}>Come and join us to get your discountedddd vouchers and many more great deals.</Label>
-        <AppsButton 
-          onPress={() => {this.props.navigation.navigate("LandingScreen", {prev_screen: this.props.navigation.state.routeName})}}
+  handleRenderAccessLoginScreen() {
+    return (
+      <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
+        <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get your discountedddd vouchers and many more great deals.</Label>
+        <AppsButton
+          onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
           backgroundColor={Colors.button_background}
           text={"LOGIN / REGISTER"}
           fontSize={20}
@@ -393,61 +412,61 @@ export default class DashboardView extends React.Component {
   }
 
   // Handle render QR Code and Barcode
-  handleRenderQRCodeAndBarcode(){
-    return(
-      <View style={{flex: 1}}>
+  handleRenderQRCodeAndBarcode() {
+    return (
+      <View style={{ flex: 1 }}>
         {/* Notice Text */}
         <View>
-          <Label 
+          <Label
             text={`Please scan your code here`}
-            style={{fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center'}}
+            style={{ fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center' }}
           />
         </View>
 
         {/* QRCode */}
-        <View style={{alignItems: 'center', marginVertical: Metrics.marginVertical, overflow:'hidden'}}>
+        <View style={{ alignItems: 'center', marginVertical: Metrics.marginVertical, overflow: 'hidden' }}>
           {
             this.state.card_no
-            ?
-            <QRCode
-              value={this.state.card_no}
-              // value={this.state.qr_data}
-              size={(Dimensions.get('window').height-Metrics.headerContainerHeight)*0.3}
-              bgColor='black'
-              fgColor='white'
-            />
-            :
-            <View/>
+              ?
+              <QRCode
+                value={this.state.card_no}
+                // value={this.state.qr_data}
+                size={(Dimensions.get('window').height - Metrics.headerContainerHeight) * 0.3}
+                bgColor='black'
+                fgColor='white'
+              />
+              :
+              <View />
           }
         </View>
-        
+
         {/* Barcode */}
-        <View  style={{alignItems: 'center'}}>
-          <Barcode 
+        <View style={{ alignItems: 'center' }}>
+          <Barcode
             value={this.state.card_no}
-            format="CODE128" 
+            format="CODE128"
             text={this.state.card_no}
-            width={1.7} 
-            height={(Dimensions.get('window').height-Metrics.headerContainerHeight)*0.15}
+            width={1.7}
+            height={(Dimensions.get('window').height - Metrics.headerContainerHeight) * 0.15}
           />
         </View>
-        
+
         {/* Notice Text */}
-        <View style={{paddingHorizontal: Metrics.basePadding}}>
-          <Label 
+        <View style={{ paddingHorizontal: Metrics.basePadding }}>
+          <Label
             text={`Tap barcode to brightness your screen.`}
-            style={{fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center'}}
+            style={{ fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center' }}
           />
-        </View> 
-      </View> 
+        </View>
+      </View>
     )
   }
 
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
-        
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+
         {/* Start Main View */}
         <ScrollView refreshControl={
           <RefreshControl
@@ -455,45 +474,52 @@ export default class DashboardView extends React.Component {
             onRefresh={this.handleRefresh}
             colors={[Colors.background]} //android
             progressBackgroundColor={Colors.background} //android
-            progressViewOffset={this.state.screenHeight*2} //android
+            progressViewOffset={this.state.screenHeight * 2} //android
             tintColor={Colors.background} //ios
           />
-        }>
-        {
-          (this.state.fetch_data)
-          ?
-          <View/>
-          :
-          <View style={[ApplicationStyles.screen.mainContainer,{}]} behavior="padding">
-            {/* Display Member Total Points */}
-            {this.handleRenderMemberTotalPoints()}
-
-            {/* Display Member QRCode and BarCode OR Login Screen */}
-            {/* <View style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding, ...ApplicationStyles.screen.test}]}> */}
-              {
-                (!this.state.nric)
-                ?
-                <View style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding}]}>
-                  {this.handleRenderAccessLoginScreen()}
-                </View>
-                :
-                <TouchableOpacity 
-                  style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding}]}
-                  onPress={()=>{this.handleAdjustBrightness()}}
-                >
-                  {this.handleRenderQRCodeAndBarcode()}
-                </TouchableOpacity>
-              }
-            {/* </View> */}
-          </View>
         }
+        >
+          {
+            (this.state.fetch_data)
+              ?
+              <View />
+              :
+              <View style={tailwind("flex-1 bg-red-200")}
+              // {[ApplicationStyles.screen.mainContainer,{}]} 
+              // behavior="padding"
+              >
+                {/* Display Member Total Points */}
+                {this.handleRenderMemberTotalPoints()}
+
+                {/* Display Member QRCode and BarCode OR Login Screen */}
+                {/* <View style={[styles.scanContainer,  {paddingVertical: Metrics.basePadding, ...ApplicationStyles.screen.test}]}> */}
+                {
+                  (!this.state.nric)
+                    ?
+                    <View style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}>
+                      {this.handleRenderAccessLoginScreen()}
+                    </View>
+                    :
+                    <TouchableOpacity
+                      style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}
+                      onPress={() => { this.handleAdjustBrightness() }}
+                    >
+                      {this.handleRenderQRCodeAndBarcode()}
+                    </TouchableOpacity>
+                }
+                {/* </View> */}
+              </View>
+          }
+
+          {/* Display Ads Banner */}
+          {this.handleRenderAdsBanner()}
+
         </ScrollView>
 
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
-            
-        {/* Display Ads Banner */}
-        {this.handleRenderAdsBanner()}
+
+
 
       </SafeAreaView>
     )
@@ -503,7 +529,7 @@ export default class DashboardView extends React.Component {
   /************************* PUSH NOTIFICATION **********************************/
   /******************************************************************************/
 
-  handlePushNotificationScreenAllocate(){
+  handlePushNotificationScreenAllocate() {
     /**
      * iOS problem:
      *  - notification.foreground = true, notification.userInteraction will always is false.
@@ -529,13 +555,13 @@ export default class DashboardView extends React.Component {
         // alert(AppState.currentState + " " + JSON.stringify(notification));
 
         // To solve iOS problem: Detect user tapped push notification when AppState.currentState = "active".
-        if(Platform.OS === "ios"){
-          if((AppState.currentState === "active" || AppState.currentState === "inactive" || AppState.currentState === "background") && !notification.userInteraction){
-            if(notification.message.pnIndex){
+        if (Platform.OS === "ios") {
+          if ((AppState.currentState === "active" || AppState.currentState === "inactive" || AppState.currentState === "background") && !notification.userInteraction) {
+            if (notification.message.pnIndex) {
               var currentNotificationId = notification.message.pnIndex;
               var notificationIdList = this.state.notificationIdList;
-              var index = notificationIdList.findIndex((data)=>data==currentNotificationId);
-              if(index == -1){
+              var index = notificationIdList.findIndex((data) => data == currentNotificationId);
+              if (index == -1) {
                 notification.userInteraction = false;
                 // Add current notificationId id to the list
                 notificationIdList.push(currentNotificationId);
@@ -554,34 +580,34 @@ export default class DashboardView extends React.Component {
             }
           }
         }
-        
+
         // process the notification when user tapped
-        if(notification.userInteraction){
+        if (notification.userInteraction) {
           this.handleDeliveredNotifications();
           // console.log("User pressed.");
           var screenTag = Platform.OS === "ios" ? notification.message.screenTag : notification.screenTag
-          if(screenTag){
-            switch(screenTag){
+          if (screenTag) {
+            switch (screenTag) {
               case ScreenTag.SCREEN_PROMO:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PROMO, {loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PROMO, { loginUpdate: true });
                 break;
               case ScreenTag.SCREEN_VOUCHER:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_VOUCHER, {loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_VOUCHER, { loginUpdate: true });
                 break;
               case ScreenTag.SCREEN_COUPON:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_COUPON, {loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_COUPON, { loginUpdate: true });
                 break;
               case ScreenTag.SCREEN_PACKAGE:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PACKAGE, {loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PACKAGE, { loginUpdate: true });
                 break;
               case ScreenTag.SCREEN_PACKAGE_RATING:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PACKAGE_RATING, {screenSource: 'rate_us', loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_PACKAGE_RATING, { screenSource: 'rate_us', loginUpdate: true });
                 break;
               case ScreenTag.SCREEN_NOTICE_BOARD:
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_NOTICE_BOARD, {loginUpdate: true});
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_NOTICE_BOARD, { loginUpdate: true });
                 break;
-              default: 
-                this.handlePNScreenRoute(ScreenTagTo.SCREEN_HOME, {loginUpdate: true});
+              default:
+                this.handlePNScreenRoute(ScreenTagTo.SCREEN_HOME, { loginUpdate: true });
             }
           }
         }
@@ -592,23 +618,23 @@ export default class DashboardView extends React.Component {
     })
   }
 
-  handlePNScreenRoute(screenName, params={}){
+  handlePNScreenRoute(screenName, params = {}) {
     this.props.navigation.navigate(screenName, params);
   }
 
-  handleDeliveredNotifications(){
-    if(Platform.OS === "ios"){
+  handleDeliveredNotifications() {
+    if (Platform.OS === "ios") {
       // Get all delivered notifications from notification center
-      PushNotificationIOS.getDeliveredNotifications((notification)=>{
+      PushNotificationIOS.getDeliveredNotifications((notification) => {
         // alert(JSON.stringify(notification));
         // console.log(notification);
-        if(notification){
+        if (notification) {
           var notificationIdList = [];
           PushNotification.setApplicationIconBadgeNumber(notification.length);
           for (let i = 0; i < notification.length; i++) {
-            if(notification[i].userInfo.aps.alert.pnIndex){
+            if (notification[i].userInfo.aps.alert.pnIndex) {
               notificationIdList.push(notification[i].userInfo.aps.alert.pnIndex);
-            }    
+            }
           }
           this.setState({
             notificationIdList,
@@ -620,13 +646,13 @@ export default class DashboardView extends React.Component {
     }
   }
 
-  handleRegisterPNToken(nric){
+  handleRegisterPNToken(nric) {
     PushNotification.configure({
       // Called when Token is generated (iOS and Android)
       onRegister: (token) => {
         // console.log( 'TOKEN:', token );
         // alert(JSON.stringify(token))
-        
+
         /** Update member PN Token to server **/
         var member = new Member();
         var updatePNToken = member.UploadPNTokenToServer(token.token);
