@@ -7247,9 +7247,6 @@
 	"tracking-widest": {
 		"letterSpacing": "0.1em"
 	},
-	"text-secondary": {
-		"color": "transparent"
-	},
 	"text-transparent": {
 		"color": "transparent"
 	},
@@ -7586,6 +7583,9 @@
 		"color": "rgba(88, 107, 202, var(--tw-text-opacity))"
 	},
 	"text-primaryBlue": {
+		"color": "#213260"
+	},
+	"text-secondary": {
 		"color": "#213260"
 	},
 	"text-opacity-0": {

@@ -314,14 +314,15 @@ export default class DashboardView extends React.Component {
     return (
       <View
         // style={[ApplicationStyles.screen.headerContainer]} 
-        style={{
-          alignItems: 'center',
-          backgroundColor: 'transparent',
-          // height: Metrics.headerContainerHeight,
-          width: '90%',
-          alignSelf: "center",
-          borderRadius: 15,
-        }}
+      //   style={
+      //     {
+      //     alignItems: 'center',
+      //     backgroundColor: 'transparent',
+      //     // height: Metrics.headerContainerHeight,
+      //     width: '90%',
+      //     alignSelf: "center",
+      //   }
+      // }
       >
         <AdsBanner
           dataFolderPath={ads_banner_path}
@@ -414,17 +415,20 @@ export default class DashboardView extends React.Component {
   // Handle render QR Code and Barcode
   handleRenderQRCodeAndBarcode() {
     return (
-      <View style={{ flex: 1 }}>
+      <View >
         {/* Notice Text */}
         <View>
           <Label
             text={`Please scan your code here`}
-            style={{ fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center' }}
+            style={tailwind("text-black text-lg text-center")}
           />
         </View>
 
         {/* QRCode */}
-        <View style={{ alignItems: 'center', marginVertical: Metrics.marginVertical, overflow: 'hidden' }}>
+        <View
+          // style={{ alignItems: 'center', marginVertical: Metrics.marginVertical, overflow: 'hidden' }}
+          style={tailwind("items-center overflow-hidden my-2")}
+        >
           {
             this.state.card_no
               ?
@@ -441,21 +445,21 @@ export default class DashboardView extends React.Component {
         </View>
 
         {/* Barcode */}
-        <View style={{ alignItems: 'center' }}>
+        <View style={tailwind("items-center mt-3 mb-1")}>
           <Barcode
             value={this.state.card_no}
             format="CODE128"
             text={this.state.card_no}
-            width={1.7}
-            height={(Dimensions.get('window').height - Metrics.headerContainerHeight) * 0.15}
+            // width={1.7}
+            height={(Dimensions.get('window').height - Metrics.headerContainerHeight) * 0.12}
           />
         </View>
 
         {/* Notice Text */}
-        <View style={{ paddingHorizontal: Metrics.basePadding }}>
+        <View style={tailwind("items-center")}>
           <Label
             text={`Tap barcode to brightness your screen.`}
-            style={{ fontSize: Fonts.size.regular, color: Colors.text_color_1, textAlign: 'center' }}
+            style={tailwind("text-black text-base text-center")}
           />
         </View>
       </View>
@@ -484,7 +488,7 @@ export default class DashboardView extends React.Component {
               ?
               <View />
               :
-              <View style={tailwind("flex-1 bg-red-200")}
+              <View style={tailwind("flex-1 bg-blue-200")}
               // {[ApplicationStyles.screen.mainContainer,{}]} 
               // behavior="padding"
               >
@@ -500,19 +504,23 @@ export default class DashboardView extends React.Component {
                       {this.handleRenderAccessLoginScreen()}
                     </View>
                     :
-                    <TouchableOpacity
-                      style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}
-                      onPress={() => { this.handleAdjustBrightness() }}
-                    >
-                      {this.handleRenderQRCodeAndBarcode()}
-                    </TouchableOpacity>
+                    <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
+                      <TouchableOpacity
+                        onPress={() => { this.handleAdjustBrightness() }}
+                      >
+                        {this.handleRenderQRCodeAndBarcode()}
+                      </TouchableOpacity>
+                    </Card>
                 }
                 {/* </View> */}
+                <View style={tailwind("bg-red-200 mt-3 mb-5 pb-5")}>
+                  {/* Display Ads Banner */}
+                  {this.handleRenderAdsBanner()}
+                </View>
               </View>
           }
 
-          {/* Display Ads Banner */}
-          {this.handleRenderAdsBanner()}
+
 
         </ScrollView>
 
