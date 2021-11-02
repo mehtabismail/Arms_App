@@ -604,8 +604,8 @@ const myTabBarIcon = (focused, tintColor, source) => {
   return (
     <Image
       style={[{
-        height: focused ? Metrics.icons.regular : Metrics.icons.small,
-        width: focused ? Metrics.icons.regular : Metrics.icons.small,
+        height: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
+        width: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
         tintColor,
       }]}
       source={source}
@@ -618,12 +618,13 @@ const myTabBarLabel = (focused, tintColor, text) => {
     return (
       <Label
         text={`${text}`}
-        style={{
-          fontSize: Fonts.size.small - 2,
-          color: tintColor,
-          textAlign: 'center'
-        }}
-        numberOfLines={1}
+        // style={{
+        //   fontSize: Fonts.size.small - 2,
+        //   color: tintColor,
+        //   textAlign: 'center'
+        // }}
+        style={tailwind("text-xs text-primaryBlue text-center -mt-3")}
+        numberOfLines={2}
       />
     )
   }
@@ -651,7 +652,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
         });
       },
       tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Promotion')
+        myTabBarLabel(focused, tintColor, 'test')
       )
     },
   },
@@ -669,7 +670,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
       },
       tabBarLabel: ({ focused, tintColor }) => (
         myTabBarLabel(focused, tintColor, 'Coupon')
-      )
+      ),
     },
   },
   Home: {
@@ -765,22 +766,43 @@ const DashboardBottomTabStack = createBottomTabNavigator({
     header: null,
   },
   tabBarOptions: {
-    activeTintColor: Colors.tab_icon_text_active,
+    activeTintColor: getColor("primary"),
     inactiveTintColor: Colors.tab_icon_text_inactive,
     // activeBackgroundColor: Colors.body,
     style: {
-      backgroundColor: Colors.tab_bar_background
+      
+      opacity:1,
+      paddingHorizontal:10,
+      position:"relative",
+      bottom: 15,
+      // left: 20,
+      // right: 20,
+      marginHorizontal:20,
+      elevation: 5,
+      borderRadius: 15,
+      height: 80,
+      backgroundColor: "white",
+      shadowColor:"#7F5DF0",
+      shadowOffset:{
+        width:0,
+        height:10
+      },
+      shadowOpacity:0.25,
+      shadowRadius:3.5,
+      elevation:5,
     },
+    
     labelStyle: ({ focused, tintColor }) => ({
       // fontSize: Fonts.size.regular,
       // color: tintColor,
     }),
     tabStyle: {
-      height: Metrics.icons.xl - 5,
-      width: Metrics.icons.xl,
-      marginVertical: 2,
-      marginHorizontal: 2,
+      // height: Metrics.icons.xl - 5,
+      // width: Metrics.icons.xl,
+      marginVertical: 1,
+      marginHorizontal: 1,
     }
+    
   }
 });
 
