@@ -323,6 +323,7 @@ export default class DashboardView extends React.Component {
       //     alignSelf: "center",
       //   }
       // }
+      style={tailwind("w-11/12 self-center rounded-lg mt-1")}
       >
         <AdsBanner
           dataFolderPath={ads_banner_path}
@@ -469,7 +470,7 @@ export default class DashboardView extends React.Component {
   render() {
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
+      <SafeAreaView style={tailwind("bg-gray-200")} forceInset={{ vertical: 'never' }} >
 
         {/* Start Main View */}
         <ScrollView refreshControl={
@@ -488,7 +489,7 @@ export default class DashboardView extends React.Component {
               ?
               <View />
               :
-              <View style={tailwind("flex-1 bg-blue-200")}
+              <View style={tailwind("flex-1")}
               // {[ApplicationStyles.screen.mainContainer,{}]} 
               // behavior="padding"
               >
@@ -513,7 +514,7 @@ export default class DashboardView extends React.Component {
                     </Card>
                 }
                 {/* </View> */}
-                <View style={tailwind("bg-red-200 mt-3 mb-5 pb-5")}>
+                <View style={tailwind("w-full h-full mt-3 pb-28")}>
                   {/* Display Ads Banner */}
                   {this.handleRenderAdsBanner()}
                 </View>

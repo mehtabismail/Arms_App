@@ -337,7 +337,7 @@ export default class AdsBanner extends Component {
               {...this._panResponder.panHandlers}
               style={[
                 styles.container, 
-                { height: height }
+                { height: height}
               ]}>
               {this.state.dataSource.map((image, index) => {
                 const imageObject = typeof image.url === 'string' ? {uri: image.url} : image.url;
