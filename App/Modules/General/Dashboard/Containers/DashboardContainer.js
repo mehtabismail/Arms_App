@@ -8,11 +8,11 @@ import {
   Platform,
   RefreshControl,
   SafeAreaView, ScrollView,
-  Text, TouchableOpacity,
+  TouchableOpacity,
   View
 } from 'react-native';
 
-import { Card } from 'react-native-elements'
+import { Card, Button, Icon, Text } from 'react-native-elements'
 
 /** PROJECT FILES **/
 import {
@@ -132,7 +132,7 @@ export default class DashboardView extends React.Component {
       ),
 
       headerRight: (
-        <TouchableOpacity style={{ paddingRight: 10,}} onPress={() => navigation.navigate('MemberHistoryScreen')}>
+        <TouchableOpacity style={{ paddingRight: 10, }} onPress={() => navigation.navigate('MemberHistoryScreen')}>
           <Image
             style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
             source={Images.history} />
@@ -419,15 +419,25 @@ export default class DashboardView extends React.Component {
   // Access Login Screen
   handleRenderAccessLoginScreen() {
     return (
-      <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
-        <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get your discountedddd vouchers and many more great deals.</Label>
-        <AppsButton
-          onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
-          backgroundColor={Colors.button_background}
-          text={"LOGIN / REGISTER"}
-          fontSize={20}
-        />
-      </View>
+      <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
+        <View style={tailwind("w-full items-center mb-5")}>
+          <Text style={tailwind("text-secondary text-base font-medium")}>Come and join us to get your discounted vouchers
+            and many more great deals.
+          </Text>
+        </View>
+        <View style={tailwind("self-center w-full mt-5 bg-yellow-200")}>
+          <Button
+            buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+            title="LOGIN / REGISTER"
+            titleStyle={tailwind("text-xl")}
+            onPress={
+              () => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }
+            }
+          />
+
+        </View>
+      </Card>
+
     )
   }
 
@@ -519,7 +529,7 @@ export default class DashboardView extends React.Component {
                   {
                     (!this.state.nric)
                       ?
-                      <View style={[styles.scanContainer, { paddingVertical: Metrics.basePadding }]}>
+                      <View style={{ elevation: 100 }}>
                         {this.handleRenderAccessLoginScreen()}
                       </View>
                       :

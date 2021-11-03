@@ -273,7 +273,7 @@ export default class NoticeBoardView extends React.Component {
     return (
       <TouchableOpacity
         onPress={() => { this.handleImageViewerOnOff(true, item.nb_server_id); }}
-        style={[styles.FlatListItemContainer, { height: Dimensions.get("window").height * 0.4, justifyContent: 'center'}]}
+        style={[styles.FlatListItemContainer, { height: Dimensions.get("window").height * 0.4, justifyContent: 'center' }]}
       >
         {/* Picture Container */}
         {/* <View style={{justifyContent: 'center'}}> */}
@@ -389,21 +389,21 @@ export default class NoticeBoardView extends React.Component {
       /**Start Safe Area**/
       <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
         <View style={tailwind("flex-1 bg-gray-200")}>
-            {/* Screen on loading, hide default state data */}
-            {
-              this.state.firstLoad
-                ?
-                <View />
-                :
-                // Notice Board List
-                this.handleRenderNoticeBoardList()
-            }
+          {/* Screen on loading, hide default state data */}
+          {
+            this.state.firstLoad
+              ?
+              <View />
+              :
+              // Notice Board List
+              this.handleRenderNoticeBoardList()
+          }
+          
+          {/* Image Viewer */}
+          {this.handleRenderImageViewer()}
 
-            {/* Image Viewer */}
-            {this.handleRenderImageViewer()}
-
-            {/* Loading Animation */}
-            {this.handleRenderLoadingIndicator()}
+          {/* Loading Animation */}
+          {this.handleRenderLoadingIndicator()}
         </View>
       </SafeAreaView>
     )

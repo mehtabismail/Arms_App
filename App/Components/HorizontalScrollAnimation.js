@@ -88,7 +88,7 @@ export default class HorizontalScrollAnimation extends Component {
           showsHorizontalScrollIndicator={false}
         />
 
-        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 5, alignSelf: 'center' }}>
+        <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
           {this.props.data.map((item, index) => {
             let opacity = position.interpolate({
               inputRange: [index - 1, index, index + 1], // each dot will need to have an opacity of 1 when position is equal to their index (i)

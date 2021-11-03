@@ -1675,7 +1675,6 @@ export default class SAPLandingView extends React.Component {
               bgColor='black'
               fgColor='white'
             />
-
             <Label
               text={`Please scan the QRCode at Self Checkout Kiosk or Counter.`}
               style={{ textAlign: 'center', fontSize: Fonts.size.h6, color: "#000", marginTop: Metrics.baseMargin }}
