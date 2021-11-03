@@ -425,7 +425,7 @@ export default class DashboardView extends React.Component {
             and many more great deals.
           </Text>
         </View>
-        <View style={tailwind("self-center w-full mt-5 bg-yellow-200")}>
+        <View style={tailwind("self-center w-full mt-5")}>
           <Button
             buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
             title="LOGIN / REGISTER"

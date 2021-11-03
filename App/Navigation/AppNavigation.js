@@ -145,21 +145,16 @@ const LoginStack = createStackNavigator({
   transitionConfig: NavigationConfig,
   initialRouteName: 'LandingScreen',
   defaultNavigationOptions: {
-    header: null,
-    // headerStyle: {
-    //   backgroundColor: Colors.primary,
-    // },
-    // headerTitleStyle: {
-    //   ...Fonts.size.normal,
-    //   flex: 1,
-    //   textAlign: 'center',
-    // },
-    // headerTintColor: Colors.secondary, 
-    // headerTintStyle: {
-    //   ...Fonts.style.fontBold,
-    // },
+    // header: null,
+    headerTransparent: true,
+    headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+    headerTintColor: Colors.secondary,
+    headerTintStyle: {
+      ...Fonts.style.fontBold,
+    },
   },
-});
+},
+);
 
 /**
  * Dashboard Stack
@@ -337,7 +332,7 @@ const ProfileStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerTransparent:  true,
+      headerTransparent: true,
       headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
@@ -357,7 +352,7 @@ const EBrochureStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerTransparent:  true,
+      headerTransparent: true,
       headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
@@ -406,7 +401,7 @@ const ReferralProgramStack = createStackNavigator({
       // headerStyle: {
       //   backgroundColor: Colors.primary,
       // },
-      headerTransparent:  true,
+      headerTransparent: true,
       headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
@@ -761,10 +756,10 @@ const DashboardBottomTabStack = createBottomTabNavigator({
     inactiveTintColor: Colors.tab_icon_text_inactive,
     // activeBackgroundColor: Colors.body,
     style: {
-      
-      opacity:1,
-      paddingHorizontal:10,
-      position:"absolute",
+
+      opacity: 1,
+      paddingHorizontal: 10,
+      position: "absolute",
       bottom: 15,
       left: 20,
       right: 20,
@@ -773,16 +768,16 @@ const DashboardBottomTabStack = createBottomTabNavigator({
       borderRadius: 15,
       height: 80,
       backgroundColor: "white",
-      shadowColor:"#7F5DF0",
-      shadowOffset:{
-        width:0,
-        height:10
+      shadowColor: "#7F5DF0",
+      shadowOffset: {
+        width: 0,
+        height: 10
       },
-      shadowOpacity:0.25,
-      shadowRadius:3.5,
-      elevation:5,
+      shadowOpacity: 0.25,
+      shadowRadius: 3.5,
+      elevation: 5,
     },
-    
+
     labelStyle: ({ focused, tintColor }) => ({
       // fontSize: Fonts.size.regular,
       // color: tintColor,
@@ -793,7 +788,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
       marginVertical: 1,
       marginHorizontal: 1,
     }
-    
+
   }
 });
 
