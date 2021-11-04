@@ -48,6 +48,8 @@ export default class RegisterView extends React.Component {
       // Update data from server indiacator
       fetch_data: false,
 
+      prev_screen: "",
+
     }
 
     //Create Login Controller Object
@@ -59,6 +61,7 @@ export default class RegisterView extends React.Component {
   /**Navigation Bottom Tab**/
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
+    var prev_screen = params.prev_screen;
 
     return {
       title: ' Register ',
@@ -94,6 +97,12 @@ export default class RegisterView extends React.Component {
   componentDidMount() {
     /** Company Logo Show Check **/
     this.handleLoadCompanyLogo();
+
+     /**
+     * Get params prev screen
+     */
+      var prev_screen = this.props.navigation.getParam("prev_screen", "DashboardScreen");
+      this.setState({ prev_screen });
   }
 
   handleRegistrationData(email, password, repassword) {
@@ -150,7 +159,7 @@ export default class RegisterView extends React.Component {
       this.setState({
         password_verify: true
       });
-      this.passwordReconfirmInput.focus();
+      // this.passwordReconfirmInput.focus();
     } else {
       this.setState({
         password_verify: false
@@ -167,7 +176,7 @@ export default class RegisterView extends React.Component {
       this.setState({
         email_verify: true
       });
-      this.passwordInput.focus();
+      // this.passwordInput.focus();
     } else {
       this.setState({
         email_verify: false
