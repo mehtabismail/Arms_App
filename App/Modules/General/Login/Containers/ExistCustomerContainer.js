@@ -338,7 +338,7 @@ export default class ForgetPasswordView extends React.Component {
                       (!this.state.nric_verify)
                         ?
                         <View style={tailwind("w-11/12 justify-start items-center")}>
-                          <View style={{ justifyContent: 'flex-start', backgroundColor: "blue", alignSelf: "flex-start" }}>
+                          <View style={{ justifyContent: 'flex-start', alignSelf: "flex-start" }}>
                             <Text style={{ color: Colors.text_negative, marginBottom: Metrics.doubleBaseMargin }}>
                               You have entered invalid card no.
                             </Text>

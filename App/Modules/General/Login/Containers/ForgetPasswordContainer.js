@@ -7,13 +7,17 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
+
+import { Button, Card, Text, Input } from 'react-native-elements'
+
+import { tailwind, getColor } from '../../../../../tailwind';
+
 /** PROJECT FILES **/
-import { 
+import {
   Colors, Fonts, Images, Metrics, ApplicationStyles,
   ARMSTextInput, AppsButton, LoadingIndicator, Label,
   I18n,
@@ -30,14 +34,18 @@ export default class ForgetPasswordView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nric: '', 
+      nric: '',
       email: '',
-      company_logo_path: AppConfig.company_logo_default,  
+      company_logo_path: AppConfig.company_logo_default,
       email_verify: true,
       nric_verify: true,
-      
+
       // Update data from server indiacator
       fetch_data: false,
+
+      // Navigation
+      prev_screen: "",
+
     }
 
     //Create Login Controller Object
@@ -49,9 +57,35 @@ export default class ForgetPasswordView extends React.Component {
   /**Navigation Bottom Tab**/
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const params = navigation.state.params || {};
+    var prev_screen = params.prev_screen;
 
     return {
-      title: ' Forget Password ',
+      title: 'Existing Member',
+      headerLeft: (
+        <View style={{ elevation: 20 }}>
+          <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 ml-3 mt-3")}
+            onPress={() => navigation.goBack()}>
+            <Image
+              style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
+              source={Images.arrowLeft} />
+          </TouchableOpacity>
+        </View>
+
+      ),
+      
+      headerRight: (
+        <View style={{ elevation: 20 }}>
+          <TouchableOpacity
+            style={tailwind("bg-white rounded-lg opacity-100 p-2 mt-3 mr-3")}
+            onPress={() => navigation.navigate(prev_screen, {})}
+          >
+            <Image
+              style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
+              source={Images.round_cancel} />
+          </TouchableOpacity>
+        </View>
+
+      ),
     };
   };
   /**End Navigation Bottom Tab**/
@@ -59,18 +93,24 @@ export default class ForgetPasswordView extends React.Component {
   componentDidMount() {
     /** Company Logo Show Check **/
     this.handleLoadCompanyLogo();
+
+    /**
+     * Get params prev screen
+     */
+     var prev_screen = this.props.navigation.getParam("prev_screen", "DashboardScreen");
+     this.setState({ prev_screen });
   }
 
   // Function to handle forget passsword data
-  handleForgetPasswordData(nric, email) { 
+  handleForgetPasswordData(nric, email) {
     this.handleFetchDataIndicator(true);
-    if(nric == '' || email == ''){
-      if(nric == '') {
+    if (nric == '' || email == '') {
+      if (nric == '') {
         this.setState({
           nric_verify: false,
         })
       }
-      
+
       if (email == '') {
         this.setState({
           email_verify: false,
@@ -78,20 +118,20 @@ export default class ForgetPasswordView extends React.Component {
       }
     } else {
       var result = this.loginController.handleForgetPassword(nric, email)
-      result.then((res)=>{
-        if(res.result == 1){   
+      result.then((res) => {
+        if (res.result == 1) {
           Alert.alert(
             'Reset Password Success', 'Your temporary password will be sent to your email.',
-            [ {text: 'OK', style: 'cancel'}, ],
+            [{ text: 'OK', style: 'cancel' },],
             { cancelable: false }
-          ) 
+          )
           this.props.navigation.navigate("LoginScreen");
         } else {
           var error_msg = res.data.msg;
-          if(error_msg == "Data Not Found"){
+          if (error_msg == "Data Not Found") {
             Alert.alert(
               'Reset Password Failed', 'Data not found. Please make sure your card no and email are correct.',
-              [ {text: 'OK', style: 'cancel'}, ],
+              [{ text: 'OK', style: 'cancel' },],
               { cancelable: false }
             );
           } else {
@@ -104,9 +144,9 @@ export default class ForgetPasswordView extends React.Component {
   }
 
   // handle checking password input
-  onCheckNric(nric_length) { 
-    this.handleFetchDataIndicator(true); 
-    if(nric_length){
+  onCheckNric(nric_length) {
+    this.handleFetchDataIndicator(true);
+    if (nric_length) {
       this.setState({
         nric_verify: true
       });
@@ -116,48 +156,48 @@ export default class ForgetPasswordView extends React.Component {
         nric_verify: false
       });
     }
-    this.handleFetchDataIndicator(false); 
+    this.handleFetchDataIndicator(false);
   }
 
   // handle checking email input
-  onCheckEmail(email_length){
-    this.handleFetchDataIndicator(true); 
-    if(email_length) {
+  onCheckEmail(email_length) {
+    this.handleFetchDataIndicator(true);
+    if (email_length) {
       this.setState({ email_verify: true });
       this.handleForgetPasswordData(this.state.nric, this.state.email);
     } else {
-      this.setState({ email_verify: false }); 
+      this.setState({ email_verify: false });
     }
-    this.handleFetchDataIndicator(false); 
+    this.handleFetchDataIndicator(false);
   }
 
-  handleFetchDataIndicator(status){
+  handleFetchDataIndicator(status) {
     this.setState({
       fetch_data: status
     })
   }
 
-  async handleLoadCompanyLogo(){
+  async handleLoadCompanyLogo() {
     const { api_url, company_logo_url, company_logo_local } = AppConfig;
     var network = await this.networkConnectValidation();
-    if(network.result == 1){
+    if (network.result == 1) {
       this.setState({
-        company_logo_path: {uri: `${api_url}/${company_logo_url}`}
+        company_logo_path: { uri: `${api_url}/${company_logo_url}` }
       })
     } else {
-      this.setState({ 
-        company_logo_path: {uri: company_logo_local}
-      })                                                  
+      this.setState({
+        company_logo_path: { uri: company_logo_local }
+      })
     }
   }
 
-  networkConnectValidation(){
+  networkConnectValidation() {
     let result = new Promise((resolve, reject) => {
-      NetInfo.isConnected.fetch().done((isConnected) => { 
-        if(isConnected) {
-          resolve({result: 1, data: isConnected})
+      NetInfo.isConnected.fetch().done((isConnected) => {
+        if (isConnected) {
+          resolve({ result: 1, data: isConnected })
         } else {
-          resolve({result: 0, data: {title: I18n.t("network_error_title"), msg: I18n.t("network_error_msg")}});
+          resolve({ result: 0, data: { title: I18n.t("network_error_title"), msg: I18n.t("network_error_msg") } });
         }
       });
     })
@@ -165,11 +205,11 @@ export default class ForgetPasswordView extends React.Component {
   }
 
   // Loading Indicator
-  handleRenderLoadingIndicator(){
-    return(
-      <LoadingIndicator 
+  handleRenderLoadingIndicator() {
+    return (
+      <LoadingIndicator
         visible={this.state.fetch_data}
-        size={"large"} 
+        size={"large"}
         text={"Fetching data..."}
       />
     )
@@ -177,151 +217,154 @@ export default class ForgetPasswordView extends React.Component {
 
   render() {
     return (
-      
+
       /** Start Safe Area **/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
 
         {/* Content */}
-          <KeyboardAvoidingView  behavior="padding" enableKeyboardAvoiding={Platform.OS === "ios" ? true : false} >
-            
-            {/* Start Main View */}
-            <View style={styles.mainViewContainer}>
+        <KeyboardAvoidingView behavior="padding" enableKeyboardAvoiding={Platform.OS === "ios" ? true : false} >
 
-              <View style={[styles.bodyContainer, {backgroundColor: '#FEFFF3'}]}>
-                
-                {/* Header Navigation */}
-                <View style={[{flexDirection: 'row', justifyContent: 'center'}]}>
-                  <TouchableOpacity onPress={() => {this.props.navigation.navigate("LandingScreen")}}>
-                    <View style={{justifyContent: 'center', width:  '10%'}}>
-                      <Image
-                        source={Images.arrowLeft}
-                        style={{
-                          height: Metrics.icons.large,
-                          width:  Metrics.icons.large,
-                          tintColor: Colors.text_color_1,
-                        }}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <View style={{justifyContent: 'center', width:  '80%'}}>
-                    <Label 
-                      text={`Forget Password`}
-                      style={{color: Colors.text_color_1, fontSize: Fonts.size.h6, fontWeight: '900', alignSelf: 'center'}}
-                    />
-                  </View>
-                  <View style={{justifyContent: 'center', width:  '10%'}}/>
-                </View>
-
+          {/* Start Main View */}
+          <View style={tailwind("h-full w-full justify-center")}>
+            <View style={{elevation:20}}>
+              <Card containerStyle={tailwind("rounded-lg bg-white opacity-100 mt-16")}>
                 <ScrollView>
-                  <View style={{paddingVertical: Metrics.regularPadding}}>
-                    <Label style={{color: Colors.text_color_1, fontWeight: 'bold'}}>
-                      To reset your password, please insert your card no. and email. Your temporary password will be sent to your email.
-                    </Label>
-                    <Label style={{color: Colors.text_color_1, marginTop: Metrics.baseMargin}}>
-                      *Please check the spam folder if you do not receive the email. 
-                    </Label>
+                  <View>
+                    <View style={tailwind("mt-3 px-3")}>
+                      <Text style={tailwind("text-base font-bold")}>
+                        To reset your password, please insert your card no. and email. Your temporary password will be sent to your email.
+                      </Text>
+                    </View>
+                    <View style={tailwind("mt-3 p-3 mb-5")}>
+                      <Text style={tailwind("text-base")}>
+                        *Please check the spam folder if you do not receive the email.
+                      </Text>
+                    </View>
                   </View>
 
                   {/* Attribute of Input Username and Email */}
-                  <View style={[{width: '100%', marginTop: Metrics.baseMargin}]}>
-
-                    {/* Username */}
-                    <View style={{paddingVertical: Metrics.regularPadding}}>
-                      <Label 
-                        text={`Insert your Card No.`}
-                        style={{color: Colors.text_color_1, fontWeight: '900'}}
-                      />
-                    </View>
-
+                  <View style={tailwind('justify-center items-center')}>
                     {/* Attribute Insert Username */}
-                    <View style={[styles.attrRowContainer, {marginBottom: Metrics.smallMargin}]}>
-                      <ARMSTextInput
-                        inlineLeftImage={Images.card_membership}
-                        leftImageColor={(this.state.nric_verify)?'':Colors.text_color_2}
-                        borderColor={(this.state.nric_verify)?Colors.text_color_1:Colors.text_negative}
-                        placeholder={"Card No."} 
-                        autoCapitalize={"none"}
-                        clearButtonMode={"while-editing"}
-                        returnKeyType={"next"}
-                        autoCorrect={false}
-                        onChangeText={(value) => {this.setState({nric: value, initScreenNric: false})}}
-                        onEndEditing={() => {this.onCheckNric(this.state.nric.length)}}
-                        value={this.state.nric}
-                      />
+                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
+                      <View>
+                        <Image
+                          source={Images.card_membership}
+                          style={{
+                            tintColor: getColor('primary'),
+                            backgroundColor: "white",
+                            marginRight: 5, marginLeft: 2
+                            // width: Metrics.icons.small * 0.8,
+                            // height: Metrics.icons.small * 0.8,
+                            // marginRight: Metrics.smallPadding
+                          }}
+                        />
+                      </View>
+                      <View style={tailwind("flex-1")}>
+                        <Input
+                          label="Insert your Card No."
+                          placeholder="Card No."
+                          labelStyle={tailwind('text-secondary font-bold')}
+                          autoCapitalize={"none"}
+                          clearButtonMode={"while-editing"}
+                          returnKeyType={"next"}
+                          autoCorrect={false}
+                          onChangeText={(value) => { this.setState({ nric: value, initScreenNric: false }) }}
+                          onEndEditing={() => { this.onCheckNric(this.state.nric.length) }}
+                          value={this.state.nric}
+                          inputContainerStyle={tailwind("h-9")}
+                          inputStyle={tailwind('text-primary')}
+                        />
+                      </View>
                     </View>
 
                     {/* Checking nric input */}
                     {
                       (!this.state.nric_verify)
-                      ?
-                      <View style={{justifyContent: 'flex-start'}}>
-                        <Text style={{color: Colors.text_negative, marginBottom: Metrics.doubleBaseMargin}}>
-                          You have entered invalid card no.
-                        </Text>
-                      </View>
-                      :
-                      <Text style={{marginBottom: Metrics.doubleBaseMargin}}>{` `}</Text> // To maintain empty space in screen.
+                        ?
+                        <View style={tailwind("w-11/12 justify-start items-center")}>
+                          <View style={{ justifyContent: 'flex-start', alignSelf: "flex-start" }}>
+                            <Text style={{ color: Colors.text_negative, marginBottom: Metrics.doubleBaseMargin }}>
+                              You have entered invalid card no.
+                            </Text>
+                          </View>
+                        </View>
+                        :
+                        <Text style={{ marginBottom: Metrics.doubleBaseMargin }}>{` `}</Text> // To maintain empty space in screen.
                     }
 
-                    {/* Email */}
-                    <View style={{paddingVertical: Metrics.regularPadding}}>
-                      <Label 
-                        text={`Insert your email. `}
-                        style={{color: Colors.text_color_1, fontWeight: '900'}}
-                      />
-                    </View>
-
                     {/* Attribute Insert Email */}
-                    <View style={[styles.attrRowContainer, {marginBottom: Metrics.smallMargin}]}>
-                      <ARMSTextInput
-                        inlineLeftImage={Images.face}
-                        leftImageColor={(this.state.email_verify)?'':Colors.text_color_2}
-                        borderColor={(this.state.email_verify)?Colors.text_color_1:Colors.text_negative}
-                        placeholder={"abc@gmail.com"} 
-                        keyboardType={"email-address"}
-                        autoCapitalize={"none"}
-                        clearButtonMode={"while-editing"}
-                        returnKeyType={"next"}
-                        inputRef={(input) => {this.emailInput = input}}
-                        autoCorrect={false}
-                        onChangeText={(value) => {this.setState({email: value})}}
-                        onEndEditing={() => {this.onCheckEmail(this.state.email.length)}}
-                        value={this.state.email}
-                      />
+                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
+                      <View>
+                        <Image
+                          source={Images.card_membership}
+                          style={{
+                            tintColor: getColor('primary'),
+                            backgroundColor: "white",
+                            marginRight: 5,
+                            marginLeft: 2
+                          }}
+                        />
+                      </View>
+                      <View style={tailwind("flex-1")}>
+                        <Input
+                          label="Insert your email. "
+                          placeholder="abc@gmail.com"
+                          keyboardType={"email-address"}
+                          labelStyle={tailwind('text-secondary font-bold')}
+                          autoCapitalize={"none"}
+                          clearButtonMode={"while-editing"}
+                          returnKeyType={"next"}
+                          inputRef={(input) => { this.emailInput = input }}
+                          autoCorrect={false}
+                          onChangeText={(value) => { this.setState({ email: value }) }}
+                          onEndEditing={() => { this.onCheckEmail(this.state.email.length) }}
+                          value={this.state.email}
+                          inputContainerStyle={tailwind("h-9")}
+                          inputStyle={tailwind('text-primary')}
+                        />
+                      </View>
                     </View>
 
                     {/* Checking Email input */}
                     {
                       (!this.state.email_verify)
-                      ?
-                      <View style={{justifyContent: 'flex-start'}}>
-                        <Text style={{color: Colors.text_negative, marginBottom: Metrics.doubleBaseMargin}}>
-                          You have entered invalid email.
-                        </Text>
-                      </View>
-                      :
-                      <Text style={{marginBottom: Metrics.doubleBaseMargin}}>{` `}</Text> // To maintain empty space in screen.
+                        ?
+                        <View style={tailwind("w-11/12 justify-start items-center")}>
+                          <View style={{ justifyContent: 'flex-start', alignSelf: "flex-start" }}>
+                            <Text style={{ color: Colors.text_negative, marginBottom: Metrics.doubleBaseMargin }}>
+                              You have entered invalid email.
+                            </Text>
+                          </View>
+                        </View>
+                        :
+                        <Text style={{ marginBottom: Metrics.doubleBaseMargin }}>{` `}</Text> // To maintain empty space in screen.
                     }
 
                     {/* Attribute Login Button */}
-                    <View style={{marginTop: Metrics.doubleBaseMargin}}>
-                      <AppsButton 
-                        onPress={() => {this.handleForgetPasswordData(this.state.nric, this.state.email)}}
-                        backgroundColor={Colors.primary}
-                        text={"SEND PASSWORD TO MY EMAIL"}
-                        fontSize={Fonts.size.large}
-                      />  
+                    <View style={tailwind("self-center w-11/12 my-3 ")}>
+                      <View style={{ elevation: 20 }}>
+                        <Button
+                          buttonStyle={tailwind("rounded-lg bg-primary")}
+                          title="SEND PASSWORD TO MY EMAIL"
+                          titleStyle={tailwind("text-xl font-bold")}
+                          onPress={
+                            () => { this.handleForgetPasswordData(this.state.nric, this.state.email) }
+                          }
+                        />
+                      </View>
                     </View>
                   </View>
 
-                  {/* To text input avoid keyboard */}
-                  <View style={{marginBottom: Metrics.mainContainerMargin*2}}/> 
-                </ScrollView>
 
-              </View>
+
+                  {/* To text input avoid keyboard */}
+                  {/* <View style={{marginBottom: Metrics.mainContainerMargin*2}}/>  */}
+                </ScrollView>
+              </Card>
             </View>
-            
-          </KeyboardAvoidingView>
+          </View>
+
+        </KeyboardAvoidingView>
 
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
