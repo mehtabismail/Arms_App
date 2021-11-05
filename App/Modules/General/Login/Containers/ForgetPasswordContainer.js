@@ -60,7 +60,7 @@ export default class ForgetPasswordView extends React.Component {
     var prev_screen = params.prev_screen;
 
     return {
-      title: 'Existing Member',
+      title: 'Forget Password',
       headerLeft: (
         <View style={{ elevation: 20 }}>
           <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 ml-3 mt-3")}
