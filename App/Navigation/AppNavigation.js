@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {
   Image,
   Platform,
-  Text
+  Text,
+  View,
 } from 'react-native';
 
 import { tailwind, getColor } from '../../tailwind';
@@ -588,14 +589,25 @@ const SAPWebStack = createStackNavigator({
 
 const myTabBarIcon = (focused, tintColor, source) => {
   return (
-    <Image
-      style={[{
-        height: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
-        width: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
-        tintColor,
-      }]}
-      source={source}
-    />
+    <View
+      style={{
+        height: "100%", width: "100%",
+        alignItems: "center",
+        // justifyContent: "flex-end",
+        justifyContent: focused ? "center" : "flex-end",
+        alignSelf: "center"
+      }}
+    >
+      <Image
+        style={[{
+          height: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
+          width: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
+          tintColor,
+        }]}
+        source={source}
+      />
+    </View>
+
   )
 }
 
@@ -609,9 +621,11 @@ const myTabBarLabel = (focused, tintColor, text) => {
         //   color: tintColor,
         //   textAlign: 'center'
         // }}
-        style={tailwind("text-xs text-primaryBlue text-center -mt-3")}
-        numberOfLines={2}
+        // style={tailwind("text-xs text-primaryBlue text-center -mt-3")}
+        style={{ height: "40%", color: Colors.text_primary, textAlign: "center", fontSize: 10 }}
+        numberOfLines={1}
       />
+
     )
   }
 }
@@ -742,7 +756,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
         });
       },
       tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Notice Board')
+        myTabBarLabel(focused, tintColor, 'Notice')
       )
     },
   },
@@ -753,10 +767,10 @@ const DashboardBottomTabStack = createBottomTabNavigator({
   },
   tabBarOptions: {
     activeTintColor: getColor("primary"),
-    inactiveTintColor: Colors.tab_icon_text_inactive,
+    inactiveTintColor: getColor("secondary"),
+    // inactiveTintColor: Colors.tab_icon_text_inactive,
     // activeBackgroundColor: Colors.body,
     style: {
-
       opacity: 1,
       paddingHorizontal: 10,
       position: "absolute",
@@ -764,18 +778,18 @@ const DashboardBottomTabStack = createBottomTabNavigator({
       left: 20,
       right: 20,
       // marginHorizontal:20,
-      elevation: 5,
+      justifyContent: "center",
       borderRadius: 15,
       height: 80,
       backgroundColor: "white",
-      shadowColor: "#7F5DF0",
+      shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 10
+        height: 4,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.5,
-      elevation: 5,
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
     },
 
     labelStyle: ({ focused, tintColor }) => ({

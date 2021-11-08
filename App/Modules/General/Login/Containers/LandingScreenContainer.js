@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native';
 
+import { Button, Icon, Text, Input } from 'react-native-elements'
+
 /** PROJECT FILES **/
 import { 
   Colors, Fonts, Images, Metrics, ApplicationStyles,

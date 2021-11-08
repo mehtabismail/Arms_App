@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 
-import { Button, Card, Text, Input } from 'react-native-elements'
+import { Button, Card, Text, Input, Icon } from 'react-native-elements'
 
 import { tailwind, getColor } from '../../../../../tailwind';
 
@@ -72,7 +72,7 @@ export default class ForgetPasswordView extends React.Component {
         </View>
 
       ),
-      
+
       headerRight: (
         <View style={{ elevation: 20 }}>
           <TouchableOpacity
@@ -97,8 +97,8 @@ export default class ForgetPasswordView extends React.Component {
     /**
      * Get params prev screen
      */
-     var prev_screen = this.props.navigation.getParam("prev_screen", "DashboardScreen");
-     this.setState({ prev_screen });
+    var prev_screen = this.props.navigation.getParam("prev_screen", "DashboardScreen");
+    this.setState({ prev_screen });
   }
 
   // Function to handle forget passsword data
@@ -226,7 +226,7 @@ export default class ForgetPasswordView extends React.Component {
 
           {/* Start Main View */}
           <View style={tailwind("h-full w-full justify-center")}>
-            <View style={{elevation:20}}>
+            <View style={{ elevation: 20 }}>
               <Card containerStyle={tailwind("rounded-lg bg-white opacity-100 mt-16")}>
                 <ScrollView>
                   <View>
@@ -245,16 +245,16 @@ export default class ForgetPasswordView extends React.Component {
                   {/* Attribute of Input Username and Email */}
                   <View style={tailwind('justify-center items-center')}>
                     {/* Attribute Insert Username */}
-                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
+                    <View style={tailwind("bg-green-400 w-11/12 justify-center items-center flex-row my-3")}>
                       <View>
                         <Image
                           source={Images.card_membership}
                           style={{
                             tintColor: getColor('primary'),
                             backgroundColor: "white",
-                            marginRight: 5, marginLeft: 2
-                            // width: Metrics.icons.small * 0.8,
-                            // height: Metrics.icons.small * 0.8,
+                            marginRight: 5, marginLeft: 2,
+                            width: Metrics.icons.small * 0.8,
+                            height: Metrics.icons.small * 0.8,
                             // marginRight: Metrics.smallPadding
                           }}
                         />
@@ -293,17 +293,14 @@ export default class ForgetPasswordView extends React.Component {
                     }
 
                     {/* Attribute Insert Email */}
-                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
-                      <View>
-                        <Image
-                          source={Images.card_membership}
-                          style={{
-                            tintColor: getColor('primary'),
-                            backgroundColor: "white",
-                            marginRight: 5,
-                            marginLeft: 2
-                          }}
-                        />
+                    <View style={tailwind("bg-green-400 w-11/12 justify-center items-center flex-row my-3")}>
+                      <View style={tailwind("justify-center")}>
+                        <Icon
+                          raised
+                          name='envelope'
+                          type='font-awesome'
+                          color={getColor('primary')}
+                          onPress={() => console.log('hello')} />
                       </View>
                       <View style={tailwind("flex-1")}>
                         <Input

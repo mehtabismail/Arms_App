@@ -29,6 +29,7 @@ const colors = {
   text_color_1: '#1E1E1E',
   text_color_2: '#728891',
   text_color_3: '#EFF1F3',
+  text_primary: '#586bca',
   text_positive: '#008000',
   text_negative: '#FF0000',
   
