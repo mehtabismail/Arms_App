@@ -214,14 +214,8 @@ const PromotionStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      headerTransparent: true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
@@ -334,7 +328,7 @@ const ProfileStack = createStackNavigator({
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
@@ -354,7 +348,7 @@ const EBrochureStack = createStackNavigator({
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
@@ -403,7 +397,7 @@ const ReferralProgramStack = createStackNavigator({
       //   backgroundColor: Colors.primary,
       // },
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center"),
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
