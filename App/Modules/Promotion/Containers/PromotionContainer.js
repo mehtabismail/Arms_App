@@ -25,6 +25,7 @@ import LoginController from '../../General/Login/Actions/login_controller';
 
 /** NPM LIBRARIES **/
 import { NavigationActions, DrawerActions } from 'react-navigation';
+import { tailwind } from '../../../../tailwind';
 
 const ads_banner_path = AppConfig.ads_banner_promo_scn_path;
 const ads_screen_id = AppConfig.ads_promo_screen_id;
@@ -259,10 +260,10 @@ export default class PromotionView extends React.Component {
     /** End local variable config **/
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{vertical:'never'}} >
+      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer, {backgroundColor:"blue"}} forceInset={{vertical:'never'}} >
         
         {/* Ads Banner */}
-        <View style={[ApplicationStyles.screen.headerContainer, {marginBottom: Metrics.smallMargin}]} >
+        <View style={tailwind('m-5')}>
           <AdsBanner 
             dataFolderPath={ads_banner_path}
             screenId={ads_screen_id}

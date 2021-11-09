@@ -189,7 +189,7 @@ export default class LoginView extends React.Component {
       <View style={tailwind("self-center w-4/5")}>
         <View style={{ elevation: 20 }}>
           <Button
-            buttonStyle={tailwind("rounded-lg bg-white border-2 border-blue-600")}
+            buttonStyle={tailwind("rounded-lg bg-white border border-blue-600")}
             title={`${title}`}
             titleStyle={tailwind("text-xl text-primary font-bold")}
             onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
@@ -199,35 +199,61 @@ export default class LoginView extends React.Component {
     )
   }
 
+  // handleRenderTabButton_Existing(title, navigateScreeen) {
+  //   return (
+  //     <View style={tailwind("self-center w-11/12 my-3")}>
+  //       <View style={{ elevation: 5 }}>
+  //         <Button
+  //           buttonStyle={tailwind("rounded-lg bg-white border-gray-200")}
+  //           title={`${title}`}
+  //           titleStyle={tailwind("text-xl text-primary font-bold")}
+  //           onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
+  //         />
+  //       </View>
+  //     </View>
+  //   )
+  // }
   handleRenderTabButton_Existing(title, navigateScreeen) {
     return (
-      <View style={tailwind("self-center w-11/12 my-3")}>
-        <View style={{ elevation: 5 }}>
-          <Button
-            buttonStyle={tailwind("rounded-lg bg-white border-gray-200")}
-            title={`${title}`}
-            titleStyle={tailwind("text-xl text-primary font-bold")}
-            onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
-          />
-        </View>
+      <View style={tailwind("self-end mr-1")}>
+        <Text
+          numberOfLines={1}
+          style={tailwind("text-sm text-primary font-semibold underline")}
+          onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
+        >
+          {`${title}`}
+        </Text>
+      </View>
+    )
+  }
+  handleRenderTabButton_Forget(title, navigateScreeen) {
+    return (
+      <View style={tailwind("self-start ml-2")}>
+        <Text
+          numberOfLines={1}
+          style={tailwind("text-sm text-primary font-semibold underline ")}
+          onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
+        >
+          {`${title}`}
+        </Text>
       </View>
     )
   }
 
-  handleRenderTabButton_Forget(title, navigateScreeen) {
-    return (
-      <View style={tailwind("self-center w-11/12 mb-5")}>
-        <View style={{ elevation: 5 }}>
-          <Button
-            buttonStyle={tailwind("rounded-lg bg-white border border-gray-200")}
-            title={`${title}`}
-            titleStyle={tailwind("text-xl text-primary font-bold")}
-            onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
-          />
-        </View>
-      </View>
-    )
-  }
+  // handleRenderTabButton_Forget(title, navigateScreeen) {
+  //   return (
+  //     <View style={tailwind("self-center w-11/12 mb-5")}>
+  //       <View style={{ elevation: 5 }}>
+  //         <Button
+  //           buttonStyle={tailwind("rounded-lg bg-white border border-gray-200")}
+  //           title={`${title}`}
+  //           titleStyle={tailwind("text-xl text-primary font-bold")}
+  //           onPress={() => { this.props.navigation.navigate(navigateScreeen, { prev_screen: this.state.prev_screen }) }}
+  //         />
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
   render() {
     return (
@@ -247,9 +273,9 @@ export default class LoginView extends React.Component {
                 width: '100%'
               }}
             /> */}
-          <View style={tailwind("h-1/3")}>
+          <View style={tailwind("h-1/5")}>
             {/* Back Button */}
-            <View style={{ position: 'absolute', padding: 3, top: 20, left: 10, elevation: 24 }}>
+            <View style={{ position: 'absolute', padding: 3, top: 20, left: 8, elevation: 24 }}>
               {this.handleRenderHeaderBackButton()}
             </View>
             <Image
@@ -264,16 +290,15 @@ export default class LoginView extends React.Component {
               position: "absolute",
               top: 100,
               width: "100%",
-              justifyContent: "center", alignItems: "center"
+              justifyContent: "center", alignItems: "center",
+              padding: 5
             }}>
-              <Avatar
-                rounded
+              <Image
                 source={images.armsLogo}
-                size="xlarge"
-                containerStyle={{
-                  borderWidth: 2,
-                  padding: 2,
-                  borderColor: getColor('primary'),
+                style={{
+                  width: Metrics.icons.small * 7,
+                  height: Metrics.icons.small * 7,
+                  resizeMode: "contain",
                   shadowColor: "#000",
                   shadowOffset: {
                     width: 0,
@@ -281,7 +306,7 @@ export default class LoginView extends React.Component {
                   },
                   shadowOpacity: 0.25,
                   shadowRadius: 3.84,
-                  elevation: 5,
+                  // elevation: 5,
                 }}
               />
             </View>
@@ -290,46 +315,54 @@ export default class LoginView extends React.Component {
             style={tailwind('flex-1')}
 
           >
-            <View style={tailwind('justify-center items-center p-3')}>
-              {/* Welcome Text */}
-              {this.handleRenderWelcomeText()}
+            <View style={tailwind('w-full h-20')}>
             </View>
-            <View style={tailwind('flex-row')}>
+            <View style={tailwind('flex-1 justify-between')}>
+              <View style={tailwind('justify-between')}>
+                <View style={tailwind('justify-center items-center p-3')}>
+                  {/* Welcome Text */}
+                  {this.handleRenderWelcomeText()}
+                </View>
 
-              {/* Tab List */}
-              {/* Register Tab */}
-              <View style={tailwind('w-1/2 py-2')}>
-                {this.handleRenderTabButton_SignUp('Sign Up', "RegisterScreen")}
               </View>
 
+              <View style={tailwind("justify-end")}>
+                <View style={tailwind('flex-row')}>
 
-              {/* Login Tab */}
-              <View style={tailwind('w-1/2 py-2')}>
-                {this.handleRenderTabButton_LogIn('Sign In', "LoginScreen")}
+                  {/* Tab List */}
+                  {/* Register Tab */}
+                  <View style={tailwind('w-1/2 py-2')}>
+                    {this.handleRenderTabButton_SignUp('Sign Up', "RegisterScreen")}
+                  </View>
+
+
+                  {/* Login Tab */}
+                  <View style={tailwind('w-1/2 py-2')}>
+                    {this.handleRenderTabButton_LogIn('Sign In', "LoginScreen")}
+                  </View>
+                </View>
+                <View style={tailwind('items-center mb-16')}>
+                  <View style={tailwind('flex-row ')}>
+                    {/* Existing Customer */}
+                    <View style={tailwind("w-1/2")}>
+                      {this.handleRenderTabButton_Existing('Existing Customer', "ExistCustomerScreen")}
+                    </View>
+
+                    {/* Forget Password Tab */}
+                    <View style={tailwind("w-1/2")}>
+                      {this.handleRenderTabButton_Forget('Forget Password', "ForgetPasswordScreen")}
+                    </View>
+                  </View>
+                </View>
               </View>
-
-
-            </View>
-
-            <View style={tailwind("flex-1 justify-end")}>
-              {/* Existing Customer */}
-              <View style={tailwind("")}>
-                {this.handleRenderTabButton_Existing('Existing Customer', "ExistCustomerScreen")}
-              </View>
-
-              {/* Forget Password Tab */}
-              <View>
-                {this.handleRenderTabButton_Forget('Forget Password', "ForgetPasswordScreen")}
-              </View>
-            </View>
-            {/* </View>
+              {/* </View>
                     </View>
                   </View>
                 </View>
               </View> */}
 
-            {/* Tab List */}
-            {/* <View style={[{ width: '100%', height: MAIN_TAB_HEIGHT }]}>
+              {/* Tab List */}
+              {/* <View style={[{ width: '100%', height: MAIN_TAB_HEIGHT }]}>
               {
                 landing_action.map((item, index) => {
                   var tabHeight = MAIN_TAB_HEIGHT * (1 - (index * 0.25))
@@ -343,7 +376,7 @@ export default class LoginView extends React.Component {
                 })
               }
             </View> */}
-
+            </View>
           </View>
         </View>
 
