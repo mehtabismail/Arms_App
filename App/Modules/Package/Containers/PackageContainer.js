@@ -28,6 +28,7 @@ import LoginController from '../../General/Login/Actions/login_controller';
 import { NavigationActions, DrawerActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Progress from 'react-native-progress';
+import { tailwind } from '../../../../tailwind';
 
 export default class PackageView extends React.Component {
   constructor(props){
@@ -64,20 +65,39 @@ export default class PackageView extends React.Component {
 
     return {
       title: 'Package',
+      // headerLeft: (
+      //   <TouchableOpacity style={{paddingLeft: 10}} onPress={() => navigateToScreen(navigation, {loginUpdate: true})}>
+      //     <Image
+      //       style={{width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary}} 
+      //       source={Images.menu}/>
+      //   </TouchableOpacity>
+      // ),
+      // headerRight: (
+      //   // <View style={{width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10}}></View>
+      //   <TouchableOpacity style={{paddingRight: 10}} onPress={() => navigation.navigate('AllPackageRedeemHistoryScreen', {screenSource: 'rate_us', loginUpdate: true})}>
+      //     <Icon
+      //       name={'star-half-alt'}
+      //       size={30}
+      //       color={Colors.secondary} 
+      //       style={{}} 
+      //     />
+      //   </TouchableOpacity>
+      // ),
+
       headerLeft: (
-        <TouchableOpacity style={{paddingLeft: 10}} onPress={() => navigateToScreen(navigation, {loginUpdate: true})}>
+        <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 ml-3 mt-3")}
+          onPress={() => navigateToScreen(navigation, { loginUpdate: true })}>
           <Image
-            style={{width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: Colors.secondary}} 
-            source={Images.menu}/>
+            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
+            source={Images.menu} />
         </TouchableOpacity>
       ),
       headerRight: (
-        // <View style={{width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10}}></View>
-        <TouchableOpacity style={{paddingRight: 10}} onPress={() => navigation.navigate('AllPackageRedeemHistoryScreen', {screenSource: 'rate_us', loginUpdate: true})}>
+        <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 mr-3 mt-3")} onPress={() => navigation.navigate('AllPackageRedeemHistoryScreen', {screenSource: 'rate_us', loginUpdate: true})}>
           <Icon
             name={'star-half-alt'}
             size={30}
-            color={Colors.secondary} 
+            color="black" 
             style={{}} 
           />
         </TouchableOpacity>
