@@ -245,16 +245,16 @@ export default class ForgetPasswordView extends React.Component {
                   {/* Attribute of Input Username and Email */}
                   <View style={tailwind('justify-center items-center')}>
                     {/* Attribute Insert Username */}
-                    <View style={tailwind("bg-green-400 w-11/12 justify-center items-center flex-row my-3")}>
-                      <View>
+                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
+                      <View style={{marginRight:5,justifyContent:"center" }}>
                         <Image
                           source={Images.card_membership}
                           style={{
                             tintColor: getColor('primary'),
                             backgroundColor: "white",
                             marginRight: 5, marginLeft: 2,
-                            width: Metrics.icons.small * 0.8,
-                            height: Metrics.icons.small * 0.8,
+                            width: Metrics.icons.small * 2.5,
+                            height: Metrics.icons.small * 2.5,
                             // marginRight: Metrics.smallPadding
                           }}
                         />
@@ -293,14 +293,15 @@ export default class ForgetPasswordView extends React.Component {
                     }
 
                     {/* Attribute Insert Email */}
-                    <View style={tailwind("bg-green-400 w-11/12 justify-center items-center flex-row my-3")}>
-                      <View style={tailwind("justify-center")}>
+                    <View style={tailwind("w-11/12 justify-center items-center flex-row my-3")}>
+                      <View style={tailwind("justify-center mr-3")}>
                         <Icon
-                          raised
                           name='envelope'
                           type='font-awesome'
                           color={getColor('primary')}
-                          onPress={() => console.log('hello')} />
+                          onPress={() => console.log('hello')} 
+                          size={40}
+                          />
                       </View>
                       <View style={tailwind("flex-1")}>
                         <Input
