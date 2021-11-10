@@ -132,7 +132,7 @@ export default class DashboardView extends React.Component {
       ),
 
       headerRight: (
-        <TouchableOpacity style={{ paddingRight: 10, }} onPress={() => navigation.navigate('MemberHistoryScreen')}>
+        <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 mr-3 mt-3")} onPress={() => navigation.navigate('AllPackageRedeemHistoryScreen', {screenSource: 'rate_us', loginUpdate: true})} onPress={() => navigation.navigate('MemberHistoryScreen')}>
           <Image
             style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
             source={Images.history} />
@@ -529,7 +529,7 @@ export default class DashboardView extends React.Component {
                   {
                     (!this.state.nric)
                       ?
-                      <View style={{ elevation: 100 }}>
+                      <View style={{ elevation: 24 }}>
                         {this.handleRenderAccessLoginScreen()}
                       </View>
                       :

@@ -1,5 +1,5 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {Colors, Metrics, Fonts} from '../../../../Themes';
+import { Dimensions, StyleSheet } from 'react-native';
+import { Colors, Metrics, Fonts } from '../../../../Themes';
 
 export default StyleSheet.create({
   headerLogoContainer: {
@@ -22,7 +22,7 @@ export default StyleSheet.create({
     borderColor: '#ddd',
     /** Shadow Effect Settings **/
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 5},
+    shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.58,
     shadowRadius: 5,
     elevation: 24,
@@ -43,18 +43,21 @@ export default StyleSheet.create({
     // elevation: 24,
   },
   historyContainer: {
-    flexDirection: 'row', 
-    margin: Metrics.baseMargin, 
-    alignItems: 'center', 
-    padding: Metrics.basePadding, 
+    flexDirection: 'row',
+    margin: Metrics.baseMargin,
+    alignItems: 'center',
+    padding: Metrics.basePadding,
     justifyContent: 'space-between',
     backgroundColor: Colors.body,
     borderRadius: 10,
     /** Shadow Effect Settings **/
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 5},
-    shadowOpacity: 0.58,
-    shadowRadius: 5,
-    elevation: 24,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
