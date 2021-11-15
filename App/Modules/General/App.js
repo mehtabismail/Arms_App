@@ -1,11 +1,10 @@
 /** REACT NATIVE **/
-import React, { Component } from "react";
-
+import { Component } from 'react';
 
 /** PROJECT FILES **/
+import React from 'react'
 import "../../Config";
 import AppConfig from "../../Config/AppConfig";
-import DebugConfig from "../../Config/DebugConfig";
 import AppNavigation from "../../Navigation/AppNavigation";
 import GenerateDataTables from '../../Database/generate_data_tables';
 import Member from '../Member/Modals/member_modal';
@@ -105,7 +104,7 @@ class App extends Component {
     var generateDataTables = new GenerateDataTables();
     var db_result = generateDataTables.initAppDBTables();
 
-    /** 
+    /**
      * Push Notification Setup
      */
     // var PushNotification = require('react-native-push-notification');
@@ -163,12 +162,8 @@ class App extends Component {
       <SafeAreaProvider>
         <AppNavigation />
       </SafeAreaProvider>
-
-
     );
   }
 }
 
-// allow reactotron overlay for fast design in dev mode
-export default (DebugConfig.useReactotron ? console.tron.overlay(App) : App);
-
+export default App;

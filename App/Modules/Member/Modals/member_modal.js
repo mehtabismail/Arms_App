@@ -1,9 +1,8 @@
 /** REACT NATIVE **/
 import { Platform } from 'react-native';
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   AppConfig,
   ARMSDownloader, ServerCommunicator,
@@ -75,28 +74,28 @@ export default class Member {
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
 
     var data = [];
-    let sqlQuery = `INSERT INTO member_data 
+    let sqlQuery = `INSERT INTO member_data
                     (
-                      member_guid, nric, card_no, name, gender, 
-                      dob, postcode, address, city, state, phone, 
+                      member_guid, nric, card_no, name, gender,
+                      dob, postcode, address, city, state, phone,
                       points, issue_date, next_expiry_date, member_type, member_type_desc, last_update, email, points_update,
                       mobile_registered_time, referral_code, refer_by_referral_code
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?,
-                      ?, ?, ?, ?, ?, ?, 
+                      ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?, ?, ?,
                       ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          member_guid, nric, session_token, card_no, name, gender, 
-          dob, postcode, address, city, state, phone, 
+          member_guid, nric, session_token, card_no, name, gender,
+          dob, postcode, address, city, state, phone,
           points, issue_date, next_expiry_date, member_type, member_type_desc, last_update, email, points_update,
           mobile_registered_time, referral_code, refer_by_referral_code
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var member_InsertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: member_InsertId}};
@@ -142,13 +141,13 @@ export default class Member {
     var referral_code = member_data.referral_code;
     var refer_by_referral_code = member_data.refer_by_referral_code;
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
-    
+
 
     var data = []
     let sqlQuery = `UPDATE member_data
-                    SET 
-                      card_no = ?, name = ?, gender = ?, dob = ?, postcode = ?, 
-                      address = ?, city = ?, state = ?, phone = ?, points = ?, issue_date = ?, 
+                    SET
+                      card_no = ?, name = ?, gender = ?, dob = ?, postcode = ?,
+                      address = ?, city = ?, state = ?, phone = ?, points = ?, issue_date = ?,
                       next_expiry_date = ?, member_type = ?, member_type_desc = ?, last_update = ?, email = ?, points_update = ?,
                       mobile_registered_time = ?, referral_code = ?, refer_by_referral_code = ?
                     WHERE nric = ? ;`
@@ -156,12 +155,12 @@ export default class Member {
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          card_no, name, gender, dob, postcode, 
-          address, city, state, phone, points, issue_date, 
-          next_expiry_date, member_type, member_type_desc, last_update, email, points_update, 
+          card_no, name, gender, dob, postcode,
+          address, city, state, phone, points, issue_date,
+          next_expiry_date, member_type, member_type_desc, last_update, email, points_update,
           mobile_registered_time, referral_code, refer_by_referral_code,
           nric
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected==0){
             resolve(this.InsertMemberData(member_data));
           } else if(results.rowsAffected>0){
@@ -194,7 +193,7 @@ export default class Member {
 
     var data = []
     let sqlQuery = `UPDATE member_data
-                    SET 
+                    SET
                       postcode = ?, address = ?, city = ?, state = ?, phone = ?, last_update = ?
                     WHERE nric = ? ;`
 
@@ -202,7 +201,7 @@ export default class Member {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           postcode, address, city, state, phone, last_update, nric
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected==0){
             alert('No Data Updated')
           } else if(results.rowsAffected>0){
@@ -233,7 +232,7 @@ export default class Member {
 
     var data = []
     let sqlQuery = `UPDATE member_data
-                    SET 
+                    SET
                       name = ?, gender = ?, dob = ?, last_update = ?
                     WHERE nric = ? ;`
 
@@ -241,7 +240,7 @@ export default class Member {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           name, gender, dob, last_update, nric
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected==0){
             alert('No Data Updated')
           } else if(results.rowsAffected>0){
@@ -278,7 +277,7 @@ export default class Member {
       };
       if(state){
         formData.append('state', state);
-      };      
+      };
       if(phone_3){
         formData.append('phone_3', phone_3);
       };
@@ -317,7 +316,7 @@ export default class Member {
    */
   MemberLogout(nric){
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
-    
+
     var data = []
     let sqlQuery = `UPDATE member_data
                     SET login_status = 0, last_update = ?
@@ -325,7 +324,7 @@ export default class Member {
 
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, [ last_update, nric ], (tx, results) => { 
+        tx.executeSql(sqlQuery, [ last_update, nric ], (tx, results) => {
           if(results.rowsAffected==0){
             data = {result: 0, data: "Logout Failed."};
           } else if(results.rowsAffected>0){
@@ -364,7 +363,7 @@ export default class Member {
           var check_file = this.CheckProfileImage(nric, fileURL);
           check_file.then((res) => {
             if(res.result == 1){
-              resolve(this.UpdateMemberData(member));  
+              resolve(this.UpdateMemberData(member));
             } else {
               resolve({result: 0, data: res.error_msg});
             }
@@ -404,9 +403,9 @@ export default class Member {
                 resolve({result: 0});
               }
             })
-          } 
+          }
           // file non-exist
-          else { 
+          else {
             // download image from server into local
             if(fileURL){
               resolve(this.SaveProfileImage(fileStoragePath, fileURL));
@@ -417,7 +416,7 @@ export default class Member {
         } else {
           resolve({result: 0});
         }
-      }) 
+      })
     })
     return result
   }
@@ -447,7 +446,7 @@ export default class Member {
     let sqlQuery = `SELECT card_no, name, points, points_update, next_expiry_date, last_update
                     FROM member_data
                     WHERE nric = ?`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [nric], (tx, results) => {
@@ -470,10 +469,10 @@ export default class Member {
     */
   FetchMemberInfo(nric){
     var data = null
-    let sqlQuery = `SELECT * 
+    let sqlQuery = `SELECT *
                     FROM member_data
                     WHERE nric = ?`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [nric], (tx, results) => {
@@ -528,7 +527,7 @@ export default class Member {
   //     formData.append('rcv_by', 306)
   //     console.log(uri);
   //     formData.append('grr_image_info', {uri, name: image_name, type: "image/jpg"})
-      
+
   //     formData.append('items', JSON.stringify([
   //       {
   //         "doc_no": "123",
@@ -575,16 +574,16 @@ export default class Member {
 
   /**
    * Get member data for coupon verification:
-   * - mobile registered date 
+   * - mobile registered date
    * - address, postcode, state, phone, gender, dob
    */
   FetchCouponVerifMemberData(){
-    let sqlQuery = `SELECT 
+    let sqlQuery = `SELECT
                       mobile_registered_time,
                       address, postcode, state, phone, gender, dob
                     FROM member_data
                     WHERE login_status = 1`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [], (tx, results) => {
@@ -600,13 +599,13 @@ export default class Member {
   }
 
   /**
-   * Get member registered date 
+   * Get member registered date
    */
   FetchMemberRegisteredDate(){
     let sqlQuery = `SELECT mobile_registered_time
                     FROM member_data
                     WHERE nric = ?`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [], (tx, results) => {
@@ -624,7 +623,7 @@ export default class Member {
   /***********************************************/
   /************** Login / Logout *****************/
   /***********************************************/
-  
+
   /**
    * New Member Registration using email and password server
    */
@@ -689,14 +688,14 @@ export default class Member {
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         // Query 1
-        tx.executeSql(sqlQuery1, '', (tx, results) => { 
+        tx.executeSql(sqlQuery1, '', (tx, results) => {
         }, (err) => {
           data = {result: 0, data: {title: "Error ExecuteSQL Query1 (UpdateLoginStatus)", msg: JSON.stringify(err)}};
           resolve(err);
         });
 
         // Query 2
-        tx.executeSql(sqlQuery2, [nric], (tx, results) => { 
+        tx.executeSql(sqlQuery2, [nric], (tx, results) => {
           if(results.rowsAffected==0){
             data = {result: 1, data: ""};
             resolve(data);
@@ -721,10 +720,10 @@ export default class Member {
    */
   FetchLoginMemberNRIC_SessionToken(){
     var data = null
-    let sqlQuery = `SELECT nric, session_token, card_no, member_type 
+    let sqlQuery = `SELECT nric, session_token, card_no, member_type
                     FROM member_data
                     WHERE login_status = 1`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -750,21 +749,21 @@ export default class Member {
    * Insert Member Session Token
    */
   InsertMemberSessionTokenData(nric, session_token){
-      
+
     // Initiate variables
     var member_guid = uuidv1();
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
 
     var data = [];
-    let sqlQuery = `INSERT INTO member_data 
-                    ( member_guid, nric, session_token, last_update ) 
+    let sqlQuery = `INSERT INTO member_data
+                    ( member_guid, nric, session_token, last_update )
                     VALUES( ?, ?, ?, ? );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           member_guid, nric, session_token, last_update
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var member_InsertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: member_InsertId}};
@@ -790,7 +789,7 @@ export default class Member {
    */
   UpdateMemberSessionTokenData(nric, session_token){
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
-    
+
     var data = []
     let sqlQuery = `UPDATE member_data
                     SET session_token = ?, last_update = ?
@@ -798,7 +797,7 @@ export default class Member {
 
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, [ session_token, last_update, nric ], (tx, results) => { 
+        tx.executeSql(sqlQuery, [ session_token, last_update, nric ], (tx, results) => {
           if(results.rowsAffected==0){
             resolve(this.InsertMemberSessionTokenData(nric, session_token));
           } else if(results.rowsAffected>0){
@@ -820,7 +819,7 @@ export default class Member {
   /***********************************************/
   /********** Password Configuration *************/
   /***********************************************/
-  
+
   /**
    * Forget member's password to server
    */
@@ -836,7 +835,7 @@ export default class Member {
       resolve(post_return);
     })
     return result
-  } 
+  }
 
   /**
    * Change member's password to server
@@ -889,7 +888,7 @@ export default class Member {
       resolve(post_return);
     })
     return result
-  } 
+  }
 
   /**
    * Request SMS OTP code
@@ -906,7 +905,7 @@ export default class Member {
       resolve(post_return);
     })
     return result
-  } 
+  }
 
   /**
    * Fetch Exixting Member Data with OTP code from API
@@ -925,7 +924,7 @@ export default class Member {
       resolve(post_return);
     })
     return result
-  } 
+  }
 
   /***********************************************/
   /********* Member Points / History *************/
@@ -938,7 +937,7 @@ export default class Member {
     var nric = nric;
     var points = points;
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
-    
+
 
     var data = []
     let sqlQuery = `UPDATE member_data
@@ -949,7 +948,7 @@ export default class Member {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           points, last_update, nric
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected==0){
             data = {result: 1, data: 'Points Updated Failed.'};
           } else if(results.rowsAffected>0){
@@ -973,10 +972,10 @@ export default class Member {
    */
   FetchMemberPoints(nric){
     var data = null
-    let sqlQuery = `SELECT points, points_update AS last_update 
+    let sqlQuery = `SELECT points, points_update AS last_update
                     FROM member_data
                     WHERE nric = ?`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [nric], (tx, results) => {
@@ -1002,7 +1001,7 @@ export default class Member {
     let sqlQuery = `SELECT member_history_last_recalculate_time
                     FROM member_data
                     WHERE nric = ?`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [nric], (tx, results) => {
@@ -1032,7 +1031,7 @@ export default class Member {
 
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, [ last_recalculate, nric ], (tx, results) => { 
+        tx.executeSql(sqlQuery, [ last_recalculate, nric ], (tx, results) => {
           if(results.rowsAffected==0){
             data = {result: 1, data: 'Last Recalculate Time Updated Failed.'};
           } else if(results.rowsAffected>0){
@@ -1056,10 +1055,10 @@ export default class Member {
    */
   DeleteMemberPointHistory(nric) {
     let sqlQuery_sales = 'DELETE FROM member_point_history WHERE nric = ?;'
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery_sales, [nric], () => { 
+        tx.executeSql(sqlQuery_sales, [nric], () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteMemberPointHistory)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -1083,7 +1082,7 @@ export default class Member {
     var last_recalculate_time = (LRT_result.result == 1) ? LRT_result.data.member_history_last_recalculate_time : '';
 
     let result = new Promise((resolve, reject) => {
-      
+
       var formData = new FormData();
       formData.append('a','get_my_member_point_history');
       formData.append('last_recalculate_time', last_recalculate_time);
@@ -1129,7 +1128,7 @@ export default class Member {
    * Insert Member Point History
    */
   async InsertMemberPointHistory(data){
-      
+
     // Initiate variables
     var nric = data.nric;
     var card_no = data.card_no;
@@ -1142,22 +1141,22 @@ export default class Member {
     var point_source = data.point_source;
 
     var data = [];
-    let sqlQuery = `INSERT INTO member_point_history 
+    let sqlQuery = `INSERT INTO member_point_history
                     (
-                      nric, card_no, date, branch_id, branch_desc, 
+                      nric, card_no, date, branch_id, branch_desc,
                       type, points, remark, point_source
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?,
                       ?, ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          nric, card_no, date, branch_id, branch_desc, 
-          type, points, remark, point_source, 
-        ], (tx, results) => { 
+          nric, card_no, date, branch_id, branch_desc,
+          type, points, remark, point_source,
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -1183,11 +1182,11 @@ export default class Member {
    */
   FetchMemberPointHistory(nric){
     var data = null
-    let sqlQuery = `SELECT * 
+    let sqlQuery = `SELECT *
                     FROM member_point_history
                     WHERE nric = ?
                     ORDER BY date DESC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [nric], (tx, results) => {
@@ -1212,12 +1211,12 @@ export default class Member {
   /***********************************************/
   /***************** PN Token ********************/
   /***********************************************/
-  
+
   /**
    * Insert Push Notification Token
    */
   InsertPNToken(pn_token){
-      
+
     // Initiate variables
     var pn_token = pn_token;
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -1225,16 +1224,16 @@ export default class Member {
     var data = [];
     let sqlQuery = `INSERT INTO push_notification_token (
                       pn_token, last_update
-                    ) 
+                    )
                     VALUES(
                       ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           pn_token, last_update
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -1261,7 +1260,7 @@ export default class Member {
   UpdatePNToken(pn_token){
     var pn_token = pn_token
     var last_update = moment().format('YYYY-MM-DD HH:mm:ss');
-    
+
 
     var data = []
     let sqlQuery = `UPDATE push_notification_token
@@ -1271,7 +1270,7 @@ export default class Member {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           pn_token, last_update
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected==0){
             resolve(this.InsertPNToken(pn_token));
           } else if(results.rowsAffected>0){
@@ -1295,10 +1294,10 @@ export default class Member {
    */
   // UploadPNTokenToServer(nric){
   //   var data = null
-  //   let sqlQuery = `SELECT pn_token 
+  //   let sqlQuery = `SELECT pn_token
   //                   FROM push_notification_token
   //                   LIMIT 1`;
-    
+
   //   let result = new Promise((resolve, reject) => {
   //     this.db.transaction((tx) => {
   //       tx.executeSql(sqlQuery, [], (tx, results) => {
@@ -1356,7 +1355,7 @@ export default class Member {
     let sqlQuery = `SELECT nric, name, phone, email, address, postcode, city, state
                     FROM member_data
                     WHERE login_status = 1`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -1383,7 +1382,7 @@ export default class Member {
     let sqlQuery = `SELECT points
                     FROM member_data
                     WHERE login_status = 1`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {

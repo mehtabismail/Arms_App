@@ -1,8 +1,7 @@
 /** REACT NATIVE **/
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   ServerCommunicator,
   Database
@@ -29,7 +28,7 @@ export default class Coupon {
    * √ Delete coupon data by nric
    * √ Get coupon data list
    * √ Get coupon data from server
-   * - 
+   * -
    */
 
   /***********************************************/
@@ -40,7 +39,7 @@ export default class Coupon {
    * Insert Coupon Data
    */
   InsertCouponData(data){
-      
+
     // Initiate variables
     var cp_id = data.cp_id;
     var full_coupon_code = data.full_coupon_code;
@@ -68,20 +67,20 @@ export default class Coupon {
     var member_limit_profile_info = JSON.stringify(data.member_limit_profile_info);
 
     var data = [];
-    let sqlQuery = `INSERT INTO coupon_list 
+    let sqlQuery = `INSERT INTO coupon_list
                     (
                       cp_id, full_coupon_code, value, discount_by, member_limit_count, total_used_count,
                       valid_from, valid_to, time_from, time_to, min_qty, min_amt, min_receipt_amt, remark,
                       limit_sid_list, dept_id, dept_desc, brand_id, brand_desc, vendor_id, vendor_desc,
                       member_limit_mobile_day_start, member_limit_mobile_day_end, member_limit_profile_info
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?, ?, ?,
-                      ?, ?, ?, ?, ?, ?, ?, 
+                      ?, ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?, ?,
                       ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
@@ -89,7 +88,7 @@ export default class Coupon {
           valid_from, valid_to, time_from, time_to, min_qty, min_amt, min_receipt_amt, remark,
           limit_sid_list, dept_id, dept_desc, brand_id, brand_desc, vendor_id, vendor_desc,
           member_limit_mobile_day_start, member_limit_mobile_day_end, member_limit_profile_info
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -115,10 +114,10 @@ export default class Coupon {
    */
   DeleteAllCouponData(){
     let sqlQuery = 'DELETE FROM coupon_list;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, '', () => { 
+        tx.executeSql(sqlQuery, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllCouponData)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -167,7 +166,7 @@ export default class Coupon {
             } else {
               resolve({result: 1, data: "No coupon available in this moment."});
             }
-          })   
+          })
         } else {
           resolve({result: 0, data: {title: "", msg: res.error_msg}});
         }
@@ -182,7 +181,7 @@ export default class Coupon {
   FetchCouponList(){
     var data = null
     let sqlQuery = `SELECT * FROM coupon_list GROUP BY full_coupon_code ORDER BY valid_to ASC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {

@@ -134,7 +134,7 @@ const NavigationConfig = () => {
  * Login Stack
  * Include:
  * - Login Screen
- * - Forget Password Screen 
+ * - Forget Password Screen
  */
 const LoginStack = createStackNavigator({
   LandingScreen: LandingScreenPath,
@@ -161,7 +161,7 @@ const LoginStack = createStackNavigator({
  * Dashboard Stack
  * Include:
  * - Dashboard Screen
- * - Member Points History Screen 
+ * - Member Points History Screen
  */
 const DashboardStack = createStackNavigator({
   DashboardScreen: DashboardScreenPath,
@@ -332,7 +332,7 @@ const ProfileStack = createStackNavigator({
 
 /**
  * EBrochure Stack
- * Include: 
+ * Include:
  * - EBrochure Screen
  */
 const EBrochureStack = createStackNavigator({
@@ -352,7 +352,7 @@ const EBrochureStack = createStackNavigator({
 
 /**
  * Outlet Location Stack
- * Include: 
+ * Include:
  * - Outlet List Screen
  */
 const OutletLocationStack = createStackNavigator({
@@ -378,7 +378,7 @@ const OutletLocationStack = createStackNavigator({
 
 /**
  * Referral Program Stack
- * Include: 
+ * Include:
  * - Referral Program Screen
  */
 const ReferralProgramStack = createStackNavigator({
@@ -464,7 +464,7 @@ const AllPackageRedeemHistoryStack = createStackNavigator({
 
 /**
  * E-Commerce Stack
- * Include: 
+ * Include:
  * - E-Commerce Landing Screen
  */
 const ECommerceStack = createStackNavigator({
@@ -514,7 +514,7 @@ const ECommerceStack = createStackNavigator({
 
 /**
  * Scan And Pay Stack
- * Include: 
+ * Include:
  * - SAP Landing Screen
  * - SAP Order List Screen
  * - SAP Receipt Screen
@@ -659,12 +659,12 @@ const DashboardBottomTabStack = createBottomTabNavigator({
     screen: DashboardStack,
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => (
-        // <Image 
+        // <Image
         //   style={{
-        //     height: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     width: focused ? Metrics.icons.large : Metrics.icons.small, 
+        //     height: focused ? Metrics.icons.large : Metrics.icons.small,
+        //     width: focused ? Metrics.icons.large : Metrics.icons.small,
         //     tintColor
-        //   }} 
+        //   }}
         //   source={Images.home}
         // />
         myTabBarIcon(focused, tintColor, Images.home)
@@ -678,7 +678,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
         myTabBarLabel(focused, tintColor, 'Home')
         // if(!focused){
         //   return(
-        //     <Label 
+        //     <Label
         //       text={`Home`}
         //       style={{
         //         fontSize: Fonts.size.small,
@@ -704,12 +704,12 @@ const DashboardBottomTabStack = createBottomTabNavigator({
     screen: PackageStack,
     navigationOptions: {
       tabBarIcon: ({ focused, tintColor }) => (
-        // <Image 
+        // <Image
         //   style={{
-        //     height: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     width: focused ? Metrics.icons.large : Metrics.icons.small, 
+        //     height: focused ? Metrics.icons.large : Metrics.icons.small,
+        //     width: focused ? Metrics.icons.large : Metrics.icons.small,
         //     tintColor
-        //   }} 
+        //   }}
         //   source={Images.couponIcon}
         // />
         myTabBarIcon(focused, tintColor, Images.couponIcon)
@@ -790,7 +790,7 @@ const DashboardBottomTabStack = createBottomTabNavigator({
 
 /**
  * Drawer Stack
- * Include: 
+ * Include:
  * - Dashboard Stack
  * - Member Profile Stack
  */
@@ -810,7 +810,7 @@ const DrawerStack = createDrawerNavigator({
 
 /**
  * Main Stack
- * Include: 
+ * Include:
  * - Drawer Stack
  */
 const MainStack = createStackNavigator({
@@ -874,29 +874,27 @@ const MainStack = createStackNavigator({
 
 /**
  * Root Stack
- * Include: 
+ * Include:
  * - Main Stack
  */
-const RootStack = createStackNavigator({
-  Main: MainStack,
-},
+const RootStack = createStackNavigator(
+  {
+    Main: MainStack,
+  },
   {
     mode: 'modal',
     headerMode: 'none',
-  })
+  },
+);
 
 const AppContainer = createAppContainer(RootStack);
 
 class App extends Component {
   render() {
-    return (
-      <AppContainer />
-    );
+    return <AppContainer />;
   }
 }
 export default App;
-
-
 
 /*********************************************/
 /************** Hide Bottom Tab **************/
@@ -944,9 +942,9 @@ export default App;
 //   }
 // };
 
-  // defaultNavigationOptions : ({navigation}) =>{ 
+  // defaultNavigationOptions : ({navigation}) =>{
   //   let visible;
-  //   if(app.visible) {visible = false;} 
+  //   if(app.visible) {visible = false;}
   //   else {visible = true;}
   //   return {tabBarVisible : visible}
   // },
@@ -970,7 +968,7 @@ export default App;
 //       flex: 1,
 //       textAlign: 'center',
 //     },
-//     headerTintColor: Colors.secondary, 
+//     headerTintColor: Colors.secondary,
 //     headerTintStyle: {
 //       ...Fonts.style.fontBold,
 //     },
@@ -996,7 +994,7 @@ export default App;
 //       flex: 1,
 //       textAlign: 'center',
 //     },
-//     headerTintColor: Colors.secondary, 
+//     headerTintColor: Colors.secondary,
 //     headerTintStyle: {
 //       ...Fonts.style.fontBold,
 //     },

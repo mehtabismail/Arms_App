@@ -2,14 +2,13 @@
 import React from 'react';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
 } from '../../../Services/LibLinking';
 import Promotion from "../Modals/promotion_modal";
 
 /** NPM LIBRARIES **/
 import NetInfo from "@react-native-community/netinfo";
-import reactotron from 'reactotron-react-native';
 
 export default class PromotionContainerController extends React.Component {
   constructor(props){
@@ -25,7 +24,7 @@ export default class PromotionContainerController extends React.Component {
   initScreen(){
     let result = new Promise((resolve, reject) => {
       /**
-       * 1) Check Network 
+       * 1) Check Network
        * 1.1) Network Available, get promotion list from server
        * 1.2) Network Not Available, get promotion list from local
        */
@@ -73,7 +72,7 @@ export default class PromotionContainerController extends React.Component {
 
   networkConnectValidation(){
     let result = new Promise((resolve, reject) => {
-      NetInfo.isConnected.fetch().done((isConnected) => { 
+      NetInfo.isConnected.fetch().done((isConnected) => {
         if(isConnected) {
           resolve({result: 1, data: isConnected})
         } else {
