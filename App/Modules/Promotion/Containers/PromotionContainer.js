@@ -25,7 +25,7 @@ import LoginController from '../../General/Login/Actions/login_controller';
 
 /** NPM LIBRARIES **/
 import { NavigationActions, DrawerActions } from 'react-navigation';
-import { tailwind } from '../../../../tailwind';
+import { getColor, tailwind } from '../../../../tailwind';
 
 const ads_banner_path = AppConfig.ads_banner_promo_scn_path;
 const ads_screen_id = AppConfig.ads_promo_screen_id;
@@ -156,6 +156,7 @@ export default class PromotionView extends React.Component {
   handleFlatListRenderItem = ({ item, index }) => {
     return (
       <FadeInAnimation index={index}>
+
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate('PromotionProductScreen', {
@@ -170,56 +171,72 @@ export default class PromotionView extends React.Component {
               }
             })
           }}
-          style={[
-            PromotionContainer.shadow, {
-              marginVertical: Metrics.doubleBaseMargin,
-              marginHorizontal: Metrics.baseMargin,
-              marginBottom: Metrics.basePadding,
-            }
-          ]}>
-          <View style={PromotionContainer.container}>
+          // style={[
+          //   PromotionContainer.shadow, {
+          //     marginVertical: Metrics.doubleBaseMargin,
+          //     marginHorizontal: Metrics.baseMargin,
+          //     marginBottom: Metrics.basePadding,
+          //   }
+          // ]}
+          style={tailwind('my-5 mx-3 rounded-lg')}
+        >
+          <View style={{
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
 
-            {/* Promotion Banner */}
-            <Image
-              source={{ uri: `${AppConfig.api_url}/${item.banner_vertical_1}` }}
-              resizeMode='stretch'
-              style={{
-                width: '100%',
-                height: Metrics.images.promoImg,
-                justifyContent: 'center',
-                borderTopLeftRadius: Metrics.containerRadius,
-                borderTopRightRadius: Metrics.containerRadius,
-              }}
-            />
+            elevation: 5,
+          }}>
+            <View
+              style={tailwind("flex-1 rounded-lg border border-gray-200 opacity-100 bg-white")}
+            >
 
-            {/* Promotion Date Validable */}
-            <View style={[PromotionContainer.dateHeaderContainer, {}]}>
-              <Text style={{ color: Colors.text_color_2, fontSize: Fonts.size.small }}>{`Valid ${item.date_from ? `from ${item.date_from}` : ""} till ${item.date_to ? item.date_to : ""}`}</Text>
-            </View>
-
-            {/* Straight Line */}
-            <View style={{ width: '95%', alignSelf: 'center' }}>
-              <Divider lineColor={Colors.border_line} />
-            </View>
-
-            {/* Promotion Title Container */}
-            <View style={[PromotionContainer.flatlistHeaderContainer, {}]}>
-              {/* Promotion Title */}
-              <Text
-                style={{
-                  fontSize: Fonts.size.h6,
-                  fontWeight: 'bold',
-                  color: Colors.text_color_1
-                }}
-              >
-                {`${item.title}`}
-              </Text>
-              {/* Arrow Icon */}
+              {/* Promotion Banner */}
               <Image
-                source={Images.arrowRight}
-                style={{ height: Metrics.icons.small, width: Metrics.icons.small, alignSelf: 'center' }} />
-            </View>
+                source={{ uri: `${AppConfig.api_url}/${item.banner_vertical_1}` }}
+                resizeMode="stretch"
+                style={{
+                  width: '100%',
+                  height: Metrics.images.promoImg,
+                  justifyContent: 'center',
+                  borderTopLeftRadius: Metrics.containerRadius,
+                  borderTopRightRadius: Metrics.containerRadius,
+                }}
+              />
 
+              {/* Promotion Date Validable */}
+              <View style={[PromotionContainer.dateHeaderContainer, {}]}>
+                <Text style={{ color: getColor('secondary'), fontSize: Fonts.size.small }}>{`Valid ${item.date_from ? `from ${item.date_from}` : ""} till ${item.date_to ? item.date_to : ""}`}</Text>
+              </View>
+
+              {/* Straight Line */}
+              <View style={{ width: '95%', alignSelf: 'center' }}>
+                <Divider lineColor={Colors.border_line} />
+              </View>
+
+              {/* Promotion Title Container */}
+              <View style={tailwind("flex-row justify-between")}>
+                {/* Promotion Title */}
+                <View style={tailwind("justify-center")}>
+                  <Text
+                    style={tailwind('text-primary text-xl font-bold px-3')}
+                  >
+                    {`${item.title}`}
+                  </Text>
+                </View>
+                {/* Arrow Icon */}
+                <View style={tailwind("justify-center items-center")}>
+                  <Image
+                    source={Images.arrowRight}
+                    style={{ height: Metrics.icons.focus, width: Metrics.icons.focus, alignSelf: 'center', tintColor: getColor('primary'), }} />
+                </View>
+              </View>
+
+            </View>
           </View>
         </TouchableOpacity>
       </FadeInAnimation>
@@ -262,97 +279,101 @@ export default class PromotionView extends React.Component {
     return (
       /**Start Safe Area**/
       <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
-
-        {/* Ads Banner */}
-        <View style={tailwind('m-3 mt-20')}>
-          <AdsBanner
-            dataFolderPath={ads_banner_path}
-            screenId={ads_screen_id}
-            imgResizeMode={'stretch'}
-            height={Metrics.headerContainerHeight}
-            arrowSize={0}
-            onPress={(data) => {
-              var url = data.image.link;
-              if (url && url != "undefined") {
-                url = (url.substring(0, 8) == "https://" || url.substring(0, 7) == "http://") ? url : `http://${url}`;
-                Linking.openURL(url);
-              } else {
-                Alert.alert("", I18n.t("alert_banner_empty_weblink"));
-              }
-            }}
-            onRefresh={this.state.fetch_data}
-          />
-        </View>
-
-        {/* Promotion Display */}
-        {
-          (!this.state.fetch_data)
-            ?
-            <View>
-              {
-                (this.state.datalist.length > 0)
-                  ?
-                  <ScrollView
-                    ref={(ref) => this.scrollView = ref}
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                      <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.handleRefresh}
-                      />
-                    }>
-                    <View style={{ paddingVertical: Metrics.smallPadding, marginBottom: 150 }}>
-
-                      {/* Promotion Header */}
-                      <View style={PromotionContainer.headerContainer}>
-                        <Text style={tailwind('text-primary text-xl font-bold')}>SPECIAL PROMOTION</Text>
-                      </View>
-
-                      {/* Promotion List */}
-                      <FlatList
-                        data={this.state.datalist}
-                        renderItem={this.handleFlatListRenderItem}
-                        key={portrait ? "h" : "v"}
-                        extraData={this.state.flatListRentalTrigger}
-                      // horizontal={true}
-                      />
-
-                    </View>
-                  </ScrollView>
-                  :
-                  <View>
-                    {
-                      (this.state.check)
-                        ?
-                        <View />
-                        :
-                        <View style={[ApplicationStyles.screen.mainContainer, { justifyContent: 'center', flex: 0, height: '100%', paddingBottom: 250 }]}>
-                          <SpringAnimation>
-                            <Image
-                              source={Images.shock}
-                              resizeMode={'contain'}
-                              style={{
-                                // tintColor: 'transparent',
-                                width: Metrics.images.xxLarge,
-                                height: Metrics.images.xxLarge,
-                                marginBottom: Metrics.doubleBaseMargin,
-                              }}
-                            />
-                          </SpringAnimation>
-                          <Label> . . . . . </Label>
-                          <Label style={{ color: Colors.primary }}>Oops! No promotion have been issued yet.</Label>
+        <View style={tailwind("h-full w-full bg-gray-200")}>
+          {/* Ads Banner */}
+          <View style={tailwind('m-3 mt-20')}>
+            <AdsBanner
+              dataFolderPath={ads_banner_path}
+              screenId={ads_screen_id}
+              imgResizeMode={'stretch'}
+              height={Metrics.headerContainerHeight}
+              arrowSize={0}
+              onPress={(data) => {
+                var url = data.image.link;
+                if (url && url != "undefined") {
+                  url = (url.substring(0, 8) == "https://" || url.substring(0, 7) == "http://") ? url : `http://${url}`;
+                  Linking.openURL(url);
+                } else {
+                  Alert.alert("", I18n.t("alert_banner_empty_weblink"));
+                }
+              }}
+              onRefresh={this.state.fetch_data}
+            />
+          </View>
+          <View style={tailwind('flex-1')}>
+            {/* Promotion Display */}
+            {
+              (!this.state.fetch_data)
+                ?
+                <View>
+                  {
+                    (this.state.datalist.length > 0)
+                      ?
+                      <View style={tailwind('mb-16')}>
+                        {/* Promotion Header */}
+                        <View style={tailwind("justify-center items-center p-3 mt-5")}>
+                          <Text style={tailwind('text-primary text-xl font-bold')}>SPECIAL PROMOTION</Text>
                         </View>
-                    }
-                  </View>
-              }
-            </View>
-            :
-            <View />
-        }
+                        <ScrollView
+                          ref={(ref) => this.scrollView = ref}
+                          showsVerticalScrollIndicator={false}
+                          refreshControl={
+                            <RefreshControl
+                              refreshing={this.state.refreshing}
+                              onRefresh={this.handleRefresh}
+                            />
+                          }
+                        >
+                          <View style={tailwind('mb-52')}>
 
-        {/* Loading Animation */}
-        {this.handleRenderLoadingIndicator()}
 
+
+                            {/* Promotion List */}
+                            <FlatList
+                              data={this.state.datalist}
+                              renderItem={this.handleFlatListRenderItem}
+                              key={portrait ? "h" : "v"}
+                              extraData={this.state.flatListRentalTrigger}
+                            // horizontal={true}
+                            />
+
+                          </View>
+                        </ScrollView>
+                      </View>
+                      :
+                      <View>
+                        {
+                          (this.state.check)
+                            ?
+                            <View />
+                            :
+                            <View style={[ApplicationStyles.screen.mainContainer, { justifyContent: 'center', flex: 0, height: '100%', paddingBottom: 250 }]}>
+                              <SpringAnimation>
+                                <Image
+                                  source={Images.shock}
+                                  resizeMode={'contain'}
+                                  style={{
+                                    // tintColor: 'transparent',
+                                    width: Metrics.images.xxLarge,
+                                    height: Metrics.images.xxLarge,
+                                    marginBottom: Metrics.doubleBaseMargin,
+                                  }}
+                                />
+                              </SpringAnimation>
+                              <Label> . . . . . </Label>
+                              <Label style={{ color: Colors.primary }}>Oops! No promotion have been issued yet.</Label>
+                            </View>
+                        }
+                      </View>
+                  }
+                </View>
+                :
+                <View />
+            }
+          </View>
+          {/* Loading Animation */}
+          {this.handleRenderLoadingIndicator()}
+        </View>
       </SafeAreaView>
     )
   }
