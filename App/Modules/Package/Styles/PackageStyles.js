@@ -1,5 +1,6 @@
 import {Colors, Metrics, Fonts} from '../../../Themes';
 import {Dimensions, Platform} from 'react-native';
+import { getColor } from '../../../../tailwind';
 
 const PackageContainer = {
   mainContainer: {
@@ -18,6 +19,7 @@ const PackageContainer = {
     borderTopRightRadius: Metrics.containerRadius,
     width: '100%',
     height: Metrics.images.prodImg,
+    color:getColor('primary')
   },
   packageImageLabelContainer: {
     borderTopLeftRadius: Metrics.containerRadius,
