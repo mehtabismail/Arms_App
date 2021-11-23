@@ -1,5 +1,6 @@
 import {Colors, Metrics, Fonts} from '../../../Themes';
 import {Dimensions, Platform} from 'react-native';
+import { getColor } from '../../../../tailwind';
 
 const CouponContainer = {
   shadow: {
@@ -19,8 +20,9 @@ const CouponContainer = {
   headerButtonContainer: {
     flexDirection: 'row', 
     borderRadius: 5, 
-    borderColor: Colors.secondary, 
+    borderColor: getColor('primary'), 
     borderWidth: 2, 
+    marginTop:5,
     marginLeft: Metrics.doubleBaseMargin+5,
     marginBottom: (Platform.OS === "ios") ? Metrics.smallMargin : 0,
   },

@@ -246,19 +246,13 @@ const AppCouponStack = createStackNavigator({
   {
     initialRouteName: '',
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
+      headerTransparent: true,
+      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
-    }
+    },
   });
 
 const VoucherChild = createStackNavigator({

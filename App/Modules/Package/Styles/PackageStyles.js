@@ -19,7 +19,6 @@ const PackageContainer = {
     borderTopRightRadius: Metrics.containerRadius,
     width: '100%',
     height: Metrics.images.prodImg,
-    color:getColor('primary')
   },
   packageImageLabelContainer: {
     borderTopLeftRadius: Metrics.containerRadius,
