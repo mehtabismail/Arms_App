@@ -554,15 +554,17 @@ export default class CouponView extends React.Component {
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
-              height: 2,
+              height: 7,
             },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
+            shadowOpacity: 0.43,
+            shadowRadius: 9.51,
 
-            elevation: 5,
+            elevation: 15,
           }}>
           <TouchableOpacity
-            style={tailwind('mx-3 my-2  bg-white rounded-lg border border-gray-300')}
+            style={tailwind(
+              'mx-3 my-2  bg-white rounded-lg border border-gray-300',
+            )}
             onPress={() => {
               this.handleNavigateToTermConditionScreen(
                 item,
