@@ -1,17 +1,12 @@
 /** REACT NATIVE **/
-import React, { Component } from 'react';
-import {
-  Image,
-  Platform,
-  Text,
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {Image, Platform, Text, View} from 'react-native';
 
-import { tailwind, getColor } from '../../tailwind';
+import {tailwind, getColor} from '../../tailwind';
 
 /** PROJECT FILES **/
-import { Colors, Metrics, Fonts, Images } from '../Themes';
-import { Label } from '../Services/LibLinking';
+import {Colors, Metrics, Fonts, Images} from '../Themes';
+import {Label} from '../Services/LibLinking';
 
 /** NPM LIBRARIES **/
 import {
@@ -99,9 +94,9 @@ const FadeTransition = (index, position) => {
   });
 
   return {
-    opacity: transition
-  }
-}
+    opacity: transition,
+  };
+};
 
 const BottomTransition = (index, position, height) => {
   const sceneRange = [index - 1, index, index + 1];
@@ -112,9 +107,9 @@ const BottomTransition = (index, position, height) => {
   });
 
   return {
-    transform: [{ translateY: transition }]
-  }
-}
+    transform: [{translateY: transition}],
+  };
+};
 
 const NavigationConfig = () => {
   return {
@@ -126,46 +121,51 @@ const NavigationConfig = () => {
 
       // return FadeTransition(index, position);
       return BottomTransition(index, position, height);
-    }
-  }
-}
+    },
+  };
+};
 
 /**
  * Login Stack
  * Include:
  * - Login Screen
- * - Forget Password Screen 
+ * - Forget Password Screen
  */
-const LoginStack = createStackNavigator({
-  LandingScreen: LandingScreenPath,
-  LoginScreen: LoginScreenPath,
-  ForgetPasswordScreen: ForgetPasswordScreenPath,
-  RegisterScreen: RegisterScreenPath,
-  ExistCustomerScreen: ExistCustomerScreenPath,
-}, {
-  transitionConfig: NavigationConfig,
-  initialRouteName: 'LandingScreen',
-  defaultNavigationOptions: {
-    // header: null,
-    headerTransparent: true,
-    headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
-    headerTintColor: Colors.secondary,
-    headerTintStyle: {
-      ...Fonts.style.fontBold,
+const LoginStack = createStackNavigator(
+  {
+    LandingScreen: LandingScreenPath,
+    LoginScreen: LoginScreenPath,
+    ForgetPasswordScreen: ForgetPasswordScreenPath,
+    RegisterScreen: RegisterScreenPath,
+    ExistCustomerScreen: ExistCustomerScreenPath,
+  },
+  {
+    transitionConfig: NavigationConfig,
+    initialRouteName: 'LandingScreen',
+    defaultNavigationOptions: {
+      // header: null,
+      headerTransparent: true,
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
+      headerTintColor: Colors.secondary,
+      headerTintStyle: {
+        ...Fonts.style.fontBold,
+      },
     },
   },
-},
 );
 
 /**
  * Dashboard Stack
  * Include:
  * - Dashboard Screen
- * - Member Points History Screen 
+ * - Member Points History Screen
  */
-const DashboardStack = createStackNavigator({
-  DashboardScreen: DashboardScreenPath,
-},
+const DashboardStack = createStackNavigator(
+  {
+    DashboardScreen: DashboardScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -173,28 +173,35 @@ const DashboardStack = createStackNavigator({
       //   backgroundColor: getColor("transparent")
       // },
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
-const DashboardChild = createStackNavigator({
-  MemberHistoryScreen: MemberHistoryScreenPath,
-},
+const DashboardChild = createStackNavigator(
+  {
+    MemberHistoryScreen: MemberHistoryScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Promotion Stack
@@ -202,36 +209,44 @@ const DashboardChild = createStackNavigator({
  * - Promotion Screen
  * - Promotion Product Screen
  */
-const PromotionStack = createStackNavigator({
-  PromotionScreen: PromotionScreenPath,
-},
+const PromotionStack = createStackNavigator(
+  {
+    PromotionScreen: PromotionScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
-const PromotionChild = createStackNavigator({
-  PromotionProductScreen: PromotionProductScreenPath,
-  ProductDetailScreen: ProductDetailScreenPath,
-},
+const PromotionChild = createStackNavigator(
+  {
+    PromotionProductScreen: PromotionProductScreenPath,
+    ProductDetailScreen: ProductDetailScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * App Coupon Stack
@@ -239,107 +254,122 @@ const PromotionChild = createStackNavigator({
  * -Coupon Screen
  * -Voucher Screen
  */
-const AppCouponStack = createStackNavigator({
-  CouponScreen: { screen: CouponScreenPath },
-  VoucherScreen: { screen: VoucherScreenPath },
-},
+const AppCouponStack = createStackNavigator(
+  {
+    CouponScreen: {screen: CouponScreenPath},
+    VoucherScreen: {screen: VoucherScreenPath},
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
-const VoucherChild = createStackNavigator({
-  VoucherTermConditionScreen: VoucherTermConditionScreenPath,
-},
+const VoucherChild = createStackNavigator(
   {
-    initialRouteName: '',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTitleStyle: {
-        ...Fonts.size.normal,
-        flex: 1,
-        textAlign: 'center',
-      },
-      headerTintColor: Colors.secondary,
-      headerTintStyle: {
-        ...Fonts.style.fontBold,
-      },
-    },
-  });
-
-const CouponChild = createStackNavigator({
-  CouponTermConditionScreen: CouponTermConditionScreenPath,
-},
+    VoucherTermConditionScreen: VoucherTermConditionScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
+
+const CouponChild = createStackNavigator(
+  {
+    CouponTermConditionScreen: CouponTermConditionScreenPath,
+  },
+  {
+    initialRouteName: '',
+    defaultNavigationOptions: {
+      headerTransparent: true,
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
+      headerTintColor: Colors.secondary,
+      headerTintStyle: {
+        ...Fonts.style.fontBold,
+      },
+    },
+  },
+);
 
 /**
  * Member Profile Stack
  * Include:
  * - Profile Screen
  */
-const ProfileStack = createStackNavigator({
-  ProfileScreen: ProfileScreenPath,
-  EmailPasswordScreen: EmailPasswordScreenPath,
-},
+const ProfileStack = createStackNavigator(
+  {
+    ProfileScreen: ProfileScreenPath,
+    EmailPasswordScreen: EmailPasswordScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * EBrochure Stack
- * Include: 
+ * Include:
  * - EBrochure Screen
  */
-const EBrochureStack = createStackNavigator({
-  EBrochureScreen: EBrochureScreenPath,
-},
+const EBrochureStack = createStackNavigator(
+  {
+    EBrochureScreen: EBrochureScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Outlet Location Stack
- * Include: 
+ * Include:
  * - Outlet List Screen
  */
-const OutletLocationStack = createStackNavigator({
-  OutletListScreen: OutletListScreenPath,
-},
+const OutletLocationStack = createStackNavigator(
+  {
+    OutletListScreen: OutletListScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -356,16 +386,18 @@ const OutletLocationStack = createStackNavigator({
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Referral Program Stack
- * Include: 
+ * Include:
  * - Referral Program Screen
  */
-const ReferralProgramStack = createStackNavigator({
-  ReferralProgramScreen: ReferralProgramScreenPath,
-},
+const ReferralProgramStack = createStackNavigator(
+  {
+    ReferralProgramScreen: ReferralProgramScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -373,53 +405,65 @@ const ReferralProgramStack = createStackNavigator({
       //   backgroundColor: Colors.primary,
       // },
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Package Stack
  * Include:
  * - Package Screen
  */
-const PackageStack = createStackNavigator({
-  PackageScreen: PackageScreenPath,
-},
+const PackageStack = createStackNavigator(
+  {
+    PackageScreen: PackageScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
-const PackageChild = createStackNavigator({
-  PackageItemScreen: PackageItemScreenPath,
-  PackageRedeemHistoryScreen: PackageRedeemHistoryScreenPath,
-},
+const PackageChild = createStackNavigator(
+  {
+    PackageItemScreen: PackageItemScreenPath,
+    PackageRedeemHistoryScreen: PackageRedeemHistoryScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
       headerTransparent: true,
-      headerTitleStyle: tailwind("flex-1 text-black font-bold text-2xl text-center mt-1"),
+      headerTitleStyle: tailwind(
+        'flex-1 text-black font-bold text-2xl text-center mt-1',
+      ),
       headerTintColor: Colors.secondary,
       headerTintStyle: {
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
-const AllPackageRedeemHistoryStack = createStackNavigator({
-  AllPackageRedeemHistoryScreen: PackageRedeemHistoryScreenPath,
-},
+const AllPackageRedeemHistoryStack = createStackNavigator(
+  {
+    AllPackageRedeemHistoryScreen: PackageRedeemHistoryScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -436,39 +480,41 @@ const AllPackageRedeemHistoryStack = createStackNavigator({
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * E-Commerce Stack
- * Include: 
+ * Include:
  * - E-Commerce Landing Screen
  */
-const ECommerceStack = createStackNavigator({
-  EComLandingScreen: EComLandingScreenPath,
-  EComProductListScreen: EComProductListScreenPath,
-  EComProductItemScreen: {
-    screen: EComProductItemScreenPath,
-    navigationOptions: {
-      headerTransparent: true,
-      headerStyle: {
-        // position: 'absolute',
-        // backgroundColor: 'transparent',
-        // zIndex: 100,
-        // top: 0,
-        // left: 0,
-        // right: 0,
-        // elevation: 0,
-        // shadowOpacity: 0,
-        // borderBottomWidth: 0,
-      }
-    }
+const ECommerceStack = createStackNavigator(
+  {
+    EComLandingScreen: EComLandingScreenPath,
+    EComProductListScreen: EComProductListScreenPath,
+    EComProductItemScreen: {
+      screen: EComProductItemScreenPath,
+      navigationOptions: {
+        headerTransparent: true,
+        headerStyle: {
+          // position: 'absolute',
+          // backgroundColor: 'transparent',
+          // zIndex: 100,
+          // top: 0,
+          // left: 0,
+          // right: 0,
+          // elevation: 0,
+          // shadowOpacity: 0,
+          // borderBottomWidth: 0,
+        },
+      },
+    },
+    EComCartScreen: EComCartScreenPath,
+    EComCheckoutScreen: EComCheckoutScreenPath,
+    EComSearchAndCategoryScreen: EComSearchAndCategoryScreenPath,
+    EComPaymentScreen: EComPaymentScreenPath,
+    EComPurchaseHistoryScreen: EComPurchaseHistoryScreenPath,
   },
-  EComCartScreen: EComCartScreenPath,
-  EComCheckoutScreen: EComCheckoutScreenPath,
-  EComSearchAndCategoryScreen: EComSearchAndCategoryScreenPath,
-  EComPaymentScreen: EComPaymentScreenPath,
-  EComPurchaseHistoryScreen: EComPurchaseHistoryScreenPath,
-},
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -486,20 +532,22 @@ const ECommerceStack = createStackNavigator({
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Scan And Pay Stack
- * Include: 
+ * Include:
  * - SAP Landing Screen
  * - SAP Order List Screen
  * - SAP Receipt Screen
  */
-const SAPStack = createStackNavigator({
-  SAPLandingScreen: SAPLandingScreenPath,
-  SAPOrderListScreen: SAPOrderListScreenPath,
-  SAPReceiptScreen: SAPReceiptScreenPath
-},
+const SAPStack = createStackNavigator(
+  {
+    SAPLandingScreen: SAPLandingScreenPath,
+    SAPOrderListScreen: SAPOrderListScreenPath,
+    SAPReceiptScreen: SAPReceiptScreenPath,
+  },
   {
     initialRouteName: '',
     defaultNavigationOptions: {
@@ -517,14 +565,16 @@ const SAPStack = createStackNavigator({
         ...Fonts.style.fontBold,
       },
     },
-  });
+  },
+);
 
 /**
  * Scan And Pay Web Stack
  */
-const SAPWebStack = createStackNavigator({
-  SAPWebScreen: SAPWebScreenPath
-},
+const SAPWebStack = createStackNavigator(
+  {
+    SAPWebScreen: SAPWebScreenPath,
+  },
   {
     initialRouteName: 'SAPWebScreen',
     defaultNavigationOptions: {
@@ -542,32 +592,33 @@ const SAPWebStack = createStackNavigator({
         ...Fonts.style.fontBold,
       },
     },
-  });
-
+  },
+);
 
 const myTabBarIcon = (focused, tintColor, source) => {
   return (
     <View
       style={{
-        height: "100%", width: "100%",
-        alignItems: "center",
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
         // justifyContent: "flex-end",
-        justifyContent: focused ? "center" : "flex-end",
-        alignSelf: "center"
-      }}
-    >
+        justifyContent: focused ? 'center' : 'flex-end',
+        alignSelf: 'center',
+      }}>
       <Image
-        style={[{
-          height: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
-          width: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
-          tintColor,
-        }]}
+        style={[
+          {
+            height: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
+            width: focused ? Metrics.icons.focus : Metrics.icons.notFocus,
+            tintColor,
+          },
+        ]}
         source={source}
       />
     </View>
-
-  )
-}
+  );
+};
 
 const myTabBarLabel = (focused, tintColor, text) => {
   if (!focused) {
@@ -580,13 +631,17 @@ const myTabBarLabel = (focused, tintColor, text) => {
         //   textAlign: 'center'
         // }}
         // style={tailwind("text-xs text-primaryBlue text-center -mt-3")}
-        style={{ height: "40%", color: Colors.text_primary, textAlign: "center", fontSize: 10 }}
+        style={{
+          height: '40%',
+          color: Colors.text_primary,
+          textAlign: 'center',
+          fontSize: 10,
+        }}
         numberOfLines={1}
       />
-
-    )
+    );
   }
-}
+};
 
 /**
  * Bottom Tab Navigator
@@ -596,283 +651,278 @@ const myTabBarLabel = (focused, tintColor, text) => {
  * - Member Profile Stack
  * - EBrochure Stack
  */
-const DashboardBottomTabStack = createBottomTabNavigator({
-  Promotion: {
-    screen: PromotionStack,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => (
-        // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.promo}/>
-        myTabBarIcon(focused, tintColor, Images.promo)
-      ),
-      tabBarOnPress: ({ navigation, defaultHandle }) => {
-        navigation.navigate("PromotionScreen", {
-          loginUpdate: true
-        });
+const DashboardBottomTabStack = createBottomTabNavigator(
+  {
+    Promotion: {
+      screen: PromotionStack,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) =>
+          // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.promo}/>
+          myTabBarIcon(focused, tintColor, Images.promo),
+        tabBarOnPress: ({navigation, defaultHandle}) => {
+          navigation.navigate('PromotionScreen', {
+            loginUpdate: true,
+          });
+        },
+        tabBarLabel: ({focused, tintColor}) =>
+          myTabBarLabel(focused, tintColor, 'test'),
       },
-      tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'test')
-      )
+    },
+    Coupon: {
+      screen: AppCouponStack,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) =>
+          // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.voucherIcon}/>
+          myTabBarIcon(focused, tintColor, Images.voucherIcon),
+        tabBarOnPress: ({navigation, defaultHandle}) => {
+          navigation.navigate('CouponScreen', {
+            loginUpdate: true,
+          });
+        },
+        tabBarLabel: ({focused, tintColor}) =>
+          myTabBarLabel(focused, tintColor, 'Coupon'),
+      },
+    },
+    Home: {
+      screen: DashboardStack,
+      navigationOptions: ({navigation}) => ({
+        tabBarIcon: ({focused, tintColor}) =>
+          // <Image
+          //   style={{
+          //     height: focused ? Metrics.icons.large : Metrics.icons.small,
+          //     width: focused ? Metrics.icons.large : Metrics.icons.small,
+          //     tintColor
+          //   }}
+          //   source={Images.home}
+          // />
+          myTabBarIcon(focused, tintColor, Images.home),
+        tabBarOnPress: ({navigation, defaultHandle}) => {
+          navigation.navigate('DashboardScreen', {
+            loginUpdate: true,
+          });
+        },
+        tabBarLabel: ({focused, tintColor}) =>
+          myTabBarLabel(focused, tintColor, 'Home'),
+          // if(!focused){
+          //   return(
+          //     <Label
+          //       text={`Home`}
+          //       style={{
+          //         fontSize: Fonts.size.small,
+          //         color: tintColor
+          //       }}
+          //     />
+          //   )
+          // }
+          // const { routeName } = navigation.state;
+          // if (routeName === "Home") {
+          //   return <Text /> ;
+          // } else {
+          //   return (
+          //     <Text style={{alignSelf: "center", color: tintColor}}>
+          //       {routeName}
+          //     </Text>
+          //   );
+          // }
+      }),
+    },
+    Package: {
+      screen: PackageStack,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) =>
+          // <Image
+          //   style={{
+          //     height: focused ? Metrics.icons.large : Metrics.icons.small,
+          //     width: focused ? Metrics.icons.large : Metrics.icons.small,
+          //     tintColor
+          //   }}
+          //   source={Images.couponIcon}
+          // />
+          myTabBarIcon(focused, tintColor, Images.couponIcon),
+        tabBarOnPress: ({navigation, defaultHandle}) => {
+          navigation.navigate('PackageScreen', {
+            loginUpdate: true,
+          });
+        },
+        tabBarLabel: ({focused, tintColor}) =>
+          myTabBarLabel(focused, tintColor, 'Package'),
+      },
+    },
+    NoticeBoard: {
+      screen: EBrochureStack,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) =>
+          // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.eBrochure}/>
+          myTabBarIcon(focused, tintColor, Images.eBrochure),
+        tabBarOnPress: ({navigation, defaultHandle}) => {
+          navigation.navigate('EBrochureScreen', {
+            loginUpdate: true,
+          });
+        },
+        tabBarLabel: ({focused, tintColor}) =>
+          myTabBarLabel(focused, tintColor, 'Notice'),
+      },
     },
   },
-  Coupon: {
-    screen: AppCouponStack,
+  {
+    initialRouteName: 'Home',
     navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => (
-        // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.voucherIcon}/>
-        myTabBarIcon(focused, tintColor, Images.voucherIcon)
-      ),
-      tabBarOnPress: ({ navigation, defaultHandle }) => {
-        navigation.navigate("CouponScreen", {
-          loginUpdate: true
-        });
-      },
-      tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Coupon')
-      ),
+      header: null,
     },
-  },
-  Home: {
-    screen: DashboardStack,
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => (
-        // <Image 
-        //   style={{
-        //     height: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     width: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     tintColor
-        //   }} 
-        //   source={Images.home}
-        // />
-        myTabBarIcon(focused, tintColor, Images.home)
-      ),
-      tabBarOnPress: ({ navigation, defaultHandle }) => {
-        navigation.navigate("DashboardScreen", {
-          loginUpdate: true
-        });
+    tabBarOptions: {
+      activeTintColor: getColor('primary'),
+      inactiveTintColor: getColor('secondary'),
+      // inactiveTintColor: Colors.tab_icon_text_inactive,
+      // activeBackgroundColor: Colors.body,
+      style: {
+        opacity: 1,
+        paddingHorizontal: 10,
+        position: 'absolute',
+        bottom: 15,
+        left: 20,
+        right: 20,
+        // marginHorizontal:20,
+        justifyContent: 'center',
+        borderRadius: 15,
+        height: 80,
+        backgroundColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        elevation: 8,
       },
-      tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Home')
-        // if(!focused){
-        //   return(
-        //     <Label 
-        //       text={`Home`}
-        //       style={{
-        //         fontSize: Fonts.size.small,
-        //         color: tintColor
-        //       }}
-        //     />
-        //   )
-        // }
-        // const { routeName } = navigation.state;
-        // if (routeName === "Home") {
-        //   return <Text /> ;
-        // } else {
-        //   return (
-        //     <Text style={{alignSelf: "center", color: tintColor}}>
-        //       {routeName}
-        //     </Text>
-        //   );
-        // }
-      )
-    }),
-  },
-  Package: {
-    screen: PackageStack,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => (
-        // <Image 
-        //   style={{
-        //     height: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     width: focused ? Metrics.icons.large : Metrics.icons.small, 
-        //     tintColor
-        //   }} 
-        //   source={Images.couponIcon}
-        // />
-        myTabBarIcon(focused, tintColor, Images.couponIcon)
 
-      ),
-      tabBarOnPress: ({ navigation, defaultHandle }) => {
-        navigation.navigate("PackageScreen", {
-          loginUpdate: true
-        });
+      labelStyle: ({focused, tintColor}) => ({
+        // fontSize: Fonts.size.regular,
+        // color: tintColor,
+      }),
+      tabStyle: {
+        // height: Metrics.icons.xl - 5,
+        // width: Metrics.icons.xl,
+        marginVertical: 1,
+        marginHorizontal: 1,
       },
-      tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Package')
-      )
     },
   },
-  NoticeBoard: {
-    screen: EBrochureStack,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => (
-        // <Image style={{height: Metrics.icons.small, width: Metrics.icons.small, tintColor}} source={Images.eBrochure}/>
-        myTabBarIcon(focused, tintColor, Images.eBrochure)
-      ),
-      tabBarOnPress: ({ navigation, defaultHandle }) => {
-        navigation.navigate("EBrochureScreen", {
-          loginUpdate: true
-        });
-      },
-      tabBarLabel: ({ focused, tintColor }) => (
-        myTabBarLabel(focused, tintColor, 'Notice')
-      )
-    },
-  },
-}, {
-  initialRouteName: 'Home',
-  navigationOptions: {
-    header: null,
-  },
-  tabBarOptions: {
-    activeTintColor: getColor("primary"),
-    inactiveTintColor: getColor("secondary"),
-    // inactiveTintColor: Colors.tab_icon_text_inactive,
-    // activeBackgroundColor: Colors.body,
-    style: {
-      opacity: 1,
-      paddingHorizontal: 10,
-      position: "absolute",
-      bottom: 15,
-      left: 20,
-      right: 20,
-      // marginHorizontal:20,
-      justifyContent: "center",
-      borderRadius: 15,
-      height: 80,
-      backgroundColor: "white",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.30,
-      shadowRadius: 4.65,
-      elevation: 8,
-    },
-
-    labelStyle: ({ focused, tintColor }) => ({
-      // fontSize: Fonts.size.regular,
-      // color: tintColor,
-    }),
-    tabStyle: {
-      // height: Metrics.icons.xl - 5,
-      // width: Metrics.icons.xl,
-      marginVertical: 1,
-      marginHorizontal: 1,
-    }
-
-  }
-});
+);
 
 /**
  * Drawer Stack
- * Include: 
+ * Include:
  * - Dashboard Stack
  * - Member Profile Stack
  */
-const DrawerStack = createDrawerNavigator({
-  Home: { screen: DashboardBottomTabStack },
-  Profile: { screen: ProfileStack },
-  OutletLocation: { screen: OutletLocationStack },
-  ReferralProgram: { screen: ReferralProgramStack },
-  ECommerce: { screen: ECommerceStack },
-  SAP: { screen: SAPStack },
-  SAPWeb: { screen: SAPWebStack }
-}, {
-  initialRouteName: 'Home',
-  contentComponent: DrawerScreen,
-  drawerWidth: 300,
-})
+const DrawerStack = createDrawerNavigator(
+  {
+    Home: {screen: DashboardBottomTabStack},
+    Profile: {screen: ProfileStack},
+    OutletLocation: {screen: OutletLocationStack},
+    ReferralProgram: {screen: ReferralProgramStack},
+    ECommerce: {screen: ECommerceStack},
+    SAP: {screen: SAPStack},
+    SAPWeb: {screen: SAPWebStack},
+  },
+  {
+    initialRouteName: 'Home',
+    contentComponent: DrawerScreen,
+    drawerWidth: 300,
+  },
+);
 
 /**
  * Main Stack
- * Include: 
+ * Include:
  * - Drawer Stack
  */
-const MainStack = createStackNavigator({
-  DrawerStack: {
-    screen: DrawerStack,
-    navigationOptions: {
-      header: null,
-    }
+const MainStack = createStackNavigator(
+  {
+    DrawerStack: {
+      screen: DrawerStack,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    /**
+     * Take out child screen from parent stack to hide the bottom tab.
+     */
+    DashboardChild: {
+      screen: DashboardChild,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    PromotionChild: {
+      screen: PromotionChild,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    VoucherChild: {
+      screen: VoucherChild,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    CouponChild: {
+      screen: CouponChild,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    PackageChild: {
+      screen: PackageChild,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    AllPackageRedeemHistoryStack: {
+      screen: AllPackageRedeemHistoryStack,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    /**
+     * LoginStack placed inside MainStack is because of prevent TextInput not able to use copy and paste function.
+     */
+    Login: {
+      screen: LoginStack,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
-  /**
-   * Take out child screen from parent stack to hide the bottom tab.
-   */
-  DashboardChild: {
-    screen: DashboardChild,
-    navigationOptions: {
-      header: null,
-    }
+  {
+    initialRouteName: 'DrawerStack',
   },
-  PromotionChild: {
-    screen: PromotionChild,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  VoucherChild: {
-    screen: VoucherChild,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  CouponChild: {
-    screen: CouponChild,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  PackageChild: {
-    screen: PackageChild,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  AllPackageRedeemHistoryStack: {
-    screen: AllPackageRedeemHistoryStack,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  /**
-   * LoginStack placed inside MainStack is because of prevent TextInput not able to use copy and paste function.
-   */
-  Login: {
-    screen: LoginStack,
-    navigationOptions: {
-      header: null,
-    }
-  },
-}, {
-  initialRouteName: 'DrawerStack',
-})
+);
 
 /**
  * Root Stack
- * Include: 
+ * Include:
  * - Main Stack
  */
-const RootStack = createStackNavigator({
-  Main: MainStack,
-},
+const RootStack = createStackNavigator(
+  {
+    Main: MainStack,
+  },
   {
     mode: 'modal',
     headerMode: 'none',
-  })
+  },
+);
 
 const AppContainer = createAppContainer(RootStack);
 
 class App extends Component {
   render() {
-    return (
-      <AppContainer />
-    );
+    return <AppContainer />;
   }
 }
 export default App;
-
-
 
 /*********************************************/
 /************** Hide Bottom Tab **************/
@@ -920,12 +970,12 @@ export default App;
 //   }
 // };
 
-  // defaultNavigationOptions : ({navigation}) =>{ 
-  //   let visible;
-  //   if(app.visible) {visible = false;} 
-  //   else {visible = true;}
-  //   return {tabBarVisible : visible}
-  // },
+// defaultNavigationOptions : ({navigation}) =>{
+//   let visible;
+//   if(app.visible) {visible = false;}
+//   else {visible = true;}
+//   return {tabBarVisible : visible}
+// },
 
 /**
  * Voucher Stack
@@ -946,7 +996,7 @@ export default App;
 //       flex: 1,
 //       textAlign: 'center',
 //     },
-//     headerTintColor: Colors.secondary, 
+//     headerTintColor: Colors.secondary,
 //     headerTintStyle: {
 //       ...Fonts.style.fontBold,
 //     },
@@ -972,7 +1022,7 @@ export default App;
 //       flex: 1,
 //       textAlign: 'center',
 //     },
-//     headerTintColor: Colors.secondary, 
+//     headerTintColor: Colors.secondary,
 //     headerTintStyle: {
 //       ...Fonts.style.fontBold,
 //     },
