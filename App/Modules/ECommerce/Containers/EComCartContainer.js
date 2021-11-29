@@ -338,17 +338,20 @@ export default class EComCartView extends React.Component {
 
     return {
       title: 'Shopping Cart',
-      headerRight:
-        <TouchableOpacity
-        onPress={() => {console.log(this.isPressed)}}
-        >
-          <Icon
-            reverse
-            name='create-outline'
-            type='ionicon'
-            color="#586bca"
-          />
-        </TouchableOpacity>
+      // headerRight:
+      //   <TouchableOpacity
+      //   onPress={() => {console.log(this.isPressed)}}
+      //   >
+      //     <Icon
+      //       reverse
+      //       name='create-outline'
+      //       type='ionicon'
+      //       color="#586bca"
+      //     />
+      //   </TouchableOpacity>
+      headerRight: (
+        <View style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10 }}></View>
+      ),
     }
   }
 

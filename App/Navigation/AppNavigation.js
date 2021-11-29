@@ -374,7 +374,7 @@ const OutletLocationStack = createStackNavigator(
     initialRouteName: '',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: getColor('primary'),
       },
       headerTitleStyle: {
         ...Fonts.size.normal,

@@ -1,5 +1,5 @@
 /** REACT NATIVE **/
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Alert,
   Image,
@@ -7,13 +7,19 @@ import {
   TouchableOpacity,
   View,
   Linking,
-  Platform
+  Platform,
 } from 'react-native';
+import {getColor, tailwind} from '../../tailwind';
+
 import PropTypes from 'prop-types';
 
 /** PROJECT FILES **/
 import {
-  Colors, Fonts, Images, Metrics, ApplicationStyles,
+  Colors,
+  Fonts,
+  Images,
+  Metrics,
+  ApplicationStyles,
   Label,
   I18n,
   AppConfig,
@@ -25,7 +31,8 @@ import LoginController from '../Modules/General/Login/Actions/login_controller';
 
 /** NPM LIBRARIES **/
 import moment from 'moment';
-import { NavigationActions, DrawerActions } from 'react-navigation';
+import {NavigationActions, DrawerActions} from 'react-navigation';
+import {Button} from 'react-native-elements';
 
 export default class DrawerScreen extends Component {
   constructor(props) {
@@ -37,35 +44,36 @@ export default class DrawerScreen extends Component {
       card_no: '',
       imageSource: AppConfig.profile_image_default,
       img_exist: '',
-    }
+    };
 
     // Create controller object
     this.drawerController = new DrawerController({
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
     });
     this.loginController = new LoginController();
     this.profileImage = new ProfileImage();
   }
 
-  navigateToScreen = (route, params = "") => () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: route,
-      params: params,
-    });
-    this.props.navigation.dispatch(navigateAction);
-    this.props.navigation.dispatch(DrawerActions.closeDrawer());
-  }
+  navigateToScreen =
+    (route, params = '') =>
+    () => {
+      const navigateAction = NavigationActions.navigate({
+        routeName: route,
+        params: params,
+      });
+      this.props.navigation.dispatch(navigateAction);
+      this.props.navigation.dispatch(DrawerActions.closeDrawer());
+    };
 
   componentDidMount() {
-    var nric = this.props.navigation.getParam("nric");
+    var nric = this.props.navigation.getParam('nric');
     this.setState({
-      nric: nric
+      nric: nric,
     });
 
     // handle profile information details
     this.handleMemberData(nric);
     this.handleLoadProfileImage(nric);
-
 
     // TEST
     // if (Platform.OS === 'android') {
@@ -101,16 +109,19 @@ export default class DrawerScreen extends Component {
     // Login Update
     var loginUpdate = this.props.navigation.getParam('loginUpdate', false);
     if (loginUpdate && this.props.navigation != prevProps.navigation) {
-      this.props.navigation.setParams({ loginUpdate: false });
+      this.props.navigation.setParams({loginUpdate: false});
       this.handleLoginUpdate();
     }
 
     // Upload Image Checker
-    var uploadImageChecker = this.props.navigation.getParam("uploadImageChecker", false);
+    var uploadImageChecker = this.props.navigation.getParam(
+      'uploadImageChecker',
+      false,
+    );
     if (uploadImageChecker == true) {
       var nric = this.state.nric;
       this.handleLoadProfileImage(nric);
-      this.props.navigation.setParams({ uploadImageChecker: false })
+      this.props.navigation.setParams({uploadImageChecker: false});
     }
   }
 
@@ -122,20 +133,20 @@ export default class DrawerScreen extends Component {
     if (login_user.result == 1 && login_user.data) {
       nric = login_user.data.nric;
     }
-    this.props.navigation.setParams({ loginUpdate: false });
+    this.props.navigation.setParams({loginUpdate: false});
     this.handleSetNRIC(nric);
     // }
   }
 
   handleSetNRIC(nric) {
-    this.setState({ nric });
+    this.setState({nric});
     this.handleMemberData(nric);
     this.handleLoadProfileImage(nric);
   }
 
   handleMemberData(nric) {
     if (nric) {
-      var result = this.drawerController.fetchMemberData(nric)
+      var result = this.drawerController.fetchMemberData(nric);
       result.then((res) => {
         if (res.result == 1) {
           if (res.data) {
@@ -145,17 +156,18 @@ export default class DrawerScreen extends Component {
             this.setState({
               name: name,
               email: email,
-              card_no: card_no
-            })
+              card_no: card_no,
+            });
           }
         } else {
           var res_mem_api = res.member_info_api;
-          var err_msg = (res_mem_api.result == 1) ? `${res.data.msg}.` : `${res.data.msg}. ${err_mem_api.data}`;
-          Alert.alert(
-            '', err_msg
-          )
+          var err_msg =
+            res_mem_api.result == 1
+              ? `${res.data.msg}.`
+              : `${res.data.msg}. ${err_mem_api.data}`;
+          Alert.alert('', err_msg);
         }
-      })
+      });
     } else {
       this.setState({
         name: '',
@@ -167,48 +179,56 @@ export default class DrawerScreen extends Component {
 
   handleLoadProfileImage(nric) {
     if (nric) {
-      var profileImageData = this.profileImage.handleGetProfileImageFromFolder(nric);
+      var profileImageData =
+        this.profileImage.handleGetProfileImageFromFolder(nric);
       profileImageData.then((res) => {
         if (res.result == 1) {
           this.setState({
-            imageSource: { uri: res.path_img },
+            imageSource: {uri: res.path_img},
             img_exist: res.img_exist,
-          })
+          });
         } else {
           this.setState({
             imageSource: AppConfig.profile_image_default,
             img_exist: false,
-          })
+          });
         }
-      })
+      });
     } else {
       this.setState({
         imageSource: AppConfig.profile_image_default,
         img_exist: false,
-      })
+      });
     }
   }
 
   handleLogout(nric) {
     Alert.alert(
-      'Log out', 'Do you want to log out?',
+      'Log out',
+      'Do you want to log out?',
       [
-        { text: I18n.t("alert_cancel_text"), style: 'cancel' },
-        { text: I18n.t("alert_confirm_text"), style: 'default', onPress: () => { this.processLogout(nric) } }
+        {text: I18n.t('alert_cancel_text'), style: 'cancel'},
+        {
+          text: I18n.t('alert_confirm_text'),
+          style: 'default',
+          onPress: () => {
+            this.processLogout(nric);
+          },
+        },
       ],
 
-      { cancelable: false }
-    )
+      {cancelable: false},
+    );
   }
 
   processLogout(nric) {
     var nric = nric;
-    var logout = this.drawerController.handleLogOutProcess(nric)
+    var logout = this.drawerController.handleLogOutProcess(nric);
     logout.then((res) => {
       if (res.result == 1) {
         const navigateAction = NavigationActions.navigate({
-          routeName: "DashboardScreen",
-          params: { loginUpdate: true },
+          routeName: 'DashboardScreen',
+          params: {loginUpdate: true},
         });
         this.props.navigation.dispatch(navigateAction);
         this.props.navigation.dispatch(DrawerActions.closeDrawer());
@@ -216,7 +236,7 @@ export default class DrawerScreen extends Component {
         // alert('Logout Failed');
         Alert.alert('', res.data);
       }
-    })
+    });
   }
 
   render() {
@@ -228,10 +248,8 @@ export default class DrawerScreen extends Component {
       <View style={[ApplicationStyles.screen.safeAreaContainer, {}]}>
         {/* Scroll View */}
         <ScrollView>
-
           {/* Header Content - Background Image, User Image, User Name, User Email and Membership Number */}
           <View style={{}}>
-
             {/* Background Image */}
             <Image
               source={Images.drawer_back_img}
@@ -239,7 +257,8 @@ export default class DrawerScreen extends Component {
                 height: Metrics.images.drawerBackground,
                 width: '100%',
                 resizeMode: 'cover',
-              }} />
+              }}
+            />
 
             {/* User Image, Name, Email and Membership Number (Position = 'absolute') */}
             <View
@@ -253,60 +272,70 @@ export default class DrawerScreen extends Component {
                 padding: Metrics.basePadding,
                 justifyContent: 'flex-end',
               }}>
-
               {/* User Image */}
               <Image
                 source={this.state.imageSource}
                 borderRadius={Metrics.images.drawerUserImg / 2}
-                style={[{
-                  resizeMode: 'cover',
-                  backgroundColor: Colors.text_color_3,
-                  width: Metrics.images.drawerUserImg,
-                  height: Metrics.images.drawerUserImg,
-                  marginBottom: Metrics.basePadding,
-                }, (!this.state.img_exist) ? { tintColor: Colors.text_color_1 } : '']}
+                style={[
+                  {
+                    resizeMode: 'cover',
+                    backgroundColor: Colors.text_color_3,
+                    width: Metrics.images.drawerUserImg,
+                    height: Metrics.images.drawerUserImg,
+                    marginBottom: Metrics.basePadding,
+                  },
+                  !this.state.img_exist ? {tintColor: Colors.text_color_1} : '',
+                ]}
               />
 
               {/* User Name */}
               <Label
-                style={{ color: Colors.text_color_3, fontWeight: 'bold' }}
+                style={{color: Colors.text_color_3, fontWeight: 'bold'}}
                 numberOfLines={1}
-                ellipsizeMode='middle'
-              >
+                ellipsizeMode="middle">
                 {this.state.name}
               </Label>
 
               {/* User Email */}
               <Label
-                style={{ color: Colors.text_color_3, fontWeight: 'bold' }}
+                style={{color: Colors.text_color_3, fontWeight: 'bold'}}
                 numberOfLines={1}
-                ellipsizeMode='middle'
-              >
+                ellipsizeMode="middle">
                 {this.state.email}
               </Label>
 
               {/* User Membership Number */}
-              <View style={{ flexDirection: 'row', width: '100%' }}>
+              <View style={{flexDirection: 'row', width: '100%'}}>
                 <Label
-                  style={{ color: Colors.text_color_3, fontWeight: 'bold' }}
+                  style={{color: Colors.text_color_3, fontWeight: 'bold'}}
                   numberOfLines={1}
-                  ellipsizeMode='middle'
-                >
+                  ellipsizeMode="middle">
                   {this.state.card_no}
                 </Label>
               </View>
-
             </View>
-
           </View>
 
           {/* Body Content */}
 
           {/* Home */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("DashboardScreen", { key: moment(), nric: this.state.nric, loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.dashboard} />
-              <Label style={styles.rowBodyText} text={"Dashboard"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('DashboardScreen', {
+                key: moment(),
+                nric: this.state.nric,
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.dashboard}
+              />
+              <Label style={styles.rowBodyText} text={'Dashboard'} />
             </TouchableOpacity>
           </View>
 
@@ -336,33 +365,78 @@ export default class DrawerScreen extends Component {
 
           {/* Profile */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("ProfileScreen", { nric: this.state.nric, loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.person} />
-              <Label style={styles.rowBodyText} text={"Profile Information"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('ProfileScreen', {
+                nric: this.state.nric,
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.person}
+              />
+              <Label style={styles.rowBodyText} text={'Profile Information'} />
             </TouchableOpacity>
           </View>
 
           {/* Outlet Location */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("OutletListScreen", { loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.location} />
-              <Label style={styles.rowBodyText} text={"Outlet Location"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('OutletListScreen', {
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.location}
+              />
+              <Label style={styles.rowBodyText} text={'Outlet Location'} />
             </TouchableOpacity>
           </View>
 
           {/* Referral Program */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("ReferralProgramScreen", { loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.two_people} />
-              <Label style={styles.rowBodyText} text={"Referral Program"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('ReferralProgramScreen', {
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.two_people}
+              />
+              <Label style={styles.rowBodyText} text={'Referral Program'} />
             </TouchableOpacity>
           </View>
 
           {/* Online Store */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("EComLandingScreen", { loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.store} />
-              <Label style={styles.rowBodyText} text={"Online Store"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('EComLandingScreen', {
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.store}
+              />
+              <Label style={styles.rowBodyText} text={'Online Store'} />
             </TouchableOpacity>
           </View>
 
@@ -376,32 +450,54 @@ export default class DrawerScreen extends Component {
 
           {/* DEMO */}
           <View style={styles.rowBodyContainer}>
-            <TouchableOpacity onPress={this.navigateToScreen("SAPWebScreen", { loginUpdate: true })} style={{ flexDirection: 'row' }}>
-              <Image style={{ height: Metrics.icons.small, width: Metrics.icons.small, tintColor: Colors.primary }} source={Images.scanner} />
-              <Label style={styles.rowBodyText} text={"Scan And Pay [DEMO]"} />
+            <TouchableOpacity
+              onPress={this.navigateToScreen('SAPWebScreen', {
+                loginUpdate: true,
+              })}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={{
+                  height: Metrics.icons.small,
+                  width: Metrics.icons.small,
+                  tintColor: getColor('primary'),
+                }}
+                source={Images.scanner}
+              />
+              <Label style={styles.rowBodyText} text={'Scan And Pay [DEMO]'} />
             </TouchableOpacity>
           </View>
 
           {/* Logout */}
-          {
-            this.state.nric
-              ?
-              <View style={styles.rowLogoutContainer}>
-                <TouchableOpacity onPress={() => this.handleLogout(this.state.nric)} >
-                  <Label style={[styles.rowBodyText, { color: Colors.secondary, fontWeight: 'bold' }]} text={"Logout"} />
-                </TouchableOpacity>
-              </View>
-              :
-              <View />
-          }
+          {this.state.nric ? (
+            <View style={{width:"80%", alignSelf:"center"}}>
+              <Button
+                onPress={() => this.handleLogout(this.state.nric)}
+                buttonStyle={tailwind('rounded-lg bg-primary')}
+                title="LOGOUT"
+                titleStyle={tailwind('text-xl')}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
 
           {/* Version */}
-          <View style={[{ width: '100%', alignItems: 'flex-end', paddingHorizontal: Metrics.smallPadding, }]}>
-            <Label style={{ fontSize: Fonts.size.small }} text={`Version ${AppConfig.app_version}`} />
+          <View
+            style={[
+              {
+                width: '100%',
+                alignItems: 'flex-end',
+                paddingHorizontal: Metrics.smallPadding,
+                paddingTop:5
+              },
+            ]}>
+            <Label
+              style={{fontSize: Fonts.size.small}}
+              text={`Version ${AppConfig.app_version}`}
+            />
           </View>
 
           {/* End of Body Content */}
-
         </ScrollView>
         {/* Scroll View */}
       </View>
@@ -411,5 +507,13 @@ export default class DrawerScreen extends Component {
 }
 
 DrawerScreen.propTypes = {
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
 };
+
+{
+  /* <View style={styles.rowLogoutContainer}>
+                <TouchableOpacity onPress={() => this.handleLogout(this.state.nric)} >
+                  <Label style={[styles.rowBodyText, { color: Colors.secondary, fontWeight: 'bold' }]} text={"Logout"} />
+                </TouchableOpacity>
+              </View> */
+}

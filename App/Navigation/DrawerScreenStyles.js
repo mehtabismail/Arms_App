@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { getColor, tailwind } from "../../tailwind";
 import { ApplicationStyles, Colors, Metrics, Fonts } from "../Themes";
 
 export default StyleSheet.create({
@@ -8,10 +9,11 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     padding: Metrics.basePadding, 
   },
-  rowBodyText:{
-    color: Colors.primary,
-    paddingHorizontal: Metrics.basePadding,
-  },
+  rowBodyText:tailwind('text-primary font-bold mx-3'),
+  // {
+  //   color: getColor('primary'),
+  //   paddingHorizontal: Metrics.basePadding,
+  // },
   rowLogoutContainer:{
     alignItems: 'center',
     // backgroundColor: Colors.redContainerBackground,
