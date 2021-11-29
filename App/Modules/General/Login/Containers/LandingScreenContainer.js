@@ -195,7 +195,7 @@ export default class LoginView extends React.Component {
       <View style={tailwind('self-center w-4/5')}>
         <View style={{elevation: 20}}>
           <Button
-            buttonStyle={tailwind('rounded-lg bg-primary')}
+            buttonStyle={tailwind('rounded-lg bg-btn-primary')}
             title={`${title}`}
             titleStyle={tailwind('text-xl font-bold')}
             onPress={() => {

@@ -743,7 +743,7 @@ export default class CouponTNCView extends React.Component {
                   elevation: 24,
                 }}
                 disabled={!this.state.redeemStatus}
-                buttonStyle={tailwind('rounded-lg bg-primary')}
+                buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                 title="REDEEM"
                 titleStyle={tailwind('text-xl')}
                 onPress={() => {

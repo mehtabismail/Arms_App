@@ -33,6 +33,7 @@ import Swipeout from 'react-native-swipeout';
 import QRCode from 'react-native-qrcode-svg';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Sound from 'react-native-sound';
+import { getColor, tailwind } from '../../../../tailwind';
 
 // Load Sound Track
 var scannerBeepSound = new Sound('scanner_beep.mp3', Sound.MAIN_BUNDLE, (error) => {
@@ -946,17 +947,24 @@ export default class SAPLandingView extends React.Component {
   // Access Login Screen
   handleRenderAccessLoginScreen() {
     return (
-      <View style={[ApplicationStyles.screen.testContainer, { alignSelf: 'center' }]}>
-        <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
-          <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get many more great deals.</Label>
-          <AppsButton
-            onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
-            backgroundColor={Colors.primary}
-            text={"LOGIN / REGISTER"}
-            fontSize={20}
-          />
+      <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
+        <View style={tailwind("w-full items-center mb-5")}>
+          <Text style={tailwind("text-secondary text-base font-medium")}>Come and join us to get your discounted vouchers
+            and many more great deals.
+          </Text>
         </View>
-      </View>
+        <View style={tailwind("self-center w-full mt-5")}>
+          <Button
+            buttonStyle={tailwind("rounded-lg bg-btn-primary")}
+            title="LOGIN / REGISTER"
+            titleStyle={tailwind("text-xl")}
+            onPress={
+              () => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }
+            }
+          />
+
+        </View>
+      </Card>
     )
   }
 
@@ -1474,7 +1482,7 @@ export default class SAPLandingView extends React.Component {
               }
 
             }}
-            backgroundColor={Colors.primary}
+            backgroundColor={tailwind('bg-btn-primary')}
             text={"Pay"}
             fontSize={18}
             disabled={this.state.btnPayDisabled}
@@ -1491,7 +1499,7 @@ export default class SAPLandingView extends React.Component {
               this.setState({ isScanProduct: true });
             }}
             // source={Images.scanner}
-            backgroundColor={Colors.primary}
+            backgroundColor={tailwind('bg-btn-primary')}
             text={"Scan"}
             fontSize={18}
             disabled={this.state.btnPayDisabled}

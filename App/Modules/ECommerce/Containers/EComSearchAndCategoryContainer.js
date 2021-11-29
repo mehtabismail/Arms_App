@@ -188,17 +188,24 @@ export default class EComSearchAndCategoryView extends React.Component {
   // Access Login Screen
   handleRenderAccessLoginScreen() {
     return (
-      <View style={[ApplicationStyles.screen.testContainer, { alignSelf: 'center' }]}>
-        <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
-          <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get many more great deals.</Label>
-          <AppsButton
-            onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
-            backgroundColor={Colors.primary}
-            text={"LOGIN / REGISTER"}
-            fontSize={20}
-          />
+      <Card containerStyle={tailwind("bg-white rounded-lg opacity-100")}>
+        <View style={tailwind("w-full items-center mb-5")}>
+          <Text style={tailwind("text-secondary text-base font-medium")}>Come and join us to get your discounted vouchers
+            and many more great deals.
+          </Text>
         </View>
-      </View>
+        <View style={tailwind("self-center w-full mt-5")}>
+          <Button
+            buttonStyle={tailwind("rounded-lg bg-btn-primary")}
+            title="LOGIN / REGISTER"
+            titleStyle={tailwind("text-xl")}
+            onPress={
+              () => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }
+            }
+          />
+
+        </View>
+      </Card>
     )
   }
 

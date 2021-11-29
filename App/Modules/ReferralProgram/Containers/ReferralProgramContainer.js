@@ -319,7 +319,7 @@ export default class ReferralProgramView extends React.Component {
               <View style={tailwind("self-center justify-center items-center w-full py-2 my-1")}>
                 <Button
                   containerStyle={tailwind("w-11/12")}
-                  buttonStyle={tailwind("rounded-lg bg-primary")}
+                  buttonStyle={tailwind("rounded-lg bg-btn-primary")}
                   onPress={() => { this.handleSubmitReferrerCode(this.state.referBy, this.state.nric) }}
                   // icon={
                   //   <Icon

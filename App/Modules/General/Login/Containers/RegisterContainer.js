@@ -469,12 +469,12 @@ export default class RegisterView extends React.Component {
                       <View style={tailwind('self-center w-full mt-5 ')}>
                         <View style={{elevation: 20}}>
                           <Button
-                            buttonStyle={tailwind('rounded-lg')}
+                            buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                             title="REGISTER"
                             titleStyle={tailwind('text-xl font-bold')}
                             onPress={() => {
                               this.handleRegistrationData(
-                                this.state.email,
+                                this.state.email, 
                                 this.state.password,
                                 this.state.repassword,
                               );

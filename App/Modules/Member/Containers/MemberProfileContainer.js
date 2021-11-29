@@ -11,18 +11,33 @@ import {
 } from 'react-native';
 
 /** REACT NATIVE ELEMENTS **/
-import { Button, Icon, Avatar, Accessory, Text, Card } from 'react-native-elements';
+import {
+  Button,
+  Icon,
+  Avatar,
+  Accessory,
+  Text,
+  Card,
+} from 'react-native-elements';
 
 /** TAILWIND CSS **/
-import { getColor, tailwind } from '../../../../tailwind';
+import {getColor, tailwind} from '../../../../tailwind';
 
 /** PROJECT FILES **/
 import {
-  ApplicationStyles, Colors, Metrics, Fonts, Images,
-  ARMSTextInput, AppsButton, LoadingIndicator, Label, Divider,
+  ApplicationStyles,
+  Colors,
+  Metrics,
+  Fonts,
+  Images,
+  ARMSTextInput,
+  AppsButton,
+  LoadingIndicator,
+  Label,
+  Divider,
   I18n,
   AppConfig,
-  ARMSDownloader
+  ARMSDownloader,
 } from '../../../Services/LibLinking';
 import ProfileContainer from '../Styles/MemberProfileStyles.js';
 import MemberController from '../Actions/member_controller.js';
@@ -31,14 +46,14 @@ import LoginController from '../../General/Login/Actions/login_controller.js';
 import ServerController from '../../General/ServerConfig/Actions/server_controller.js';
 
 /** NPM LIBRARIES **/
-import ImagePicker from "react-native-image-picker";
+import ImagePicker from 'react-native-image-picker';
 import Picker from 'react-native-picker';
 import DatePicker from 'react-native-datepicker';
 import Animated from 'react-native-reanimated';
 import moment from 'moment';
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
-import { SafeAreaView, NavigationActions, DrawerActions } from 'react-navigation';
+import {SafeAreaView, NavigationActions, DrawerActions} from 'react-navigation';
 
 // image picker
 const options = {
@@ -52,7 +67,10 @@ const options = {
   // },
 };
 
-const DEFAULT_IMAGE_HEIGHT = (Platform.OS === "ios") ? Dimensions.get('window').height * 0.3 : Dimensions.get('window').height * 0.4
+const DEFAULT_IMAGE_HEIGHT =
+  Platform.OS === 'ios'
+    ? Dimensions.get('window').height * 0.3
+    : Dimensions.get('window').height * 0.4;
 
 export default class SettingView extends React.Component {
   constructor(props) {
@@ -97,11 +115,11 @@ export default class SettingView extends React.Component {
       flatListRentalTrigger: false,
       flatListDataEdit_contact: false,
       flatListDataEdit_personal: false,
-    }
+    };
 
     //Create Controller Object
     this.memberController = new MemberController({
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
     });
     this.profileImage = new ProfileImage();
     this.armsDownloader = new ARMSDownloader();
@@ -113,47 +131,62 @@ export default class SettingView extends React.Component {
     this.imageHeight = Animated.interpolate(this.scrollY, {
       inputRange: [0, DEFAULT_IMAGE_HEIGHT],
       outputRange: [DEFAULT_IMAGE_HEIGHT, 125],
-      extrapolate: Animated.Extrapolate.CLAMP
+      extrapolate: Animated.Extrapolate.CLAMP,
     });
   }
 
   /**Navigation Bottom Tab**/
-  static navigationOptions = ({ navigation, navigationOptions }) => {
+  static navigationOptions = ({navigation, navigationOptions}) => {
     const params = navigation.state.params || {};
 
     var navigateToScreen = params.this;
     var uploadImageChecker = params.checker;
     return {
-      title: "Profile",
+      title: 'Profile',
       headerLeft: (
-        <TouchableOpacity style={tailwind("bg-white rounded-lg opacity-100 p-2 ml-3 mt-3")}
-          onPress={() => navigateToScreen(navigation, { uploadImageChecker, loginUpdate: true })}>
+        <TouchableOpacity
+          style={tailwind('bg-white rounded-lg opacity-100 p-2 ml-3 mt-3')}
+          onPress={() =>
+            navigateToScreen(navigation, {
+              uploadImageChecker,
+              loginUpdate: true,
+            })
+          }>
           <Image
-            style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, tintColor: "black" }}
-            source={Images.menu} />
+            style={{
+              width: Metrics.icons.medium,
+              height: Metrics.icons.medium,
+              tintColor: 'black',
+            }}
+            source={Images.menu}
+          />
         </TouchableOpacity>
       ),
 
       headerRight: (
-        <View style={{ width: Metrics.icons.medium, height: Metrics.icons.medium, paddingRight: 10 }}></View>
+        <View
+          style={{
+            width: Metrics.icons.medium,
+            height: Metrics.icons.medium,
+            paddingRight: 10,
+          }}></View>
       ),
     };
   };
   /**End Navigation Bottom Tab**/
 
   // navigate to pass params
-  navigateToScreen = (navigation, params = "") => {
+  navigateToScreen = (navigation, params = '') => {
     const navigateAction = NavigationActions.navigate({
-      routeName: "DrawerStack",
-      params: params
+      routeName: 'DrawerStack',
+      params: params,
     });
 
     navigation.dispatch(navigateAction);
     navigation.dispatch(DrawerActions.openDrawer());
-  }
+  };
 
   componentDidMount() {
-
     var nric = this.props.navigation.getParam('nric');
     this.handleSetNRIC(nric);
     this.handleGetState();
@@ -166,7 +199,7 @@ export default class SettingView extends React.Component {
   async handleLoginUpdate() {
     var loginUpdate = this.props.navigation.getParam('loginUpdate', false);
     if (loginUpdate) {
-      this.props.navigation.setParams({ loginUpdate: false });
+      this.props.navigation.setParams({loginUpdate: false});
       var nric = '';
       var login_user = await this.loginController.fetchCurrentLoginMember();
       if (login_user.result == 1 && login_user.data) {
@@ -183,7 +216,7 @@ export default class SettingView extends React.Component {
       flatListDataEdit_contact: false,
       flatListDataEdit_personal: false,
     });
-    this.props.navigation.setParams({ this: this.navigateToScreen });
+    this.props.navigation.setParams({this: this.navigateToScreen});
     this.uploadImageChecker(false);
 
     // handle profile information details
@@ -193,32 +226,33 @@ export default class SettingView extends React.Component {
 
   /**Start Profile Image Upload Process**/
   uploadImageChecker(checker) {
-    this.props.navigation.setParams({ checker: checker })
+    this.props.navigation.setParams({checker: checker});
   }
 
   handleLoadProfileImage(nric) {
     if (nric) {
       this.handleFetchDataIndicator(true);
-      var profileImageData = this.profileImage.handleGetProfileImageFromFolder(nric);
+      var profileImageData =
+        this.profileImage.handleGetProfileImageFromFolder(nric);
       profileImageData.then((res) => {
         if (res.result == 1) {
           this.setState({
-            imageSource: { uri: res.path_img },
+            imageSource: {uri: res.path_img},
             img_exist: res.img_exist,
-          })
+          });
         } else {
           this.setState({
             imageSource: AppConfig.profile_image_default,
             img_exist: false,
-          })
+          });
         }
         this.handleFetchDataIndicator(false);
-      })
+      });
     } else {
       this.setState({
         imageSource: AppConfig.profile_image_default,
         img_exist: false,
-      })
+      });
     }
   }
 
@@ -236,50 +270,56 @@ export default class SettingView extends React.Component {
           var nric = this.state.nric;
           this.processImageUpload(nric, response.uri);
         }
-      })
+      });
     } else {
       Alert.alert(
-        'Upload Failed', 'Please check your internet connection.',
-        [{ text: 'OK', style: 'cancel' },],
-        { cancelable: false }
-      )
+        'Upload Failed',
+        'Please check your internet connection.',
+        [{text: 'OK', style: 'cancel'}],
+        {cancelable: false},
+      );
     }
   }
 
   processImageUpload(nric, source) {
     this.handleFetchDataIndicator(true);
-    var upload = this.profileImage.handleImageUpload(nric, source)
+    var upload = this.profileImage.handleImageUpload(nric, source);
     upload.then((res) => {
       if (res.result == 1) {
         Alert.alert(
-          'Upload Success', 'You have change your profile image.',
-          [{ text: 'OK', style: 'cancel' },],
-          { cancelable: false }
-        )
-        this.setState({
-          imageSource: { uri: source },
-          checker: true,
-          img_exist: true,
-        }, () => {
-          this.handleFetchDataIndicator(false);
-          this.uploadImageChecker(this.state.checker);
-        })
+          'Upload Success',
+          'You have change your profile image.',
+          [{text: 'OK', style: 'cancel'}],
+          {cancelable: false},
+        );
+        this.setState(
+          {
+            imageSource: {uri: source},
+            checker: true,
+            img_exist: true,
+          },
+          () => {
+            this.handleFetchDataIndicator(false);
+            this.uploadImageChecker(this.state.checker);
+          },
+        );
       } else {
         this.handleFetchDataIndicator(false);
         Alert.alert(
-          'Upload Failed', 'Please try again later.',
-          [{ text: 'OK', style: 'cancel' },],
-          { cancelable: false }
-        )
+          'Upload Failed',
+          'Please try again later.',
+          [{text: 'OK', style: 'cancel'}],
+          {cancelable: false},
+        );
       }
-    })
+    });
   }
   /**End Profile Image Upload Process**/
 
   /**Start Process Member Profile Info**/
   handleMemberProfileInfo(nric) {
     if (nric) {
-      var result = this.memberController.fetchMemberDataProfile(nric)
+      var result = this.memberController.fetchMemberDataProfile(nric);
       result.then((res) => {
         // alert(JSON.stringify(res.lenght))
         if (res.result == 1) {
@@ -297,12 +337,12 @@ export default class SettingView extends React.Component {
             contactlist: contact_info,
             personallist: personal_info,
             membershiplist: membership_info,
-            flatListRentalTrigger: !this.state.flatListRentalTrigger
-          })
+            flatListRentalTrigger: !this.state.flatListRentalTrigger,
+          });
         } else {
           alert('No Data Found');
         }
-      })
+      });
     } else {
       this.setState({
         name: '',
@@ -312,8 +352,8 @@ export default class SettingView extends React.Component {
         contactlist: [],
         personallist: [],
         membershiplist: [],
-        flatListRentalTrigger: !this.state.flatListRentalTrigger
-      })
+        flatListRentalTrigger: !this.state.flatListRentalTrigger,
+      });
     }
   }
 
@@ -321,27 +361,38 @@ export default class SettingView extends React.Component {
     this.handleFetchDataIndicator(true);
     if (this.state.checkInput) {
       var nric = this.state.nric;
-      var update = this.memberController.updateContactList(nric, postcode, address, city, state, phone_3)
+      var update = this.memberController.updateContactList(
+        nric,
+        postcode,
+        address,
+        city,
+        state,
+        phone_3,
+      );
       update.then((res) => {
         if (res.result == 1) {
           alert('Contact List Updated');
-          this.setState({
-            flatListDataEdit_contact: false
-          }, () => {
-            this.handleMemberProfileInfo(nric);
-            this.handleFetchDataIndicator(false);
-          })
+          this.setState(
+            {
+              flatListDataEdit_contact: false,
+            },
+            () => {
+              this.handleMemberProfileInfo(nric);
+              this.handleFetchDataIndicator(false);
+            },
+          );
         } else {
           this.handleFetchDataIndicator(false);
           Alert.alert(
-            res.data.title, res.data.msg,
-            [{ text: 'OK', style: 'cancel' },],
-            { cancelable: false }
+            res.data.title,
+            res.data.msg,
+            [{text: 'OK', style: 'cancel'}],
+            {cancelable: false},
           );
         }
-      })
+      });
     } else {
-      alert('Please insert the correct phone number.')
+      alert('Please insert the correct phone number.');
       this.handleFetchDataIndicator(false);
     }
   }
@@ -349,49 +400,79 @@ export default class SettingView extends React.Component {
   handleUpdatePersonal(name, gender, dob) {
     this.handleFetchDataIndicator(true);
     var nric = this.state.nric;
-    var update = this.memberController.updatePersonalList(nric, name, gender, dob)
+    var update = this.memberController.updatePersonalList(
+      nric,
+      name,
+      gender,
+      dob,
+    );
     update.then((res) => {
       if (res.result == 1) {
         alert('Personal List Updated');
-        this.setState({
-          flatListDataEdit_personal: false
-        }, () => {
-          this.handleMemberProfileInfo(nric);
-          this.handleFetchDataIndicator(false);
-        })
+        this.setState(
+          {
+            flatListDataEdit_personal: false,
+          },
+          () => {
+            this.handleMemberProfileInfo(nric);
+            this.handleFetchDataIndicator(false);
+          },
+        );
       } else {
         this.handleFetchDataIndicator(false);
         Alert.alert(
-          res.data.title, res.data.msg,
-          [{ text: 'OK', style: 'cancel' },],
-          { cancelable: false }
+          res.data.title,
+          res.data.msg,
+          [{text: 'OK', style: 'cancel'}],
+          {cancelable: false},
         );
       }
-    })
+    });
   }
 
   handleEditContactList() {
     var contactList = this.state.contactlist;
     this.setState({
       flatListDataEdit_contact: true,
-      phone_3: contactList[contactList.findIndex((current_arr) => current_arr.key == "phone")].details,
-      address: contactList[contactList.findIndex((current_arr) => current_arr.key == "address")].details,
-      postcode: contactList[contactList.findIndex((current_arr) => current_arr.key == "postcode")].details,
-      city: contactList[contactList.findIndex((current_arr) => current_arr.key == "city")].details,
-      state: contactList[contactList.findIndex((current_arr) => current_arr.key == "state")].details,
-    })
+      phone_3:
+        contactList[
+          contactList.findIndex((current_arr) => current_arr.key == 'phone')
+        ].details,
+      address:
+        contactList[
+          contactList.findIndex((current_arr) => current_arr.key == 'address')
+        ].details,
+      postcode:
+        contactList[
+          contactList.findIndex((current_arr) => current_arr.key == 'postcode')
+        ].details,
+      city: contactList[
+        contactList.findIndex((current_arr) => current_arr.key == 'city')
+      ].details,
+      state:
+        contactList[
+          contactList.findIndex((current_arr) => current_arr.key == 'state')
+        ].details,
+    });
   }
 
   handleEditPersonalList() {
     var personalList = this.state.personallist;
     this.setState({
       flatListDataEdit_personal: true,
-      name: personalList[personalList.findIndex((current_arr) => current_arr.key == "name")].details,
+      name: personalList[
+        personalList.findIndex((current_arr) => current_arr.key == 'name')
+      ].details,
       // nric: personalList[personalList.findIndex((current_arr)=>current_arr.key=="nric")].details,
       // card_no: personalList[personalList.findIndex((current_arr)=>current_arr.key=="card_no")].details,
-      gender: personalList[personalList.findIndex((current_arr) => current_arr.key == "gender")].details,
-      dob: personalList[personalList.findIndex((current_arr) => current_arr.key == "dob")].details,
-    })
+      gender:
+        personalList[
+          personalList.findIndex((current_arr) => current_arr.key == 'gender')
+        ].details,
+      dob: personalList[
+        personalList.findIndex((current_arr) => current_arr.key == 'dob')
+      ].details,
+    });
   }
 
   handleGetState() {
@@ -400,129 +481,149 @@ export default class SettingView extends React.Component {
       if (res.result == 1) {
         var config_type = res.config_type;
         this.setState({
-          state_data: config_type
-        })
+          state_data: config_type,
+        });
       }
-    })
+    });
   }
 
   handleSelectState() {
     let data = JSON.parse(this.state.state_data);
     Picker.init({
-      pickerTitleText: "Select State",
+      pickerTitleText: 'Select State',
       pickerData: data,
       selectedValue: [this.state.state],
-      onPickerConfirm: data => {
+      onPickerConfirm: (data) => {
         var state = data[0];
         this.setState({
           state: state,
-        })
+        });
       },
-      onPickerCancel: data => {
-      },
-      onPickerSelect: data => {
-      }
+      onPickerCancel: (data) => {},
+      onPickerSelect: (data) => {},
     });
     Picker.show();
   }
 
   handleSelectGender() {
-    let data = ["Male", "Female"];
+    let data = ['Male', 'Female'];
 
     Picker.init({
-      pickerTitleText: "Select Gender",
+      pickerTitleText: 'Select Gender',
       pickerData: data,
       selectedValue: [this.handleDisplayGender(this.state.gender)],
-      onPickerConfirm: data => {
+      onPickerConfirm: (data) => {
         var gender = data[0];
-        if (gender == "Male") {
+        if (gender == 'Male') {
           this.setState({
             gender: 'M',
-          })
+          });
         } else {
           this.setState({
             gender: 'F',
-          })
+          });
         }
       },
-      onPickerCancel: data => {
-      },
-      onPickerSelect: data => {
-      }
+      onPickerCancel: (data) => {},
+      onPickerSelect: (data) => {},
     });
     Picker.show();
   }
 
   handleDisplayGender(gender) {
-    return (gender == "M") ? "Male" : "Female";
+    return gender == 'M' ? 'Male' : 'Female';
   }
 
   onChangedPhoneNo(phone_3) {
     var num = phone_3;
     if (num.match(/\D/g)) {
       this.setState({
-        checkInput: false
+        checkInput: false,
       });
     } else if (num.match(/\d/g) || num == '') {
       this.setState({
-        checkInput: true
+        checkInput: true,
       });
     }
     // this.setState({
     //   checkInput: false
     // })
-    // var newText = ''; 
-    // var numbers = '0123456789'; 
-    // if(phone_3.length < 1){ 
-    //   this.setState({ 
-    //     phone_3: '' 
-    //   }); 
-    // }; 
+    // var newText = '';
+    // var numbers = '0123456789';
+    // if(phone_3.length < 1){
+    //   this.setState({
+    //     phone_3: ''
+    //   });
+    // };
 
-    // for (var i=0; i < phone_3.length; i++) { 
-    //   if(numbers.indexOf(phone_3[i]) > -1 ) { 
-    //     newText = newText + phone_3[i]; 
-    //   } 
-    //   this.setState({ 
-    //     phone_3: newText 
-    //   }); 
+    // for (var i=0; i < phone_3.length; i++) {
+    //   if(numbers.indexOf(phone_3[i]) > -1 ) {
+    //     newText = newText + phone_3[i];
+    //   }
+    //   this.setState({
+    //     phone_3: newText
+    //   });
     // };
   }
 
   /**End Process Member Profile Info**/
 
-  handleFlatListRenderItem = ({ item, index }) => {
+  handleFlatListRenderItem = ({item, index}) => {
     return (
       <View>
         {/* Details Container */}
-        <View style={{ flex: 1, padding: Metrics.regularPadding, justifyContent: 'space-between' }}>
-          <View style={{ justifyContent: 'flex-start' }}>
-            <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>{`${item.data}:`}</Text>
+        <View
+          style={{
+            flex: 1,
+            padding: Metrics.regularPadding,
+            justifyContent: 'space-between',
+          }}>
+          <View style={{justifyContent: 'flex-start'}}>
+            <Text
+              style={{
+                color: Colors.text_color_1,
+                fontSize: Fonts.size.medium,
+              }}>{`${item.data}:`}</Text>
           </View>
-          <View style={{ justifyContent: 'flex-end' }}>
-            <Text style={{ color: Colors.text_color_1, fontWeight: 'bold', fontSize: Fonts.size.medium }}>{`${(item.data == "GENDER") ? this.handleDisplayGender(item.details) : item.details}`}</Text>
+          <View style={{justifyContent: 'flex-end'}}>
+            <Text
+              style={{
+                color: Colors.text_color_1,
+                fontWeight: 'bold',
+                fontSize: Fonts.size.medium,
+              }}>{`${
+              item.data == 'GENDER'
+                ? this.handleDisplayGender(item.details)
+                : item.details
+            }`}</Text>
           </View>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   handleFetchDataIndicator(status) {
     this.setState({
-      fetch_data: status
-    })
+      fetch_data: status,
+    });
   }
 
   networkConnectValidation() {
     let result = new Promise((resolve, reject) => {
       NetInfo.isConnected.fetch().done((isConnected) => {
         if (isConnected) {
-          resolve({ result: 1, data: isConnected })
+          resolve({result: 1, data: isConnected});
         } else {
-          resolve({ result: 0, data: { title: I18n.t("network_error_title"), msg: I18n.t("network_error_msg") } });
+          resolve({
+            result: 0,
+            data: {
+              title: I18n.t('network_error_title'),
+              msg: I18n.t('network_error_msg'),
+            },
+          });
         }
       });
-    })
+    });
     return result;
   }
 
@@ -531,312 +632,405 @@ export default class SettingView extends React.Component {
     return (
       <LoadingIndicator
         visible={this.state.fetch_data}
-        size={"large"}
-        text={"Update data..."}
+        size={'large'}
+        text={'Update data...'}
       />
-    )
+    );
   }
 
   render() {
     /** Local variable config **/
-    var portrait = this.state.screenWidth < this.state.screenHeight
+    var portrait = this.state.screenWidth < this.state.screenHeight;
     /** End local variable config **/
     // alert(JSON.stringify(this.state.state_data))
     return (
       /**Start Safe Area**/
-      <SafeAreaView style={ApplicationStyles.screen.safeAreaContainer} forceInset={{ vertical: 'never' }} >
-        {
-          (!this.state.nric)
-            ?
-            // User Not Login Display Mode
-            <View style={[ApplicationStyles.screen.testContainer, { alignSelf: 'center' }]}>
-              <View style={{ width: '100%', justifyContent: 'center', padding: Metrics.basePadding }}>
-                <Label style={{ marginBottom: Metrics.baseMargin * 6 }}>Come and join us to get your discount vouchers and many more great deals.</Label>
-                <AppsButton
-                  onPress={() => { this.props.navigation.navigate("LandingScreen", { prev_screen: this.props.navigation.state.routeName }) }}
-                  backgroundColor={Colors.primary}
-                  text={"LOGIN / REGISTER"}
-                  fontSize={20}
+      <SafeAreaView
+        style={ApplicationStyles.screen.safeAreaContainer}
+        forceInset={{vertical: 'never'}}>
+        {!this.state.nric ? (
+          // User Not Login Display Mode
+          <View
+            style={[
+              ApplicationStyles.screen.testContainer,
+              {alignSelf: 'center'},
+            ]}>
+            <Card containerStyle={tailwind('bg-white rounded-lg opacity-100')}>
+              <View style={tailwind('w-full items-center mb-5')}>
+                <Text style={tailwind('text-secondary text-base font-medium')}>
+                  Come and join us to get your discounted vouchers and many more
+                  great deals.
+                </Text>
+              </View>
+              <View style={tailwind('self-center w-full mt-5')}>
+                <Button
+                  buttonStyle={tailwind('rounded-lg bg-btn-primary')}
+                  title="LOGIN / REGISTER"
+                  titleStyle={tailwind('text-xl')}
+                  onPress={() => {
+                    this.props.navigation.navigate('LandingScreen', {
+                      prev_screen: this.props.navigation.state.routeName,
+                    });
+                  }}
                 />
               </View>
-            </View>
-            :
-            // User Login Display Mode
-            <View style={tailwind("flex-1 bg-gray-200")}>
-              {/* Profile Image and Member Data Info */}
-              <Animated.View style={tailwind("h-2/5 justify-center items-center")}>
-                <View style={tailwind("justify-center items-center p-3")}>
-
-                  {/* Profile Image */}
-                  <View>
-                    {
-                      (!this.state.fetch_data)
-                        ?
-                        <View style={tailwind("mt-16")}>
-                          <TouchableOpacity style={tailwind("pb-2")}
-                          onPress={this.handleProfileImage.bind(this)}>
-                            <View style={[{
-                              width: Metrics.images.profileImg *0.9,
-                              height: Metrics.images.profileImg *0.9,
-                            }]}>
-                              <Image
-                                source={this.state.imageSource}
-                                style={[{
-                                  resizeMode: 'cover',
-                                  backgroundColor: Colors.text_color_3,
-                                  width: Metrics.images.profileImg *0.9,
-                                  height: Metrics.images.profileImg *0.9,
-                                  borderRadius: Metrics.images.profileImg / 2,
-                                }, (!this.state.img_exist) ? { tintColor: Colors.text_color_1 } : '']}
-                              />
-                              <View style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                right: 0,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: Colors.secondary,
-                                width: Metrics.icons.medium,
-                                height: Metrics.icons.medium,
-                                borderRadius: Metrics.icons.medium / 2,
-                                /** Shadow Effect Settings **/
-                                shadowColor: '#000',
-                                shadowOffset: { width: 0, height: 5 },
-                                shadowOpacity: 0.58,
-                                shadowRadius: 5,
-                                elevation: 24
-                              }}>
-                                <Image
-                                  source={Images.edit}
-                                  style={[{
-                                    tintColor: Colors.primary,
-                                    backgroundColor: Colors.secondary,
-                                    resizeMode: 'cover',
-                                    width: Metrics.icons.small,
-                                    height: Metrics.icons.small,
-                                    borderRadius: Metrics.icons.small / 2,
-                                  }]}
-                                />
-                              </View>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                        :
-                        <View style={[ProfileContainer.imageContainer, {}]}>
-                          <Progress.CircleSnail
-                            size={Metrics.images.profileImg}
-                            animating={this.state.fetch_data}
-                            hidesWhenStopped={true}
-                            color={Colors.secondary}
-                            thickness={5}
+            </Card>
+          </View>
+        ) : (
+          // User Login Display Mode
+          <View style={tailwind('flex-1 bg-gray-200')}>
+            {/* Profile Image and Member Data Info */}
+            <Animated.View
+              style={tailwind('h-2/5 justify-center items-center')}>
+              <View style={tailwind('justify-center items-center p-3')}>
+                {/* Profile Image */}
+                <View>
+                  {!this.state.fetch_data ? (
+                    <View style={tailwind('mt-16')}>
+                      <TouchableOpacity
+                        style={tailwind('pb-2')}
+                        onPress={this.handleProfileImage.bind(this)}>
+                        <View
+                          style={[
+                            {
+                              width: Metrics.images.profileImg * 0.9,
+                              height: Metrics.images.profileImg * 0.9,
+                            },
+                          ]}>
+                          <Image
+                            source={this.state.imageSource}
+                            style={[
+                              {
+                                resizeMode: 'cover',
+                                backgroundColor: Colors.text_color_3,
+                                width: Metrics.images.profileImg * 0.9,
+                                height: Metrics.images.profileImg * 0.9,
+                                borderRadius: Metrics.images.profileImg / 2,
+                              },
+                              !this.state.img_exist
+                                ? {tintColor: Colors.text_color_1}
+                                : '',
+                            ]}
                           />
+                          <View
+                            style={{
+                              position: 'absolute',
+                              bottom: 0,
+                              right: 0,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              backgroundColor: Colors.secondary,
+                              width: Metrics.icons.medium,
+                              height: Metrics.icons.medium,
+                              borderRadius: Metrics.icons.medium / 2,
+                              /** Shadow Effect Settings **/
+                              shadowColor: '#000',
+                              shadowOffset: {width: 0, height: 5},
+                              shadowOpacity: 0.58,
+                              shadowRadius: 5,
+                              elevation: 24,
+                            }}>
+                            <Image
+                              source={Images.edit}
+                              style={[
+                                {
+                                  tintColor: Colors.primary,
+                                  backgroundColor: Colors.secondary,
+                                  resizeMode: 'cover',
+                                  width: Metrics.icons.small,
+                                  height: Metrics.icons.small,
+                                  borderRadius: Metrics.icons.small / 2,
+                                },
+                              ]}
+                            />
+                          </View>
                         </View>
-                    }
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <View style={[ProfileContainer.imageContainer, {}]}>
+                      <Progress.CircleSnail
+                        size={Metrics.images.profileImg}
+                        animating={this.state.fetch_data}
+                        hidesWhenStopped={true}
+                        color={Colors.secondary}
+                        thickness={5}
+                      />
+                    </View>
+                  )}
+                </View>
+
+                {/* Member Data */}
+                <View style={tailwind('justify-center items-center px-2')}>
+                  <Label style={tailwind('text-black text-base font-bold')}>
+                    {this.state.name}
+                  </Label>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={Images.email}
+                      style={{
+                        tintColor: getColor('primary'),
+                        width: Metrics.icons.small * 0.8,
+                        height: Metrics.icons.small * 0.8,
+                        marginRight: Metrics.smallPadding,
+                      }}
+                    />
+                    <Label style={tailwind('text-black text-base')}>
+                      {this.state.email}
+                    </Label>
                   </View>
-
-
-                  {/* Member Data */}
-                  <View style={tailwind("justify-center items-center px-2")}>
-                    <Label style={tailwind("text-black text-base font-bold")}>{this.state.name}</Label>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center"}}>
-                      <Image
-                        source={Images.email}
-                        style={{
-                          tintColor: getColor('primary'),
-                          width: Metrics.icons.small *0.8,
-                          height: Metrics.icons.small *0.8,
-                          marginRight: Metrics.smallPadding
-                        }}
-                      />
-                      <Label style={tailwind("text-black text-base")}>{this.state.email}</Label>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center"}}>
-                      <Image
-                        source={Images.card_membership}
-                        style={{
-                          tintColor: getColor('primary'),
-                          width: Metrics.icons.small *0.8,
-                          height: Metrics.icons.small *0.8,
-                          marginRight: Metrics.smallPadding
-                        }}
-                      />
-                      <Label style={tailwind("text-black text-base ")}>{this.state.card_no}</Label>
-                    </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={Images.card_membership}
+                      style={{
+                        tintColor: getColor('primary'),
+                        width: Metrics.icons.small * 0.8,
+                        height: Metrics.icons.small * 0.8,
+                        marginRight: Metrics.smallPadding,
+                      }}
+                    />
+                    <Label style={tailwind('text-black text-base ')}>
+                      {this.state.card_no}
+                    </Label>
                   </View>
                 </View>
-              </Animated.View>
+              </View>
+            </Animated.View>
 
-              <Animated.ScrollView
-                style={tailwind("rounded-lg h-3/5 pb-32")}
-                bounces={true}
-                scrollEventThrottle={16}
-                onScroll={
-                  Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollY } } }])
-                }
-                showsVerticalScrollIndicator={false}
-              >
-                <View >
-                    {/* Password Container */}
-                    <Card containerStyle={tailwind("flex-1 rounded-lg opacity-100")}>
-                      {/* Password Header */}
-                      <View style={tailwind("flex-row")}>
-                        <View style={tailwind("w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100")}>
-                          <Image
-                            source={Images.lock}
-                            style={{ width: Metrics.icons.small, height: Metrics.icons.small, tintColor: getColor("primary") }}
+            <Animated.ScrollView
+              style={tailwind('rounded-lg h-3/5 pb-32')}
+              bounces={true}
+              scrollEventThrottle={16}
+              onScroll={Animated.event([
+                {nativeEvent: {contentOffset: {y: this.scrollY}}},
+              ])}
+              showsVerticalScrollIndicator={false}>
+              <View>
+                {/* Password Container */}
+                <Card
+                  containerStyle={tailwind('flex-1 rounded-lg opacity-100')}>
+                  {/* Password Header */}
+                  <View style={tailwind('flex-row')}>
+                    <View
+                      style={tailwind(
+                        'w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100',
+                      )}>
+                      <Image
+                        source={Images.lock}
+                        style={{
+                          width: Metrics.icons.small,
+                          height: Metrics.icons.small,
+                          tintColor: getColor('primary'),
+                        }}
+                      />
+                    </View>
+                    <View style={tailwind('pl-3 w-9/12 justify-center')}>
+                      <Text
+                        style={tailwind(
+                          'text-primaryBlue font-bold text-base',
+                        )}>
+                        PASSWORD
+                      </Text>
+                    </View>
+                    <View
+                      style={tailwind('w-2/12 justify-center items-center')}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.state.pressed == 'notPressed'
+                            ? this.setState({pressed: 'isPressed'})
+                            : this.setState({pressed: 'notPressed'});
+                        }}
+                        // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
+                      >
+                        {this.state.pressed == 'notPressed' ? (
+                          <Icon
+                            name="chevron-right"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
                           />
-                        </View>
-                        <View style={tailwind("pl-3 w-9/12 justify-center")}>
-                          <Text style={tailwind("text-primaryBlue font-bold text-base")}>PASSWORD</Text>
-                        </View>
-                        <View style={tailwind("w-2/12 justify-center items-center")}>
-                          <TouchableOpacity onPress={() => {
-                            this.state.pressed == 'notPressed' ? this.setState({ pressed: 'isPressed' }) : this.setState({ pressed: 'notPressed' })
+                        ) : (
+                          <Icon
+                            name="chevron-down"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  </View>
 
-                          }
+                  {this.state.pressed == 'isPressed' ? (
+                    <View>
+                      {/* Border Line */}
+                      <View style={tailwind('mt-3')}>
+                        <Card.Divider />
+                      </View>
 
-                          }
-                          // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
-                          >
-                            {
-                              this.state.pressed == 'notPressed' ?
-                                <Icon
-                                  name='chevron-right'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                /> :
-                                <Icon
-                                  name='chevron-down'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                />
-                            }
-
+                      {/* Password Body */}
+                      <View>
+                        <View
+                          style={tailwind('flex-1 flex-row justify-between')}>
+                          <View style={tailwind('flex-1')}>
+                            <Text style={tailwind('text-black text-base p-3 ')}>
+                              ******
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            style={tailwind('flex-1')}
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                'EmailPasswordScreen',
+                                {edit: 2},
+                              )
+                            }>
+                            <Text
+                              style={tailwind(
+                                'text-primaryBlue font-bold self-end p-3 text-base',
+                              )}>
+                              Edit
+                            </Text>
                           </TouchableOpacity>
                         </View>
                       </View>
+                    </View>
+                  ) : null}
+                </Card>
 
-                      {
-                        this.state.pressed == 'isPressed' ?
-                          <View>
-                            {/* Border Line */}
-                            <View style={tailwind("mt-3")}>
-                              <Card.Divider />
-                            </View>
-
-                            {/* Password Body */}
-                            <View>
-                              <View style={tailwind("flex-1 flex-row justify-between")}>
-                                <View style={tailwind("flex-1")}>
-                                  <Text style={tailwind("text-black text-base p-3 ")}>******</Text>
-                                </View>
-                                <TouchableOpacity style={tailwind("flex-1")}
-                                  onPress={() => this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })}
-                                >
-                                  <Text style={tailwind("text-primaryBlue font-bold self-end p-3 text-base")}>Edit</Text>
-                                </TouchableOpacity>
-                              </View>
-                            </View>
-                          </View> : null
-                      }
-
-                    </Card>
-
-
-                    {/* Personal Info Container */}
-                    <Card containerStyle={tailwind("flex-1 rounded-lg opacity-100")}>
-                      {/* Personal Info Header */}
-                      <View style={tailwind("flex-row ")}>
-                        <View style={tailwind("w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100")}>
-                          <Image
-                            source={Images.person}
-                            style={{ width: Metrics.icons.small, height: Metrics.icons.small, tintColor: getColor("primary"), }}
+                {/* Personal Info Container */}
+                <Card
+                  containerStyle={tailwind('flex-1 rounded-lg opacity-100')}>
+                  {/* Personal Info Header */}
+                  <View style={tailwind('flex-row ')}>
+                    <View
+                      style={tailwind(
+                        'w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100',
+                      )}>
+                      <Image
+                        source={Images.person}
+                        style={{
+                          width: Metrics.icons.small,
+                          height: Metrics.icons.small,
+                          tintColor: getColor('primary'),
+                        }}
+                      />
+                    </View>
+                    <View style={tailwind('w-9/12 pl-3 justify-center')}>
+                      <Text
+                        style={tailwind(
+                          'text-primaryBlue font-bold text-base',
+                        )}>
+                        PERSONAL INFORMATION
+                      </Text>
+                    </View>
+                    <View style={tailwind('w-2/12 justify-center')}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.state.pressed2 == 'notPressed2'
+                            ? this.setState({pressed2: 'isPressed2'})
+                            : this.setState({pressed2: 'notPressed2'});
+                        }}
+                        // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
+                      >
+                        {this.state.pressed2 == 'notPressed2' ? (
+                          <Icon
+                            name="chevron-right"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
                           />
-                        </View>
-                        <View style={tailwind("w-9/12 pl-3 justify-center")}>
-                          <Text style={tailwind("text-primaryBlue font-bold text-base")}>PERSONAL INFORMATION</Text>
-                        </View>
-                        <View style={tailwind("w-2/12 justify-center")}>
+                        ) : (
+                          <Icon
+                            name="chevron-down"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {this.state.pressed2 == 'isPressed2' ? (
+                    <View>
+                      {/* Border Line */}
+                      <View style={tailwind('mt-3')}>
+                        <Card.Divider />
+                      </View>
+
+                      {/* Personal Info Body Display & Edit Mode */}
+                      {!this.state.flatListDataEdit_personal ? (
+                        // Personal Info Body Display Mode
+                        <View style={tailwind('flex-1 flex-row')}>
+                          <FlatList
+                            data={this.state.personallist}
+                            renderItem={this.handleFlatListRenderItem}
+                            key={portrait ? 'h' : 'v'}
+                            extraData={this.state.flatListRentalTrigger}
+                          />
                           <TouchableOpacity
                             onPress={() => {
-                              this.state.pressed2 == 'notPressed2' ? this.setState({ pressed2: 'isPressed2' }) : this.setState({ pressed2: 'notPressed2' })
-
-                            }
-
-                            }
-                          // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
-                          >
-                            {
-                              this.state.pressed2 == 'notPressed2' ?
-                                <Icon
-                                  name='chevron-right'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                /> :
-                                <Icon
-                                  name='chevron-down'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                />
-                            }
-
+                              this.handleEditPersonalList();
+                            }}
+                            style={tailwind('p-3')}>
+                            <Text
+                              style={tailwind(
+                                'text-primaryBlue font-bold text-base',
+                              )}>
+                              Edit
+                            </Text>
                           </TouchableOpacity>
                         </View>
-                      </View>
-
-                      {
-                        this.state.pressed2 == 'isPressed2' ? <View>
-                          {/* Border Line */}
-                          <View style={tailwind("mt-3")}>
-                            <Card.Divider />
-                          </View>
-
-                          {/* Personal Info Body Display & Edit Mode */}
-                          {
-                            (!this.state.flatListDataEdit_personal)
-                              ?
-                              // Personal Info Body Display Mode
-                              <View style={tailwind("flex-1 flex-row")}>
-                                <FlatList
-                                  data={this.state.personallist}
-                                  renderItem={this.handleFlatListRenderItem}
-                                  key={portrait ? "h" : "v"}
-                                  extraData={this.state.flatListRentalTrigger}
-                                />
-                                <TouchableOpacity onPress={() => { this.handleEditPersonalList() }}
-                                  style={tailwind("p-3")}>
-                                  <Text style={tailwind("text-primaryBlue font-bold text-base")}>Edit</Text>
-                                </TouchableOpacity>
+                      ) : (
+                        // Personal Info Body Edit Mode
+                        <View
+                          style={{paddingHorizontal: Metrics.doubleBaseMargin}}>
+                          <View>
+                            {/* Details Container */}
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  NAME:
+                                </Text>
                               </View>
-                              :
-                              // Personal Info Body Edit Mode
-                              <View style={{ paddingHorizontal: Metrics.doubleBaseMargin }}>
-                                <View>
-                                  {/* Details Container */}
-                                  <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                    <View style={{ justifyContent: 'flex-start' }}>
-                                      <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>NAME:</Text>
-                                    </View>
-                                    <View style={{ justifyContent: 'flex-end' }}>
-                                      <ARMSTextInput
-                                        placeholder={"Name"}
-                                        autoCapitalize={'words'}
-                                        onChangeText={(value) => this.setState({ name: value })}
-                                        onSubmitEditing={() => { }}
-                                        value={this.state.name}
-                                      />
-                                    </View>
-                                  </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <ARMSTextInput
+                                  placeholder={'Name'}
+                                  autoCapitalize={'words'}
+                                  onChangeText={(value) =>
+                                    this.setState({name: value})
+                                  }
+                                  onSubmitEditing={() => {}}
+                                  value={this.state.name}
+                                />
+                              </View>
+                            </View>
 
-                                  {/* <View style={{flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between'}}>
+                            {/* <View style={{flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between'}}>
                           <View style={{justifyContent: 'flex-start'}}>
                             <Text style={{color: Colors.text_color_1, fontSize: Fonts.size.medium }}>NRIC:</Text>
                           </View>
@@ -851,7 +1045,7 @@ export default class SettingView extends React.Component {
                           </View>
                         </View> */}
 
-                                  {/* <View style={{flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between'}}>
+                            {/* <View style={{flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between'}}>
                           <View style={{justifyContent: 'flex-start'}}>
                             <Text style={{color: Colors.text_color_1, fontSize: Fonts.size.medium }}>CARD NO:</Text>
                           </View>
@@ -860,453 +1054,607 @@ export default class SettingView extends React.Component {
                           </View>
                         </View> */}
 
-                                  <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                    <View style={{ justifyContent: 'flex-start' }}>
-                                      <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>GENDER:</Text>
-                                    </View>
-                                    <View style={{ justifyContent: 'flex-end' }}>
-                                      <TouchableOpacity
-                                        onPress={() => { this.handleSelectGender() }}
-                                        style={{
-                                          flex: 1,
-                                          justifyContent: 'space-between',
-                                          borderColor: Colors.primary,
-                                          borderWidth: 1,
-                                          borderRadius: Metrics.textInputRadius,
-                                          flexDirection: "row",
-                                          fontFamily: Fonts.type.base,
-                                          fontSize: 20,
-                                          padding: Metrics.basePadding,
-                                          flex: 9,
-                                        }}
-                                      >
-                                        <Text style={{ fontSize: Fonts.size.input }}>{this.handleDisplayGender(this.state.gender)}</Text>
-                                        <Image
-                                          source={Images.dropdown}
-                                          style={{ height: Metrics.icons.medium, width: Metrics.icons.medium }}
-                                        />
-                                      </TouchableOpacity>
-                                    </View>
-                                  </View>
-
-                                  <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                    <View style={{ justifyContent: 'flex-start' }}>
-                                      <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>DATE OF BIRTH:</Text>
-                                    </View>
-                                    <View style={{ justifyContent: 'flex-end' }}>
-                                      <DatePicker
-                                        style={{ width: '100%', }}
-                                        date={this.state.dob}
-                                        mode="date"
-                                        androidMode={'spinner'}
-                                        placeholder="Select Date of Birth"
-                                        format="YYYY-MM-DD"
-                                        minDate="1900-01-01"
-                                        maxDate={moment().subtract(12, 'years').format("YYYY-MM-DD")}
-                                        confirmBtnText="Confirm"
-                                        cancelBtnText="Cancel"
-                                        customStyles={{
-                                          dateIcon: {
-                                            position: 'absolute',
-                                            right: 4,
-                                          },
-                                          dateInput: {
-                                            borderColor: Colors.body,
-                                            borderRadius: Metrics.textInputRadius,
-                                            alignItems: 'flex-start',
-                                          },
-                                          dateText: {
-                                            fontFamily: Fonts.type.base,
-                                            fontSize: 20,
-                                            paddingVertical: 5, //Metrics.basePadding*2,
-                                            paddingLeft: Metrics.basePadding,
-                                          },
-                                          dateTouchBody: {
-                                            borderColor: Colors.primary,
-                                            borderWidth: 1,
-                                            borderRadius: Metrics.textInputRadius,
-                                            paddingVertical: Metrics.basePadding * 2,
-                                          }
-                                        }}
-                                        onDateChange={(date) => { this.setState({ dob: date }) }}
-                                      // onDateChange={(date, maxDate) => {this.onChangeDOB(date, maxDate)}}
-                                      />
-                                      <Text style={{ fontSize: Fonts.size.small, marginVertical: Metrics.smallMargin }}>
-                                        *Member must be at least 12 years old.
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-
-                                {/* Button Container */}
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                                  {/* Confirm Button - Personal Data */}
-                                  <TouchableOpacity
-                                    onPress={() => { this.handleUpdatePersonal(this.state.name, this.state.gender, this.state.dob) }}
-                                    style={{ padding: Metrics.basePadding }}
-                                  >
-                                    <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'green' }}>CONFIRM</Text>
-                                  </TouchableOpacity>
-
-                                  {/* Cancel Button - Personal Data */}
-                                  <TouchableOpacity
-                                    onPress={() => { this.setState({ flatListDataEdit_personal: false }) }}
-                                    style={{ padding: Metrics.basePadding }}
-                                  >
-                                    <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>CANCEL</Text>
-                                  </TouchableOpacity>
-                                </View>
-
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  GENDER:
+                                </Text>
                               </View>
-                          }
-                        </View> : null
-                      }
-                    </Card>
-
-
-                    {/* Contact Container */}
-                    <Card containerStyle={tailwind("flex-1 rounded-lg opacity-100")}>
-                      {/* Contact Header */}
-                      <View style={tailwind("flex-row")}>
-                        <View style={tailwind("w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100")}>
-                          <Image
-                            source={Images.phone}
-                            style={{ width: Metrics.icons.small, height: Metrics.icons.small, tintColor: getColor("primary") }}
-                          />
-                        </View>
-                        <View style={tailwind("w-9/12 justify-center pl-3")}>
-                          <Text style={tailwind("text-primaryBlue font-bold text-base")}>CONTACT INFORMATION</Text>
-                        </View>
-                        <View style={tailwind("w-2/12 justify-center")}>
-
-                          {/* {this.handleEditContactList()} */}
-                          <TouchableOpacity onPress={() => {
-                            this.state.pressed3 == 'notPressed3' ? this.setState({ pressed3: 'isPressed3' }) : this.setState({ pressed3: 'notPressed3' })
-
-                          }
-
-                          }
-                          // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
-                          >
-                            {
-                              this.state.pressed3 == 'notPressed3' ?
-                                <Icon
-                                  name='chevron-right'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                /> :
-                                <Icon
-                                  name='chevron-down'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                />
-                            }
-
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-
-                      {
-                        this.state.pressed3 == 'isPressed3' ?
-                          <View>
-                            {/* Border Line */}
-                            <View style={tailwind("mt-3")}>
-                              <Card.Divider />
-                            </View>
-
-                            {/* Contact Body Display & Edit Mode */}
-                            {
-                              (!this.state.flatListDataEdit_contact)
-                                ?
-                                // Contact Body Display Mode
-                                <View style={tailwind("flex-row")}>
-                                  <FlatList
-                                    data={this.state.contactlist}
-                                    renderItem={this.handleFlatListRenderItem}
-                                    key={portrait ? "h" : "v"}
-                                    extraData={this.state.flatListRentalTrigger}
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    this.handleSelectGender();
+                                  }}
+                                  style={{
+                                    flex: 1,
+                                    justifyContent: 'space-between',
+                                    borderColor: Colors.primary,
+                                    borderWidth: 1,
+                                    borderRadius: Metrics.textInputRadius,
+                                    flexDirection: 'row',
+                                    fontFamily: Fonts.type.base,
+                                    fontSize: 20,
+                                    padding: Metrics.basePadding,
+                                    flex: 9,
+                                  }}>
+                                  <Text style={{fontSize: Fonts.size.input}}>
+                                    {this.handleDisplayGender(
+                                      this.state.gender,
+                                    )}
+                                  </Text>
+                                  <Image
+                                    source={Images.dropdown}
+                                    style={{
+                                      height: Metrics.icons.medium,
+                                      width: Metrics.icons.medium,
+                                    }}
                                   />
-                                  <TouchableOpacity 
-                                    onPress={() => { this.handleEditContactList(); }}
-                                  >
-                                    <Text style={tailwind("text-primaryBlue font-bold self-end p-3 text-base")}>Edit</Text>
-                                  </TouchableOpacity>
-                                </View>
-                                :
-                                // Contact Body Edit Mode
-                                <View style={{ paddingHorizontal: Metrics.doubleBaseMargin }}>
-                                  <View>
-                                    {/* Details Container */}
-                                    <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                      <View style={{ justifyContent: 'flex-start' }}>
-                                        <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>PHONE NO:</Text>
-                                      </View>
-                                      <View style={{ justifyContent: 'flex-end' }}>
-                                        <ARMSTextInput
-                                          placeholder={"Phone no"}
-                                          keyboardType={"phone-pad"}
-                                          onChangeText={(value) => this.setState({ phone_3: value })}
-                                          // onSubmitEditing={() => {this.addressInput.focus();}}
-                                          onEndEditing={() => { this.onChangedPhoneNo(this.state.phone_3) }}
-                                          value={this.state.phone_3}
-                                        />
-                                      </View>
-                                      {
-                                        (this.state.phone_3.match(/\D/g))
-                                          ?
-                                          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                            <Image
-                                              source={Images.info}
-                                              style={{
-                                                tintColor: Colors.text_negative,
-                                                width: Metrics.icons.tiny,
-                                                height: Metrics.icons.tiny,
-                                                marginRight: Metrics.smallPadding,
-                                                marginVertical: Metrics.smallMargin
-                                              }}
-                                            />
-                                            <Text style={{ color: Colors.text_negative, marginVertical: Metrics.smallMargin }}>
-                                              Please do not insert any symbols.
-                                            </Text>
-                                          </View>
-                                          :
-                                          <View />
-                                      }
-                                    </View>
+                                </TouchableOpacity>
+                              </View>
+                            </View>
 
-                                    <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                      <View style={{ justifyContent: 'flex-start' }}>
-                                        <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>ADDRESS:</Text>
-                                      </View>
-                                      <View style={{ justifyContent: 'flex-end' }}>
-                                        <ARMSTextInput
-                                          placeholder={"Address"}
-                                          autoCapitalize={'words'}
-                                          inputRef={(input) => { this.addressInput = input; }}
-                                          onChangeText={(value) => this.setState({ address: value })}
-                                          onSubmitEditing={() => { this.postcodeInput.focus(); }}
-                                          value={this.state.address}
-                                        />
-                                      </View>
-                                    </View>
-
-                                    <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                      <View style={{ justifyContent: 'flex-start' }}>
-                                        <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>POSTCODE:</Text>
-                                      </View>
-                                      <View style={{ justifyContent: 'flex-end' }}>
-                                        <ARMSTextInput
-                                          placeholder={"Postcode"}
-                                          inputRef={(input) => { this.postcodeInput = input; }}
-                                          onChangeText={(value) => this.setState({ postcode: value })}
-                                          onSubmitEditing={() => { this.cityInput.focus(); }}
-                                          value={this.state.postcode}
-                                        />
-                                      </View>
-                                    </View>
-
-                                    <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                      <View style={{ justifyContent: 'flex-start' }}>
-                                        <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>CITY:</Text>
-                                      </View>
-                                      <View style={{ justifyContent: 'flex-end' }}>
-                                        <ARMSTextInput
-                                          placeholder={"City"}
-                                          autoCapitalize={'words'}
-                                          inputRef={(input) => { this.cityInput = input; }}
-                                          onChangeText={(value) => this.setState({ city: value })}
-                                          // onSubmitEditing={() => {this.stateInput.focus();}}
-                                          value={this.state.city}
-                                        />
-                                      </View>
-                                    </View>
-
-                                    <View style={{ flex: 1, padding: Metrics.smallPadding, justifyContent: 'space-between' }}>
-                                      <View style={{ justifyContent: 'flex-start' }}>
-                                        <Text style={{ color: Colors.text_color_1, fontSize: Fonts.size.medium }}>STATE:</Text>
-                                      </View>
-                                      <View style={{ justifyContent: 'flex-end' }}>
-                                        <TouchableOpacity
-                                          onPress={() => { this.handleSelectState() }}
-                                          style={{
-                                            flex: 1,
-                                            justifyContent: 'space-between',
-                                            borderColor: Colors.primary,
-                                            borderWidth: 1,
-                                            borderRadius: Metrics.textInputRadius,
-                                            flexDirection: "row",
-                                            fontFamily: Fonts.type.base,
-                                            fontSize: 20,
-                                            padding: Metrics.basePadding,
-                                            flex: 9,
-                                          }}
-                                        >
-                                          <Text style={{ fontSize: Fonts.size.input }}>{this.state.state}</Text>
-                                          <Image
-                                            source={Images.dropdown}
-                                            style={{ height: Metrics.icons.medium, width: Metrics.icons.medium }}
-                                          />
-                                        </TouchableOpacity>
-                                      </View>
-                                    </View>
-                                  </View>
-
-                                  {/* Button Container */}
-                                  <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                                    {/* Confirm Button - Contact Data */}
-                                    <TouchableOpacity
-                                      onPress={() => { this.handleUpdateContact(this.state.postcode, this.state.address, this.state.city, this.state.state, this.state.phone_3,) }}
-                                      style={{ padding: Metrics.basePadding }}
-                                    >
-                                      <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'green' }}>CONFIRM</Text>
-                                    </TouchableOpacity>
-
-                                    {/* Cancel Button - Contact Data */}
-                                    <TouchableOpacity
-                                      onPress={() => { this.setState({ flatListDataEdit_contact: false }) }}
-                                      style={{ padding: Metrics.basePadding }}
-                                    >
-                                      <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>CANCEL</Text>
-                                    </TouchableOpacity>
-                                  </View>
-                                </View>
-                            }
-                          </View> : null
-                      }
-                    </Card>
-
-
-                    <Card containerStyle={tailwind("flex-1 rounded-lg opacity-100 mb-8")}
-                    // style={[ProfileContainer.memberInfoContainer, {}]}
-                    >
-                      {/* Membership Header */}
-                      <View style={tailwind("flex-row")}>
-                        <View style={tailwind("w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100")}>
-                          <Image
-                            source={Images.card_membership}
-                            style={{ width: Metrics.icons.small, height: Metrics.icons.small, tintColor: getColor("primary"), }}
-                          />
-                        </View>
-                        <View style={tailwind("w-9/12 pl-3 justify-center")}>
-                          <Text style={tailwind("text-primaryBlue font-bold text-base")}>MEMBERSHIP INFO.</Text>
-                        </View>
-                        <View style={tailwind("w-2/12 justify-center")}>
-                          <TouchableOpacity onPress={() => {
-                            this.state.pressed4 == 'notPressed4' ? this.setState({ pressed4: 'isPressed4' }) : this.setState({ pressed4: 'notPressed4' })
-
-                          }
-
-                          }
-                          // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
-                          >
-                            {
-                              this.state.pressed4 == 'notPressed4' ?
-                                <Icon
-                                  name='chevron-right'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
-                                /> :
-                                <Icon
-                                  name='chevron-down'
-                                  size={50}
-                                  fontWeight="bold"
-                                  type='evilicon'
-                                  color={getColor("primary")}
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  DATE OF BIRTH:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <DatePicker
+                                  style={{width: '100%'}}
+                                  date={this.state.dob}
+                                  mode="date"
+                                  androidMode={'spinner'}
+                                  placeholder="Select Date of Birth"
+                                  format="YYYY-MM-DD"
+                                  minDate="1900-01-01"
+                                  maxDate={moment()
+                                    .subtract(12, 'years')
+                                    .format('YYYY-MM-DD')}
+                                  confirmBtnText="Confirm"
+                                  cancelBtnText="Cancel"
+                                  customStyles={{
+                                    dateIcon: {
+                                      position: 'absolute',
+                                      right: 4,
+                                    },
+                                    dateInput: {
+                                      borderColor: Colors.body,
+                                      borderRadius: Metrics.textInputRadius,
+                                      alignItems: 'flex-start',
+                                    },
+                                    dateText: {
+                                      fontFamily: Fonts.type.base,
+                                      fontSize: 20,
+                                      paddingVertical: 5, //Metrics.basePadding*2,
+                                      paddingLeft: Metrics.basePadding,
+                                    },
+                                    dateTouchBody: {
+                                      borderColor: Colors.primary,
+                                      borderWidth: 1,
+                                      borderRadius: Metrics.textInputRadius,
+                                      paddingVertical: Metrics.basePadding * 2,
+                                    },
+                                  }}
+                                  onDateChange={(date) => {
+                                    this.setState({dob: date});
+                                  }}
+                                  // onDateChange={(date, maxDate) => {this.onChangeDOB(date, maxDate)}}
                                 />
-                            }
+                                <Text
+                                  style={{
+                                    fontSize: Fonts.size.small,
+                                    marginVertical: Metrics.smallMargin,
+                                  }}>
+                                  *Member must be at least 12 years old.
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
 
-                          </TouchableOpacity>
+                          {/* Button Container */}
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              justifyContent: 'space-around',
+                            }}>
+                            {/* Confirm Button - Personal Data */}
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.handleUpdatePersonal(
+                                  this.state.name,
+                                  this.state.gender,
+                                  this.state.dob,
+                                );
+                              }}
+                              style={{padding: Metrics.basePadding}}>
+                              <Text
+                                style={{
+                                  textAlign: 'center',
+                                  fontWeight: 'bold',
+                                  color: 'green',
+                                }}>
+                                CONFIRM
+                              </Text>
+                            </TouchableOpacity>
+
+                            {/* Cancel Button - Personal Data */}
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.setState({
+                                  flatListDataEdit_personal: false,
+                                });
+                              }}
+                              style={{padding: Metrics.basePadding}}>
+                              <Text
+                                style={{
+                                  textAlign: 'center',
+                                  fontWeight: 'bold',
+                                  color: 'red',
+                                }}>
+                                CANCEL
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
                         </View>
+                      )}
+                    </View>
+                  ) : null}
+                </Card>
+
+                {/* Contact Container */}
+                <Card
+                  containerStyle={tailwind('flex-1 rounded-lg opacity-100')}>
+                  {/* Contact Header */}
+                  <View style={tailwind('flex-row')}>
+                    <View
+                      style={tailwind(
+                        'w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100',
+                      )}>
+                      <Image
+                        source={Images.phone}
+                        style={{
+                          width: Metrics.icons.small,
+                          height: Metrics.icons.small,
+                          tintColor: getColor('primary'),
+                        }}
+                      />
+                    </View>
+                    <View style={tailwind('w-9/12 justify-center pl-3')}>
+                      <Text
+                        style={tailwind(
+                          'text-primaryBlue font-bold text-base',
+                        )}>
+                        CONTACT INFORMATION
+                      </Text>
+                    </View>
+                    <View style={tailwind('w-2/12 justify-center')}>
+                      {/* {this.handleEditContactList()} */}
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.state.pressed3 == 'notPressed3'
+                            ? this.setState({pressed3: 'isPressed3'})
+                            : this.setState({pressed3: 'notPressed3'});
+                        }}
+                        // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
+                      >
+                        {this.state.pressed3 == 'notPressed3' ? (
+                          <Icon
+                            name="chevron-right"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        ) : (
+                          <Icon
+                            name="chevron-down"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {this.state.pressed3 == 'isPressed3' ? (
+                    <View>
+                      {/* Border Line */}
+                      <View style={tailwind('mt-3')}>
+                        <Card.Divider />
                       </View>
 
-
-                      {
-                        this.state.pressed4 == 'isPressed4' ?
+                      {/* Contact Body Display & Edit Mode */}
+                      {!this.state.flatListDataEdit_contact ? (
+                        // Contact Body Display Mode
+                        <View style={tailwind('flex-row')}>
+                          <FlatList
+                            data={this.state.contactlist}
+                            renderItem={this.handleFlatListRenderItem}
+                            key={portrait ? 'h' : 'v'}
+                            extraData={this.state.flatListRentalTrigger}
+                          />
+                          <TouchableOpacity
+                            onPress={() => {
+                              this.handleEditContactList();
+                            }}>
+                            <Text
+                              style={tailwind(
+                                'text-primaryBlue font-bold self-end p-3 text-base',
+                              )}>
+                              Edit
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      ) : (
+                        // Contact Body Edit Mode
+                        <View
+                          style={{paddingHorizontal: Metrics.doubleBaseMargin}}>
                           <View>
-                            {/* Border Line */}
-                            <View style={tailwind("mt-3")}>
-                              <Card.Divider />
+                            {/* Details Container */}
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  PHONE NO:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <ARMSTextInput
+                                  placeholder={'Phone no'}
+                                  keyboardType={'phone-pad'}
+                                  onChangeText={(value) =>
+                                    this.setState({phone_3: value})
+                                  }
+                                  // onSubmitEditing={() => {this.addressInput.focus();}}
+                                  onEndEditing={() => {
+                                    this.onChangedPhoneNo(this.state.phone_3);
+                                  }}
+                                  value={this.state.phone_3}
+                                />
+                              </View>
+                              {this.state.phone_3.match(/\D/g) ? (
+                                <View
+                                  style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  <Image
+                                    source={Images.info}
+                                    style={{
+                                      tintColor: Colors.text_negative,
+                                      width: Metrics.icons.tiny,
+                                      height: Metrics.icons.tiny,
+                                      marginRight: Metrics.smallPadding,
+                                      marginVertical: Metrics.smallMargin,
+                                    }}
+                                  />
+                                  <Text
+                                    style={{
+                                      color: Colors.text_negative,
+                                      marginVertical: Metrics.smallMargin,
+                                    }}>
+                                    Please do not insert any symbols.
+                                  </Text>
+                                </View>
+                              ) : (
+                                <View />
+                              )}
                             </View>
 
-                            {/* Membership Body */}
-                            <View style={{ paddingHorizontal: Metrics.doubleBaseMargin }}>
-                              <FlatList
-                                data={this.state.membershiplist}
-                                renderItem={this.handleFlatListRenderItem}
-                                key={portrait ? "h" : "v"}
-                                extraData={this.state.flatListRentalTrigger}
-                              />
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  ADDRESS:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <ARMSTextInput
+                                  placeholder={'Address'}
+                                  autoCapitalize={'words'}
+                                  inputRef={(input) => {
+                                    this.addressInput = input;
+                                  }}
+                                  onChangeText={(value) =>
+                                    this.setState({address: value})
+                                  }
+                                  onSubmitEditing={() => {
+                                    this.postcodeInput.focus();
+                                  }}
+                                  value={this.state.address}
+                                />
+                              </View>
                             </View>
-                          </View> : null
-                      }
-                    </Card>
-                </View>
-              </Animated.ScrollView>
-            </View>
-        }
+
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  POSTCODE:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <ARMSTextInput
+                                  placeholder={'Postcode'}
+                                  inputRef={(input) => {
+                                    this.postcodeInput = input;
+                                  }}
+                                  onChangeText={(value) =>
+                                    this.setState({postcode: value})
+                                  }
+                                  onSubmitEditing={() => {
+                                    this.cityInput.focus();
+                                  }}
+                                  value={this.state.postcode}
+                                />
+                              </View>
+                            </View>
+
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  CITY:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <ARMSTextInput
+                                  placeholder={'City'}
+                                  autoCapitalize={'words'}
+                                  inputRef={(input) => {
+                                    this.cityInput = input;
+                                  }}
+                                  onChangeText={(value) =>
+                                    this.setState({city: value})
+                                  }
+                                  // onSubmitEditing={() => {this.stateInput.focus();}}
+                                  value={this.state.city}
+                                />
+                              </View>
+                            </View>
+
+                            <View
+                              style={{
+                                flex: 1,
+                                padding: Metrics.smallPadding,
+                                justifyContent: 'space-between',
+                              }}>
+                              <View style={{justifyContent: 'flex-start'}}>
+                                <Text
+                                  style={{
+                                    color: Colors.text_color_1,
+                                    fontSize: Fonts.size.medium,
+                                  }}>
+                                  STATE:
+                                </Text>
+                              </View>
+                              <View style={{justifyContent: 'flex-end'}}>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    this.handleSelectState();
+                                  }}
+                                  style={{
+                                    flex: 1,
+                                    justifyContent: 'space-between',
+                                    borderColor: Colors.primary,
+                                    borderWidth: 1,
+                                    borderRadius: Metrics.textInputRadius,
+                                    flexDirection: 'row',
+                                    fontFamily: Fonts.type.base,
+                                    fontSize: 20,
+                                    padding: Metrics.basePadding,
+                                    flex: 9,
+                                  }}>
+                                  <Text style={{fontSize: Fonts.size.input}}>
+                                    {this.state.state}
+                                  </Text>
+                                  <Image
+                                    source={Images.dropdown}
+                                    style={{
+                                      height: Metrics.icons.medium,
+                                      width: Metrics.icons.medium,
+                                    }}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          </View>
+
+                          {/* Button Container */}
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              justifyContent: 'space-around',
+                            }}>
+                            {/* Confirm Button - Contact Data */}
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.handleUpdateContact(
+                                  this.state.postcode,
+                                  this.state.address,
+                                  this.state.city,
+                                  this.state.state,
+                                  this.state.phone_3,
+                                );
+                              }}
+                              style={{padding: Metrics.basePadding}}>
+                              <Text
+                                style={{
+                                  textAlign: 'center',
+                                  fontWeight: 'bold',
+                                  color: 'green',
+                                }}>
+                                CONFIRM
+                              </Text>
+                            </TouchableOpacity>
+
+                            {/* Cancel Button - Contact Data */}
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.setState({
+                                  flatListDataEdit_contact: false,
+                                });
+                              }}
+                              style={{padding: Metrics.basePadding}}>
+                              <Text
+                                style={{
+                                  textAlign: 'center',
+                                  fontWeight: 'bold',
+                                  color: 'red',
+                                }}>
+                                CANCEL
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      )}
+                    </View>
+                  ) : null}
+                </Card>
+
+                <Card
+                  containerStyle={tailwind(
+                    'flex-1 rounded-lg opacity-100 mb-8',
+                  )}
+                  // style={[ProfileContainer.memberInfoContainer, {}]}
+                >
+                  {/* Membership Header */}
+                  <View style={tailwind('flex-row')}>
+                    <View
+                      style={tailwind(
+                        'w-1/12 bg-gray-200 px-2 py-2 justify-center items-center rounded-lg opacity-100',
+                      )}>
+                      <Image
+                        source={Images.card_membership}
+                        style={{
+                          width: Metrics.icons.small,
+                          height: Metrics.icons.small,
+                          tintColor: getColor('primary'),
+                        }}
+                      />
+                    </View>
+                    <View style={tailwind('w-9/12 pl-3 justify-center')}>
+                      <Text
+                        style={tailwind(
+                          'text-primaryBlue font-bold text-base',
+                        )}>
+                        MEMBERSHIP INFO.
+                      </Text>
+                    </View>
+                    <View style={tailwind('w-2/12 justify-center')}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.state.pressed4 == 'notPressed4'
+                            ? this.setState({pressed4: 'isPressed4'})
+                            : this.setState({pressed4: 'notPressed4'});
+                        }}
+                        // this.props.navigation.navigate("EmailPasswordScreen", { edit: 2 })
+                      >
+                        {this.state.pressed4 == 'notPressed4' ? (
+                          <Icon
+                            name="chevron-right"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        ) : (
+                          <Icon
+                            name="chevron-down"
+                            size={50}
+                            fontWeight="bold"
+                            type="evilicon"
+                            color={getColor('primary')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {this.state.pressed4 == 'isPressed4' ? (
+                    <View>
+                      {/* Border Line */}
+                      <View style={tailwind('mt-3')}>
+                        <Card.Divider />
+                      </View>
+
+                      {/* Membership Body */}
+                      <View
+                        style={{paddingHorizontal: Metrics.doubleBaseMargin}}>
+                        <FlatList
+                          data={this.state.membershiplist}
+                          renderItem={this.handleFlatListRenderItem}
+                          key={portrait ? 'h' : 'v'}
+                          extraData={this.state.flatListRentalTrigger}
+                        />
+                      </View>
+                    </View>
+                  ) : null}
+                </Card>
+              </View>
+            </Animated.ScrollView>
+          </View>
+        )}
 
         {/* Loading Animation */}
         {this.handleRenderLoadingIndicator()}
-
       </SafeAreaView>
-    )
+    );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Start Unused upload image by platform code
@@ -1333,7 +1681,7 @@ export default class SettingView extends React.Component {
 //         [ {text: 'OK', style: 'cancel'}, ],
 //         { cancelable: false }
 //       )
-//     }  
+//     }
 //   })
 // } else if(Platform.OS == "android") {
 //   var upload = this.profileImage.handleImageUploadAndroid(nric, source)
@@ -1356,8 +1704,8 @@ export default class SettingView extends React.Component {
 //         [ {text: 'OK', style: 'cancel'}, ],
 //         { cancelable: false }
 //       )
-//     }  
-//   }) 
+//     }
+//   })
 // }
 
 // onChangeDOB(date, maxDate){
@@ -1378,10 +1726,17 @@ export default class SettingView extends React.Component {
 //   }
 // }
 
-{/* Email container */ }
-{/* <View style={[ProfileContainer.memberInfoContainer, {}]}> */ }
-{/* Email Header */ }
-{/* <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: Metrics.smallPadding}}>
+{
+  /* Email container */
+}
+{
+  /* <View style={[ProfileContainer.memberInfoContainer, {}]}> */
+}
+{
+  /* Email Header */
+}
+{
+  /* <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: Metrics.smallPadding}}>
       <View style={{width: '10%'}}>
         <Image 
           source={Images.email}
@@ -1396,15 +1751,23 @@ export default class SettingView extends React.Component {
           <Text style={{color: Colors.primary}}>Edit</Text>
         </TouchableOpacity>
       </View>
-    </View> */}
+    </View> */
+}
 
-{/* Border Line */ }
-{/* <View style={{width: '95%', alignSelf: 'center'}}> 
+{
+  /* Border Line */
+}
+{
+  /* <View style={{width: '95%', alignSelf: 'center'}}> 
       <Divider lineColor={Colors.border_line}/>
-    </View> */}
+    </View> */
+}
 
-{/* Email Body */ }
-{/* <View style={{paddingHorizontal: Metrics.doubleBaseMargin,}}>
+{
+  /* Email Body */
+}
+{
+  /* <View style={{paddingHorizontal: Metrics.doubleBaseMargin,}}>
       <FlatList  
         data={this.state.emaillist}
         renderItem={this.handleFlatListRenderItem}
@@ -1412,7 +1775,8 @@ export default class SettingView extends React.Component {
         extraData={this.state.flatListRentalTrigger}
       />
     </View>
-  </View> */}
+  </View> */
+}
 
 /**
  * End Unused upload image by platform code

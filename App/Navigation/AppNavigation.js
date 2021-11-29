@@ -468,7 +468,7 @@ const AllPackageRedeemHistoryStack = createStackNavigator(
     initialRouteName: '',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: getColor('primary'),
       },
       headerTitleStyle: {
         ...Fonts.size.normal,
@@ -553,7 +553,7 @@ const SAPStack = createStackNavigator(
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: getColor('bg-primary'),
       },
       headerTitleStyle: {
         ...Fonts.size.normal,
@@ -580,7 +580,7 @@ const SAPWebStack = createStackNavigator(
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: Colors.primary,
+        backgroundColor: getColor('primary'),
       },
       headerTitleStyle: {
         ...Fonts.size.normal,

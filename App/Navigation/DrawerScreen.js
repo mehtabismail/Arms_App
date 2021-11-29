@@ -472,7 +472,7 @@ export default class DrawerScreen extends Component {
             <View style={{width:"80%", alignSelf:"center"}}>
               <Button
                 onPress={() => this.handleLogout(this.state.nric)}
-                buttonStyle={tailwind('rounded-lg bg-primary')}
+                buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                 title="LOGOUT"
                 titleStyle={tailwind('text-xl')}
               />

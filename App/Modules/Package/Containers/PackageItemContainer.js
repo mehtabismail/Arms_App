@@ -247,7 +247,7 @@ export default class PackageItemView extends React.Component {
               {/* Redeem History Button Container */}
               <View style={{margin: Metrics.baseMargin}}>
                 <Button
-                  buttonStyle={tailwind('rounded-lg bg-primary')}
+                  buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                   title="REDEEM HISTORY"
                   titleStyle={tailwind('text-xl')}
                   onPress={() => {

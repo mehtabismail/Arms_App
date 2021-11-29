@@ -1176,7 +1176,7 @@ export default class EComCheckoutView extends React.Component {
       <View style={tailwind("self-center w-full ")}>
         <Button
           containerStyle={tailwind("mx-5")}
-          buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+          buttonStyle={tailwind("rounded-lg bg-btn-primary")}
           icon={
             <Icon
               name="credit-card"

@@ -381,7 +381,7 @@ export default class PackageView extends React.Component {
                   </View>
                   <View style={tailwind('self-center w-full mt-5')}>
                     <Button
-                      buttonStyle={tailwind('rounded-lg bg-primary')}
+                      buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                       title="LOGIN / REGISTER"
                       titleStyle={tailwind('text-xl')}
                       onPress={() => {

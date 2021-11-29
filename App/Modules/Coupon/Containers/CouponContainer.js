@@ -107,7 +107,7 @@ export default class CouponView extends React.Component {
           <TouchableOpacity
             style={{
               paddingVertical: Metrics.smallPadding,
-              backgroundColor: getColor('primary'),
+              backgroundColor: getColor('btn-primary'),
             }}>
             <Label
               style={{
@@ -378,7 +378,7 @@ export default class CouponView extends React.Component {
           </View>
           <View style={tailwind('self-center w-full mt-5')}>
             <Button
-              buttonStyle={tailwind('rounded-lg bg-primary')}
+              buttonStyle={tailwind('rounded-lg bg-btn-primary')}
               title="LOGIN / REGISTER"
               titleStyle={tailwind('text-xl')}
               onPress={() => {

@@ -240,7 +240,7 @@ export default class EditView extends React.Component {
                 <View style={tailwind("self-center w-full ")}>
                   <Button
                     containerStyle={tailwind("mx-5")}
-                    buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+                    buttonStyle={tailwind("rounded-lg bg-btn-primary")}
                     title="CONFIRM PASSWORD"
                     titleStyle={tailwind("text-xl")}
                     onPress={
@@ -386,7 +386,7 @@ export default class EditView extends React.Component {
                                     <View style={tailwind("self-center w-full ")}>
                                       <Button
                                         containerStyle={tailwind("mx-5")}
-                                        buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+                                        buttonStyle={tailwind("rounded-lg bg-btn-primary")}
                                         title="CHANGE PASSWORD"
                                         titleStyle={tailwind("text-xl")}
                                         onPress={() => { this.handleChangePassword(this.state.newPassword, this.state.reconfirmPassword) }}

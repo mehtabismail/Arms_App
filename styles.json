@@ -6111,7 +6111,11 @@
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(131, 24, 67, var(--tw-bg-opacity))"
 	},
-	"bg-buttoncolor": {
+	"bg-btn-primary": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(88, 107, 202, var(--tw-bg-opacity))"
+	},
+	"btn-primary": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(88, 107, 202, var(--tw-bg-opacity))"
 	},
@@ -6120,6 +6124,10 @@
 		"backgroundColor": "rgba(88, 107, 202, var(--tw-bg-opacity))"
 	},
 	"bg-secondary": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "#213260"
+	},
+	"bg-btn-secondary": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "#213260"
 	},

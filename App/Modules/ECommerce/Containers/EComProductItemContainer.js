@@ -599,7 +599,7 @@ export default class EComProductItemView extends React.Component {
       }}>
         <Button
           containerStyle={tailwind("mx-5")}
-          buttonStyle={tailwind("rounded-lg bg-buttoncolor")}
+          buttonStyle={tailwind("rounded-lg bg-btn-primary")}
           disabled={qty_available ? false : true}
           title={qty_available ? `Add To Cart` : `Sold Out`}
           titleStyle={tailwind("text-xl")}

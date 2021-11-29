@@ -29,6 +29,7 @@ import ViewShot from "react-native-view-shot";
 import RNImageToPdf from 'react-native-image-to-pdf';
 import Share from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob'
+import { tailwind } from '../../../../tailwind';
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -384,7 +385,7 @@ export default class SAPReceiptView extends React.Component {
                   }
                 });
               }}
-              backgroundColor={Colors.primary}
+              backgroundColor={tailwind('bg-btn-primary')}
               text={"DOWNLOAD PDF"}
               fontSize={20}
               disabled={this.state.btnPrintDisabled}

@@ -648,7 +648,7 @@ export default class EComLandingView extends React.Component {
         <TouchableOpacity
           onPress={() => { this.props.navigation.navigate("EComPurchaseHistoryScreen") }}
         >
-          <Card containerStyle={tailwind("bg-primary border-primary rounded-lg")}>
+          <Card containerStyle={tailwind("bg-btn-primary border-primary rounded-lg")}>
             <View style={tailwind("flex-row justify-center items-center")}>
               <View style={tailwind("pr-1")}>
                 <Icon

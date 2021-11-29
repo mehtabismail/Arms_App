@@ -416,7 +416,7 @@ export default class ForgetPasswordView extends React.Component {
                     <View style={tailwind('self-center w-11/12 my-3 ')}>
                       <View style={{elevation: 20}}>
                         <Button
-                          buttonStyle={tailwind('rounded-lg bg-primary')}
+                          buttonStyle={tailwind('rounded-lg bg-btn-primary')}
                           title="SEND PASSWORD TO MY EMAIL"
                           titleStyle={tailwind('text-xl font-bold')}
                           onPress={() => {
