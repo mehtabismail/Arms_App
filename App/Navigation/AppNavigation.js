@@ -553,7 +553,7 @@ const SAPStack = createStackNavigator(
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: getColor('bg-primary'),
+        backgroundColor: getColor('primary'),
       },
       headerTitleStyle: {
         ...Fonts.size.normal,
