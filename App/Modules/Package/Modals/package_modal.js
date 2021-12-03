@@ -1,9 +1,8 @@
 /** REACT NATIVE **/
 import { Platform } from 'react-native';
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   AppConfig,
   ARMSDownloader, ServerCommunicator, WorldTimeAPICommunicator,
@@ -32,7 +31,7 @@ export default class Package {
   }
 
   /**
-   * TODO: 
+   * TODO:
    *  √ Insert package data into database
    *  v Insert package items data into database
    *  √ Insert package redeem history into database
@@ -57,7 +56,7 @@ export default class Package {
    * Insert package data into database
    */
   InsertPackageData(data){
-      
+
     // Initiate variables
     var pk_guid = data.guid;
     var package_ref_no = data.package_ref_no;
@@ -77,25 +76,25 @@ export default class Package {
     var sku_item_id = data.sku_item_id;
 
     var data = [];
-    let sqlQuery = `INSERT INTO package_list 
+    let sqlQuery = `INSERT INTO package_list
                     (
                       pk_guid, package_ref_no, pos_receipt_ref_no, purchase_date, purchase_qty, earn_entry,
                       used_entry, remaining_entry, package_added_datetime, last_update, package_unique_id, doc_no,
                       package_title, pos_branch_id, pos_branch_code, sku_item_id
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           pk_guid, package_ref_no, pos_receipt_ref_no, purchase_date, purchase_qty, earn_entry,
           used_entry, remaining_entry, package_added_datetime, last_update, package_unique_id, doc_no,
           package_title, pos_branch_id, pos_branch_code, sku_item_id
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -120,7 +119,7 @@ export default class Package {
    * Insert package items data into database
    */
   InsertPackageItemsData(data){
-      
+
     // Initiate variables
     var pk_item_guid = data.guid;
     var pk_item_title = data.title;
@@ -133,22 +132,22 @@ export default class Package {
     var package_guid = data.package_guid;
 
     var data = [];
-    let sqlQuery = `INSERT INTO package_list_items 
+    let sqlQuery = `INSERT INTO package_list_items
                     (
                       pk_item_guid, pk_item_title, pk_item_desc, remark, entry_need, max_redeem,
                       used_count, sequence, package_guid
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           pk_item_guid, pk_item_title, pk_item_desc, remark, entry_need, max_redeem,
           used_count, sequence, package_guid
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -173,7 +172,7 @@ export default class Package {
    * Insert package redeem history into database
    */
   InsertPackageRedeemHistoryData(data){
-      
+
     // Initiate variables
     var pk_rh_guid = data.guid;
     var branch_id = data.branch_id;
@@ -193,18 +192,18 @@ export default class Package {
                     (
                       pk_rh_guid, branch_id, branch_code, package_guid, package_item_guid, redeem_date,
                       used_entry, service_rating, redeem_datetime, package_title, package_item_title, sa_info
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           pk_rh_guid, branch_id, branch_code, package_guid, package_item_guid, redeem_date,
           used_entry, service_rating, redeem_datetime, package_title, package_item_title, sa_info
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -231,7 +230,7 @@ export default class Package {
 
   /**
    * Get package list from API
-   * 
+   *
    * Step 1: Delete all existing package records
    * Step 2: Insert package items data
    * Step 3: Insert package data
@@ -260,7 +259,7 @@ export default class Package {
                     // Step 2: Insert package items data
                     this.InsertPackageItemsData(package_list_items[j]);
                   }
-                  
+
                   // Step 3: Insert package data
                   var insert_return = this.InsertPackageData(package_list[i]);
                   insert_return.then((res)=>{
@@ -277,7 +276,7 @@ export default class Package {
             } else {
               resolve({result: 1, data: "No Data."});
             }
-          })   
+          })
         } else {
           resolve({result: 0, data: {title: "", msg: res.error_msg}});
         }
@@ -288,10 +287,10 @@ export default class Package {
 
   /**
    * Get package redeem history from API
-   * 
+   *
    * Step 1: Delete all existing package history records
    * Step 2: Insert package redeem history data
-   * 
+   *
    */
   FetchPackageRedeemHistoryDataViaAPI(){
     let result = new Promise((resolve, reject) => {
@@ -323,7 +322,7 @@ export default class Package {
             } else {
               resolve({result: 1, data: "No Data."});
             }
-          })   
+          })
         } else {
           resolve({result: 0, data: {title: "", msg: res.error_msg}});
         }
@@ -391,15 +390,15 @@ export default class Package {
   DeleteAllPackageData(){
     let sqlQuery1 = 'DELETE FROM package_list;';
     let sqlQuery2 = 'DELETE FROM package_list_items;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery1, '', () => { 
+        tx.executeSql(sqlQuery1, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllPackageDataQ1)', msg: JSON.stringify(err)}}
           resolve(data)
         });
-        tx.executeSql(sqlQuery2, '', () => { 
+        tx.executeSql(sqlQuery2, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllPackageDataQ2)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -420,10 +419,10 @@ export default class Package {
    */
   DeleteAllPackageRedeemHistoryData(){
     let sqlQuery = 'DELETE FROM package_redeem_history;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, '', () => { 
+        tx.executeSql(sqlQuery, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllPackageRedeemHistoryData)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -448,11 +447,11 @@ export default class Package {
    */
   FetchPackageList(){
     var data = null
-    let sqlQuery = `SELECT * 
-                    FROM package_list 
-                    GROUP BY pk_guid 
+    let sqlQuery = `SELECT *
+                    FROM package_list
+                    GROUP BY pk_guid
                     ORDER BY package_added_datetime DESC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', async(tx, results) => {
@@ -485,12 +484,12 @@ export default class Package {
    */
   FetchPackageItemsList(package_guid){
     var data = null
-    let sqlQuery = `SELECT * 
-                    FROM package_list_items 
-                    WHERE package_guid = ? 
-                    GROUP BY pk_item_guid 
+    let sqlQuery = `SELECT *
+                    FROM package_list_items
+                    WHERE package_guid = ?
+                    GROUP BY pk_item_guid
                     ORDER BY sequence ASC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [package_guid], (tx, results) => {
@@ -521,12 +520,12 @@ export default class Package {
    */
   FetchPackageRedeemHistoryListByPackageItems(package_guid, package_item_guid){
     var data = null
-    let sqlQuery = `SELECT * 
-                    FROM package_redeem_history 
+    let sqlQuery = `SELECT *
+                    FROM package_redeem_history
                     WHERE package_guid = ? AND package_item_guid = ?
-                    GROUP BY pk_rh_guid 
+                    GROUP BY pk_rh_guid
                     ORDER BY redeem_datetime DESC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [package_guid, package_item_guid], (tx, results) => {
@@ -559,18 +558,18 @@ export default class Package {
     var data = null
 
     /**
-     * Get World Time 
+     * Get World Time
      */
     var worldTimeAPICommunicator = new WorldTimeAPICommunicator();
     var worldDateTime = await worldTimeAPICommunicator.GetRealWorldTimeDateTime();
     const rating_duration = moment(worldDateTime).subtract(7, 'days').format("YYYY-MM-DD");
-    
-    let sqlQuery = `SELECT * 
-                    FROM package_redeem_history 
+
+    let sqlQuery = `SELECT *
+                    FROM package_redeem_history
                     WHERE service_rating = 0 AND redeem_date >= ?
-                    GROUP BY pk_rh_guid 
+                    GROUP BY pk_rh_guid
                     ORDER BY redeem_datetime DESC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [rating_duration], (tx, results) => {

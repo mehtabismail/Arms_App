@@ -1,9 +1,8 @@
 /** REACT NATIVE **/
 import { Platform } from 'react-native';
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   AppConfig,
   ServerCommunicator,
@@ -30,7 +29,7 @@ export default class OutletLocation {
    * Insert Branch Data
    */
   InsertBranchData(branch_data, last_update){
-      
+
     // Initiate variables
     var id = branch_data.id;
     var code = branch_data.code;
@@ -49,26 +48,26 @@ export default class OutletLocation {
     var branch_group_desc = branch_data.branch_group_desc;
 
     var data = [];
-    let sqlQuery = `INSERT INTO branch_list 
+    let sqlQuery = `INSERT INTO branch_list
                     (
-                      id, code, desc, address, phone_1, phone_2, 
+                      id, code, desc, address, phone_1, phone_2,
                       phone_3, contact_email, outlet_photo_url, operation_time, longitude, latitude,
                       branch_group_id, branch_group_code, branch_group_desc, last_update
-                    ) 
+                    )
                     VALUES
                     (
-                      ?, ?, ?, ?, ?, ?, 
+                      ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          id, code, desc, address, phone_1, phone_2, 
+          id, code, desc, address, phone_1, phone_2,
           phone_3, contact_email, outlet_photo_url, operation_time, longitude, latitude,
           branch_group_id, branch_group_code, branch_group_desc, last_update
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId}};
@@ -94,10 +93,10 @@ export default class OutletLocation {
    */
   DeleteBranchList() {
     let sqlQuery_sales = 'DELETE FROM branch_List;'
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery_sales, [], () => { 
+        tx.executeSql(sqlQuery_sales, [], () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteBranchList)', msg: JSON.stringify(err)}};
           resolve(data);
@@ -118,9 +117,9 @@ export default class OutletLocation {
    */
   FetchAllBranchData(){
     var data = null;
-    let sqlQuery = `SELECT * 
+    let sqlQuery = `SELECT *
                     FROM branch_list;`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -154,7 +153,7 @@ export default class OutletLocation {
     let sqlQuery = `SELECT desc
                     FROM branch_list
                     WHERE id = ?;`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [branch_id], (tx, results) => {
@@ -184,7 +183,7 @@ export default class OutletLocation {
     let sqlQuery = `SELECT last_update
                     FROM branch_list
                     LIMIT 1;`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [], (tx, results) => {
@@ -209,7 +208,7 @@ export default class OutletLocation {
   /***************************************************************/
   /************************ API CALLED ***************************/
   /***************************************************************/
-  
+
   /**
    * Get branch info from API
    */

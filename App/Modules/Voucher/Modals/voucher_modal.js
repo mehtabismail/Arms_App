@@ -1,8 +1,7 @@
 /** REACT NATIVE **/
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   ServerCommunicator,
   Database,
@@ -28,7 +27,7 @@ export default class Voucher {
    * √ Delete voucher data by nric
    * √ Get voucher data list
    * √ Get voucher data from server
-   * - 
+   * -
    */
 
   /***********************************************/
@@ -39,7 +38,7 @@ export default class Voucher {
    * Insert Voucher Data
    */
   InsertVoucherData(data){
-      
+
     // Initiate variables
     var voucher_id = data.voucher_id;
     var batch_id = data.batch_id;
@@ -55,22 +54,22 @@ export default class Voucher {
     var used_receipt_ref_no = data.used_receipt_ref_no;
 
     var data = [];
-    let sqlQuery = `INSERT INTO voucher_list 
+    let sqlQuery = `INSERT INTO voucher_list
                     (
                       voucher_id, batch_id, voucher_value, active, activated_time, valid_from,
                       valid_to, cancelled, voucher_barcode, voucher_used, used_time, used_receipt_ref_no
-                    ) 
+                    )
                     VALUES(
                       ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           voucher_id, batch_id, voucher_value, active, activated_time, valid_from,
           valid_to, cancelled, voucher_barcode, voucher_used, used_time, used_receipt_ref_no
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -96,10 +95,10 @@ export default class Voucher {
    */
   DeleteAllVoucherData(){
     let sqlQuery = 'DELETE FROM voucher_list;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, '', () => { 
+        tx.executeSql(sqlQuery, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllVoucherData)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -148,7 +147,7 @@ export default class Voucher {
             } else {
               resolve({result: 1, data: "No voucher available in this moment."});
             }
-          })   
+          })
         } else {
           resolve({result: 0, data: {title: "", msg: res.error_msg}});
         }
@@ -163,7 +162,7 @@ export default class Voucher {
   FetchVoucherList(){
     var data = null
     let sqlQuery = `SELECT * FROM voucher_list ORDER BY valid_to ASC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {

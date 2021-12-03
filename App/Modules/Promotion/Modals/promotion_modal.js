@@ -1,8 +1,7 @@
 /** REACT NATIVE **/
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   ServerCommunicator,
   Database,
@@ -30,7 +29,7 @@ export default class Promotion {
    * √ Get promo list via API
    * √ Get SKU's details via API
    * √ Get promo list from db
-   * 
+   *
    * KIV
    * - Update Promotion Data
    */
@@ -43,7 +42,7 @@ export default class Promotion {
    * Insert Promotion List
    */
   InsertPromoList(data){
-      
+
     // Initiate variables
     var promo_key = data.promo_key;
     // var nric = data.nric;
@@ -58,20 +57,20 @@ export default class Promotion {
     var data = [];
     let sqlQuery = `INSERT INTO promotion_list
                     (
-                      promo_key, title, date_from, date_to, time_from, 
+                      promo_key, title, date_from, date_to, time_from,
                       time_to, banner_vertical_1, promo_branch_id
-                    ) 
+                    )
                     VALUES(
-                      ?, ?, ?, ?, ?, 
+                      ?, ?, ?, ?, ?,
                       ?, ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          promo_key, title, date_from, date_to, time_from, 
+          promo_key, title, date_from, date_to, time_from,
           time_to, banner_vertical_1, promo_branch_id
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -96,7 +95,7 @@ export default class Promotion {
    * Insert Promotion List Items
    */
   InsertPromoListItems(data){
-      
+
     // Initiate variables
     var promo_key = data.promo_key;
     var sku_item_id = data.sku_item_id;
@@ -113,7 +112,7 @@ export default class Promotion {
     var selling_price = data.selling_price;
 
     // Add allowed member type
-    var allowed_dis_member_type = [] 
+    var allowed_dis_member_type = []
     var allowed_dis_member_type_desc =[];
     if(data.allowed_member_type){
       if(data.allowed_member_type.length > 0){
@@ -125,25 +124,25 @@ export default class Promotion {
     }
 
     var data = [];
-    let sqlQuery = `INSERT INTO promotion_list_items 
+    let sqlQuery = `INSERT INTO promotion_list_items
                     (
-                      promo_key, sku_item_id, sku_desc, promo_photo_url, member_discount_percent, member_discount_amount, 
+                      promo_key, sku_item_id, sku_desc, promo_photo_url, member_discount_percent, member_discount_amount,
                       member_fixed_price, non_member_discount_percent, non_member_discount_amount, non_member_fixed_price, special_for_you, selling_price,
                       allowed_dis_member_type, allowed_dis_member_type_desc
-                    ) 
+                    )
                     VALUES(
-                      ?, ?, ?, ?, ?, ?, 
+                      ?, ?, ?, ?, ?, ?,
                       ?, ?, ?, ?, ?, ?,
                       ?, ?
                     );`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
-          promo_key, sku_item_id, sku_desc, promo_photo_url, member_discount_percent, member_discount_amount, 
+          promo_key, sku_item_id, sku_desc, promo_photo_url, member_discount_percent, member_discount_amount,
           member_fixed_price, non_member_discount_percent, non_member_discount_amount, non_member_fixed_price, special_for_you, selling_price,
           JSON.stringify(allowed_dis_member_type), JSON.stringify(allowed_dis_member_type_desc)
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -170,15 +169,15 @@ export default class Promotion {
   DeleteAllPromoData(){
     let sqlQuery1 = 'DELETE FROM promotion_list;';
     let sqlQuery2 = 'DELETE FROM promotion_list_items;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery1, '', () => { 
+        tx.executeSql(sqlQuery1, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllPromoDataQ1)', msg: JSON.stringify(err)}}
           resolve(data)
         });
-        tx.executeSql(sqlQuery2, '', () => { 
+        tx.executeSql(sqlQuery2, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllPromoDataQ2)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -217,11 +216,11 @@ export default class Promotion {
                   var promo_list_items = promo_list[i].item_list;
                   for (let j = 0; j < promo_list_items.length; j++) {
                     promo_list_items[j].promo_key = promo_key;
-                    
+
                     // Step 2: Insert All Promotion Items List Data
                     this.InsertPromoListItems(promo_list_items[j]);
                   }
-                  
+
                   // Step 3: Insert All Promotion List Data
                   var promo_insert_return = this.InsertPromoList(promo_list[i]);
                   promo_insert_return.then((res)=>{
@@ -236,7 +235,7 @@ export default class Promotion {
             } else {
               resolve({result: 1, data: "No promotion available in this moment."});
             }
-          })   
+          })
         } else {
           resolve({result: 0, data: {title: "", msg: res.error_msg}});
         }
@@ -251,7 +250,7 @@ export default class Promotion {
   FetchPromotionList(){
     var data = null
     let sqlQuery = `SELECT * FROM promotion_list ORDER BY date_from DESC`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -278,11 +277,11 @@ export default class Promotion {
    */
   FetchPromotionListItems(promo_key){
     var data = null
-    let sqlQuery = `SELECT * 
+    let sqlQuery = `SELECT *
                     FROM promotion_list_items
                     WHERE promo_key = ?
                     GROUP BY sku_item_id `;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [promo_key], (tx, results) => {

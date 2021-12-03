@@ -1,9 +1,8 @@
 /** REACT NATIVE **/
 import { Platform } from 'react-native';
-import FormData from 'FormData';
 
 /** PROJECT FILES **/
-import { 
+import {
   I18n,
   AppConfig,
   ServerCommunicator,
@@ -24,7 +23,7 @@ export default class ServerConfig {
   }
 
   /**
-   * TODO: 
+   * TODO:
    *  √ Insert server config into database
    *  v Update server config into database
    *  √ Get server config from API
@@ -54,7 +53,7 @@ export default class ServerConfig {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, [
           config_type, config_data, last_update
-        ], (tx, results) => { 
+        ], (tx, results) => {
           if(results.rowsAffected>0){
             var insertId = results.insertId
             data = {result:1, data: {action: 'insert', insertId: insertId}};
@@ -80,10 +79,10 @@ export default class ServerConfig {
   /***************************************************************/
   DeleteAllServerConfigData(){
     let sqlQuery = 'DELETE FROM server_config;';
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
-        tx.executeSql(sqlQuery, '', () => { 
+        tx.executeSql(sqlQuery, '', () => {
         }, (err) => {
           data = {result: 0, data: {title: 'Error ExecuteSQL (DeleteAllServerConfigData)', msg: JSON.stringify(err)}}
           resolve(data)
@@ -145,7 +144,7 @@ export default class ServerConfig {
   FetchServerConfigData(){
     var data = null
     let sqlQuery = `SELECT * FROM server_config;`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -173,7 +172,7 @@ export default class ServerConfig {
 
   FetchMarketPlaceURL(){
     let sqlQuery = `SELECT data FROM server_config WHERE config_type = 'arms_marketplace_settings';`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -203,7 +202,7 @@ export default class ServerConfig {
 
   FetchMarketPlaceAccessToken(){
     let sqlQuery = `SELECT data FROM server_config WHERE config_type = 'arms_marketplace_settings';`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
@@ -233,7 +232,7 @@ export default class ServerConfig {
 
   FetchCurrencyData(){
     let sqlQuery = `SELECT data FROM server_config WHERE config_type = 'arms_currency';`;
-    
+
     let result = new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(sqlQuery, '', (tx, results) => {
