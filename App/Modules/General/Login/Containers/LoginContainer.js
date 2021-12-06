@@ -297,13 +297,12 @@ export default class LoginView extends React.Component {
               )}>
               <View style={tailwind('w-10/12 justify-center items-center')}>
                 <View style={tailwind('flex-row mb-3 justify-center')}>
-                  <View style={tailwind('justify-center')}>
+                  <View>
                     <Icon
                       raised
                       name="envelope"
                       type="font-awesome"
                       color={getColor('primary')}
-                      onPress={() => console.log('hello')}
                     />
                   </View>
                   <View style={tailwind('flex-1 flex-col')}>

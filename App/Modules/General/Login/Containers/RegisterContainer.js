@@ -301,7 +301,7 @@ export default class RegisterView extends React.Component {
                 <View style={tailwind('justify-center items-center')}>
                   <View style={tailwind('w-10/12 justify-center items-center')}>
                     <View style={tailwind('flex-row mb-3 justify-center')}>
-                      <View style={tailwind('')}>
+                      <View>
                         <Icon
                           raised
                           name="envelope"
